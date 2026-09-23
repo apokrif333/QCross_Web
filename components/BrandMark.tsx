@@ -12,7 +12,7 @@ export function BrandMark({ variant = "wordmark" }: BrandMarkProps) {
     <Link className={`brand-mark${isSquare ? " brand-mark--square" : ""}`} href="/" aria-label="Quantum Cross Management — главная">
       <Image
         className="brand-mark__image"
-        src={isSquare ? "/images/qcm-square-logo.png" : "/images/qcm-left-logo-current.png"}
+        src={isSquare ? "/images/qcm-square-logo.png" : "/images/qcm-home-logo-dark.png"}
         alt=""
         width={isSquare ? 1270 : 2172}
         height={isSquare ? 1239 : 724}
