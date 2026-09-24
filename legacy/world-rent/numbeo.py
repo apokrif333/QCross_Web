@@ -2,21 +2,25 @@
 
 import argparse
 import csv
+from datetime import datetime
 from html.parser import HTMLParser
+import json
 import os
 from pathlib import Path
 import random
 import re
 import socket
-import statistics
 import time
 from urllib.parse import urlparse
+from zoneinfo import ZoneInfo
 
 from DrissionPage import ChromiumOptions, WebPage
 from freeproxy.modules import BuildProxiedSession
 
 
 RANKING_URL = "https://www.numbeo.com/property-investment/rankings_current.jsp"
+DAILY_LIMIT = 5
+DAILY_TIMEZONE = ZoneInfo(os.environ.get("NUMBEO_TIMEZONE", "America/New_York"))
 COLUMNS = (
     "Rank",
     "City",
@@ -39,17 +43,6 @@ CITY_OUTPUT_COLUMNS = (
     "EstimatedPurchasePriceUSD",
     "GrossRentalYieldPct",
     "YieldIsPlausible",
-)
-COUNTRY_OUTPUT_COLUMNS = (
-    "Country",
-    "Area",
-    "Bedrooms",
-    "AssumedSizeSqm",
-    "CityCount",
-    "MedianMonthlyRentUSD",
-    "MedianPricePerSqmUSD",
-    "MedianEstimatedPurchasePriceUSD",
-    "MedianGrossRentalYieldPct",
 )
 LABELS = {
     "1 Bedroom Apartment in City Centre": COLUMNS[2],
@@ -246,6 +239,152 @@ def save_csv(path: Path, columns, rows) -> None:
     os.replace(temporary, path)
 
 
+def read_source(path: Path) -> dict[str, dict]:
+    if not path.exists():
+        return {}
+    with path.open(newline="", encoding="utf-8") as file:
+        reader = csv.DictReader(file)
+        if reader.fieldnames != list(COLUMNS):
+            raise ValueError(f"Unexpected Numbeo source columns: {path}")
+        rows = list(reader)
+    if len({row["City"] for row in rows}) != len(rows):
+        raise ValueError(f"Duplicate cities in Numbeo source: {path}")
+    return {row["City"]: row for row in rows}
+
+
+def state_path(source: Path) -> Path:
+    return source.with_name("numbeo_daily_state.json")
+
+
+def read_daily_state(source: Path) -> dict:
+    path = state_path(source)
+    if not path.exists():
+        return {"cycle_done": [], "day": None, "planned": [], "results": {}, "published": True}
+    with path.open(encoding="utf-8") as file:
+        state = json.load(file)
+    if not isinstance(state.get("cycle_done"), list) or not isinstance(state.get("results"), dict):
+        raise ValueError(f"Invalid daily state: {path}")
+    return state
+
+
+def save_daily_state(source: Path, state: dict) -> None:
+    path = state_path(source)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(path.name + ".tmp")
+    with temporary.open("w", encoding="utf-8") as file:
+        json.dump(state, file, ensure_ascii=False, indent=2)
+        file.flush()
+        os.fsync(file.fileno())
+    os.replace(temporary, path)
+
+
+def today() -> str:
+    return datetime.now(DAILY_TIMEZONE).date().isoformat()
+
+
+def plan_daily_cities(source: Path, state: dict, ranking: list[tuple[str, str]]) -> dict:
+    """Freeze at most five pending cities for the current calendar day."""
+    urls = {url for _, url in ranking}
+    done = set(state["cycle_done"]) & urls
+    if len(done) == len(urls):
+        done.clear()
+    pending = [(city, url) for city, url in ranking if url not in done]
+    state.update({
+        "cycle_done": [url for _, url in ranking if url in done],
+        "day": today(),
+        "planned": [{"city": city, "url": url} for city, url in pending[:DAILY_LIMIT]],
+        "results": {},
+        "published": False,
+    })
+    save_daily_state(source, state)
+    return state
+
+
+def apply_daily_results(source: Path, state: dict, rows: dict[str, dict]) -> bool:
+    """Replay saved page results after an interrupted run, then write one atomic CSV."""
+    changed = False
+    for row in state["results"].values():
+        normalized = {column: str(row.get(column, "")) for column in COLUMNS}
+        if rows.get(row["City"]) != normalized:
+            rows[row["City"]] = normalized
+            changed = True
+    if changed:
+        save_csv(source, COLUMNS, rows.values())
+    return changed
+
+
+def collect_daily(source: Path, proxy_attempts: int = 0) -> bool:
+    """Refresh the day's five cities using WebPage and the existing proxy rotation."""
+    state = read_daily_state(source)
+    rows = read_source(source)
+    changed = apply_daily_results(source, state, rows)
+    day = today()
+    if state.get("day") == day and len(state.get("results", {})) == len(state.get("planned", [])):
+        return changed or not state.get("published", True)
+
+    attempts = 0
+    last_error = None
+    for proxy in iter_proxies(repeat=proxy_attempts == 0):
+        attempts += 1
+        page = None
+        try:
+            options = ChromiumOptions().auto_port().headless().set_proxy(proxy).set_timeouts(page_load=20)
+            page = WebPage(mode="d", chromium_options=options)
+            if state.get("day") != day:
+                ranking = parse_ranking(fetch(page, RANKING_URL))
+                if len(rows) >= 100 and len(ranking) < max(100, int(len(rows) * 0.75)):
+                    raise RetryablePageError(f"Ranking unexpectedly short: {len(ranking)} cities")
+                state = plan_daily_cities(source, state, ranking)
+                available = {city for city, _ in ranking}
+                stale = set(rows) - available
+                if stale:
+                    for city in stale:
+                        del rows[city]
+                    save_csv(source, COLUMNS, rows.values())
+                    changed = True
+                    print(f"Removed {len(stale)} cities absent from current ranking", flush=True)
+                print(f"Numbeo ranking: {len(ranking)} cities; selected {len(state['planned'])} today", flush=True)
+
+            for item in state["planned"]:
+                if today() != day:
+                    print("Calendar day changed; remaining cities will be planned tomorrow", flush=True)
+                    return changed or not state.get("published", True)
+                city, url = item["city"], item["url"]
+                if url in state["results"]:
+                    continue
+                page_url = url + ("&" if "?" in url else "?") + "displayCurrency=USD"
+                prices = parse_prices(fetch(page, page_url), city)
+                result = {"Rank": "", "City": city, **prices}
+                state["results"][url] = result
+                state["cycle_done"].append(url)
+                state["published"] = False
+                save_daily_state(source, state)
+                rows[city] = result
+                save_csv(source, COLUMNS, rows.values())
+                changed = True
+                print(f"Updated {len(state['results'])}/{len(state['planned'])} today: {city}", flush=True)
+                if len(state["results"]) < len(state["planned"]):
+                    time.sleep(3)
+            return changed or not state.get("published", True)
+        except RuntimeError as exc:
+            last_error = exc
+            print(f"Proxy/page failed; trying another proxy: {exc}", flush=True)
+        finally:
+            if page is not None:
+                page.quit(del_data=True)
+        if proxy_attempts and attempts >= proxy_attempts:
+            break
+    if changed:
+        return True
+    raise RuntimeError(f"No usable proxy after {attempts} attempts: {last_error}")
+
+
+def mark_daily_published(source: Path) -> None:
+    state = read_daily_state(source)
+    state["published"] = True
+    save_daily_state(source, state)
+
+
 def split_location(location: str) -> tuple[str, str]:
     city, separator, country = location.rpartition(",")
     if not separator or not city.strip() or not country.strip():
@@ -257,8 +396,8 @@ def split_location(location: str) -> tuple[str, str]:
     return city, country
 
 
-def prepare_exports(source: Path) -> tuple[Path, Path]:
-    """Build normalized city scenarios and country medians from numbeo.csv."""
+def prepare_exports(source: Path) -> Path:
+    """Build the normalized city scenarios used by both maps."""
     with source.open(newline="", encoding="utf-8") as file:
         reader = csv.DictReader(file)
         missing_columns = [column for column in COLUMNS if column not in (reader.fieldnames or [])]
@@ -299,37 +438,10 @@ def prepare_exports(source: Path) -> tuple[Path, Path]:
                 "YieldIsPlausible": 1 <= gross_yield <= 25,
             })
 
-    grouped = {}
-    for row in city_rows:
-        key = (row["Country"], row["Area"], row["Bedrooms"], row["AssumedSizeSqm"])
-        grouped.setdefault(key, []).append(row)
-    country_rows = []
-    for (country, area, bedrooms, size_sqm), rows in grouped.items():
-        plausible_yields = [row["GrossRentalYieldPct"] for row in rows if row["YieldIsPlausible"]]
-        country_rows.append({
-            "Country": country,
-            "Area": area,
-            "Bedrooms": bedrooms,
-            "AssumedSizeSqm": size_sqm,
-            "CityCount": len(rows),
-            "MedianMonthlyRentUSD": round(statistics.median(row["MonthlyRentUSD"] for row in rows), 2),
-            "MedianPricePerSqmUSD": round(statistics.median(row["PricePerSqmUSD"] for row in rows), 2),
-            "MedianEstimatedPurchasePriceUSD": round(
-                statistics.median(row["EstimatedPurchasePriceUSD"] for row in rows), 2
-            ),
-            "MedianGrossRentalYieldPct": (
-                round(statistics.median(plausible_yields), 4) if plausible_yields else ""
-            ),
-        })
-    country_rows.sort(key=lambda row: (row["Country"], row["Area"], row["Bedrooms"]))
-
     cities_output = source.with_name("numbeo_cities.csv")
-    countries_output = source.with_name("numbeo_countries.csv")
     save_csv(cities_output, CITY_OUTPUT_COLUMNS, city_rows)
-    save_csv(countries_output, COUNTRY_OUTPUT_COLUMNS, country_rows)
     print(f"Prepared {len(city_rows)} city scenarios: {cities_output}", flush=True)
-    print(f"Prepared {len(country_rows)} country scenarios: {countries_output}", flush=True)
-    return cities_output, countries_output
+    return cities_output
 
 
 def collect(output: Path, delay: float = 3.0, limit: int | None = None, proxy_attempts: int = 0) -> int:
@@ -383,13 +495,13 @@ if __name__ == "__main__":
     cli.add_argument("--delay", type=float, default=3.0, help="Seconds between city requests")
     cli.add_argument("--limit", type=int, help="Fetch only the first N ranking cities")
     cli.add_argument("--proxy-attempts", type=int, default=0, help="Maximum browser proxy attempts; 0 retries until complete or Ctrl+C")
-    cli.add_argument("--prepare-only", action="store_true", help="Build city and country files from an existing numbeo.csv")
+    cli.add_argument("--prepare-only", action="store_true", help="Build city data from an existing numbeo.csv")
     args = cli.parse_args()
     if args.delay < 0 or (args.limit is not None and args.limit < 1) or args.proxy_attempts < 0:
         cli.error("delay and proxy-attempts must be nonnegative; limit must be positive")
     if args.limit is not None and args.output is None:
         cli.error("--limit requires --output so a sample cannot replace numbeo.csv")
-    output = args.output or Path(__file__).parent / "files" / "numbeo.csv"
+    output = args.output or Path(os.environ.get("NUMBEO_DATA_DIR", Path(__file__).parent / "files")) / "numbeo.csv"
     try:
         if not args.prepare_only:
             collect(output, args.delay, args.limit, args.proxy_attempts)

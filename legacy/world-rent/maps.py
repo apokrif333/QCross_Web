@@ -2,9 +2,9 @@
 
 from html import escape
 import json
+import os
 from pathlib import Path
 import re
-import shutil
 import time
 import unicodedata
 
@@ -15,14 +15,11 @@ import plotly.graph_objects as go
 
 
 BASE_DIR = Path(__file__).parent
-FILES_DIR = BASE_DIR / "files"
-MAPS_DIR = BASE_DIR / "maps"
+FILES_DIR = Path(os.environ.get("NUMBEO_DATA_DIR", BASE_DIR / "files")).resolve()
 SITE_ROOT = BASE_DIR.parents[1]
-SITE_MAPS_DIR = SITE_ROOT / "public" / "maps" if (SITE_ROOT / "package.json").exists() else None
+MAPS_DIR = SITE_ROOT / "public" / "maps" if (SITE_ROOT / "package.json").exists() else BASE_DIR / "maps"
 CITY_DATA = FILES_DIR / "numbeo_cities.csv"
-COUNTRY_SUMMARY = FILES_DIR / "numbeo_country_summary.csv"
 COORDINATE_CACHE = FILES_DIR / "numbeo_city_coordinates.csv"
-LEGACY_COORDINATES = FILES_DIR / "CountryCities.csv"
 
 COUNTRY_COLORSCALE = [
     [0.0, "#dceefa"],
@@ -84,15 +81,6 @@ document.body.appendChild(legend);
 """
 
 
-def publish_maps(*maps: Path) -> None:
-    """Copy generated maps into the Next.js public directory when it is available."""
-    if SITE_MAPS_DIR is None:
-        return
-    SITE_MAPS_DIR.mkdir(parents=True, exist_ok=True)
-    for map_path in maps:
-        shutil.copy2(map_path, SITE_MAPS_DIR / map_path.name)
-
-
 def prepare_map_for_embed(map_path: Path) -> None:
     """Make Plotly's full-page HTML fill an iframe without outer scrollbars."""
     html = map_path.read_text(encoding="utf-8")
@@ -142,24 +130,6 @@ def prepare_coordinates(city_data: pd.DataFrame) -> pd.DataFrame:
         cached_rows = pd.read_csv(COORDINATE_CACHE).to_dict("records")
     cached_keys = {row["Key"] for row in cached_rows}
 
-    if LEGACY_COORDINATES.exists():
-        legacy = pd.read_csv(LEGACY_COORDINATES)
-        legacy = legacy.dropna(subset=["latitude", "longitude"])
-        for row in legacy.itertuples(index=False):
-            key = _coordinate_key(row.Country, row.City)
-            if key in cached_keys:
-                continue
-            cached_rows.append({
-                "Key": key,
-                "Location": row.CountryCity,
-                "Country": row.Country,
-                "City": row.City,
-                "Latitude": float(row.latitude),
-                "Longitude": float(row.longitude),
-                "Source": "legacy-cache",
-            })
-            cached_keys.add(key)
-
     missing = unique_cities[~unique_cities["Key"].isin(cached_keys)]
     if not missing.empty:
         geocoder = Nominatim(user_agent="qcross-world-rent-maps/1.0")
@@ -205,12 +175,12 @@ def prepare_country_summary(city_data: pd.DataFrame) -> pd.DataFrame:
     )
     summary["MedianGrossRentalYieldPct"] = summary["MedianGrossRentalYieldPct"].round(2)
     summary.sort_values("MedianGrossRentalYieldPct", ascending=False, inplace=True)
-    summary.to_csv(COUNTRY_SUMMARY, index=False)
     return summary
 
 
 def create_country_map(summary: pd.DataFrame) -> Path:
     output = MAPS_DIR / "countries_rental_yield.html"
+    temporary = output.with_name(output.name + ".tmp")
     figure = go.Figure(go.Choropleth(
         locations=summary["Country"],
         locationmode="country names",
@@ -273,12 +243,14 @@ def create_country_map(summary: pd.DataFrame) -> Path:
         },
     )
     figure.write_html(
-        output,
+        temporary,
         include_plotlyjs=True,
         full_html=True,
         post_script=COUNTRY_LEGEND_SCRIPT,
+        div_id="qcm-country-map",
     )
-    prepare_map_for_embed(output)
+    prepare_map_for_embed(temporary)
+    os.replace(temporary, output)
     return output
 
 
@@ -481,6 +453,7 @@ CITY_MAP_TEMPLATE = r"""<!doctype html>
 
 def create_city_map(city_data: pd.DataFrame, coordinates: pd.DataFrame) -> Path:
     output = MAPS_DIR / "cities_rental_yield.html"
+    temporary = output.with_name(output.name + ".tmp")
     merged = city_data.merge(
         coordinates[["Location", "Latitude", "Longitude"]], on="Location", how="left"
     )
@@ -511,7 +484,8 @@ def create_city_map(city_data: pd.DataFrame, coordinates: pd.DataFrame) -> Path:
     feature_collection = {"type": "FeatureCollection", "features": features}
     city_json = json.dumps(feature_collection, ensure_ascii=False, separators=(",", ":"))
     city_json = city_json.replace("</", "<\\/")
-    output.write_text(CITY_MAP_TEMPLATE.replace("__CITY_DATA__", city_json), encoding="utf-8")
+    temporary.write_text(CITY_MAP_TEMPLATE.replace("__CITY_DATA__", city_json), encoding="utf-8")
+    os.replace(temporary, output)
     return output
 
 
@@ -524,11 +498,8 @@ def build_maps() -> tuple[Path, Path]:
     coordinates = prepare_coordinates(city_data)
     country_map = create_country_map(summary)
     city_map = create_city_map(city_data, coordinates)
-    publish_maps(country_map, city_map)
     print(f"Country map: {country_map}", flush=True)
     print(f"City map: {city_map}", flush=True)
-    if SITE_MAPS_DIR is not None:
-        print(f"Published maps: {SITE_MAPS_DIR}", flush=True)
     return country_map, city_map
 
 

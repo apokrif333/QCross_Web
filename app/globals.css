@@ -546,10 +546,10 @@ input {
   right: -18px;
   z-index: 30;
   display: grid;
-  width: min(544px, calc(100vw - 48px));
-  padding: 35px 30px 20px;
+  width: min(300px, calc(100vw - 48px));
+  padding: 13px 18px 10px;
   border: 1px solid rgba(70, 185, 215, 0.68);
-  border-radius: 9px;
+  border-radius: 7px;
   background: linear-gradient(145deg, rgba(7, 45, 61, 0.97), rgba(3, 34, 47, 0.97));
   box-shadow: 0 20px 42px rgba(0, 25, 39, 0.25);
   backdrop-filter: blur(12px);
@@ -572,30 +572,30 @@ input {
 .site-nav__dropdown-menu a {
   position: relative;
   display: grid;
-  gap: 9px;
-  padding: 5px 48px 23px 0;
+  gap: 3px;
+  padding: 3px 27px 10px 0;
   color: #f6fbfd;
   transition: color 160ms ease;
 }
 
 .site-nav__dropdown-menu a + a {
-  padding-top: 30px;
-  padding-bottom: 5px;
+  padding-top: 10px;
+  padding-bottom: 2px;
   border-top: 1px solid rgba(182, 216, 226, 0.32);
 }
 
 .site-nav__insight-category {
   color: var(--qcm-aqua);
-  font-size: 11px;
+  font-size: 9px;
   font-weight: 600;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.2em;
   line-height: 1.5;
   text-transform: uppercase;
 }
 
 .site-nav__insight-title {
   font-family: var(--font-editorial), Georgia, serif;
-  font-size: 29px;
+  font-size: 18px;
   font-weight: 500;
   letter-spacing: 0.01em;
   line-height: 1.05;
@@ -603,16 +603,16 @@ input {
 
 .site-nav__insight-description {
   color: #91a9b7;
-  font-size: 16px;
-  line-height: 1.35;
+  font-size: 11px;
+  line-height: 1.25;
 }
 
 .site-nav__insight-arrow {
   position: absolute;
   top: 49%;
   right: 1px;
-  width: 25px;
-  height: 18px;
+  width: 19px;
+  height: 13px;
   color: var(--qcm-aqua);
   stroke: currentColor;
   stroke-width: 1.5;

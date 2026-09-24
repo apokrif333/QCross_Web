@@ -1,24 +1,24 @@
 Location,Country,City,Area,Bedrooms,AssumedSizeSqm,MonthlyRentUSD,PricePerSqmUSD,EstimatedPurchasePriceUSD,GrossRentalYieldPct,YieldIsPlausible
-"Lagos, Nigeria",Nigeria,Lagos,City Centre,1,50,717.88,3222.72,161136.0,5.3461,True
-"Lagos, Nigeria",Nigeria,Lagos,Outside of Centre,1,50,420.82,1619.99,80999.5,6.2344,True
-"Lagos, Nigeria",Nigeria,Lagos,City Centre,3,110,2821.03,3222.72,354499.2,9.5493,True
-"Lagos, Nigeria",Nigeria,Lagos,Outside of Centre,3,110,1514.26,1619.99,178198.9,10.1971,True
-"Colombo, Sri Lanka",Sri Lanka,Colombo,City Centre,1,50,608.4,3693.69,184684.5,3.9531,True
-"Colombo, Sri Lanka",Sri Lanka,Colombo,Outside of Centre,1,50,271.65,1183.13,59156.5,5.5105,True
-"Colombo, Sri Lanka",Sri Lanka,Colombo,City Centre,3,110,1498.81,3693.69,406305.9,4.4266,True
-"Colombo, Sri Lanka",Sri Lanka,Colombo,Outside of Centre,3,110,431.69,1183.13,130144.3,3.9804,True
-"Bangkok, Thailand",Thailand,Bangkok,City Centre,1,50,686.82,6121.14,306057.0,2.6929,True
-"Bangkok, Thailand",Thailand,Bangkok,Outside of Centre,1,50,351.99,3183.91,159195.5,2.6533,True
-"Bangkok, Thailand",Thailand,Bangkok,City Centre,3,110,2030.69,6121.14,673325.4,3.6191,True
-"Bangkok, Thailand",Thailand,Bangkok,Outside of Centre,3,110,753.85,3183.91,350230.1,2.5829,True
-"Hanoi, Vietnam",Vietnam,Hanoi,City Centre,1,50,404.88,4619.65,230982.5,2.1034,True
-"Hanoi, Vietnam",Vietnam,Hanoi,Outside of Centre,1,50,282.4,2807.08,140354.0,2.4145,True
-"Hanoi, Vietnam",Vietnam,Hanoi,City Centre,3,110,866.88,4619.65,508161.5,2.0471,True
-"Hanoi, Vietnam",Vietnam,Hanoi,Outside of Centre,3,110,537.06,2807.08,308778.8,2.0872,True
-"Hong Kong, Hong Kong (China)",Hong Kong,Hong Kong,City Centre,1,50,2247.93,29582.86,1479143.0,1.8237,True
-"Hong Kong, Hong Kong (China)",Hong Kong,Hong Kong,Outside of Centre,1,50,1681.67,17869.71,893485.5,2.2586,True
-"Hong Kong, Hong Kong (China)",Hong Kong,Hong Kong,City Centre,3,110,5142.15,29582.86,3254114.6,1.8962,True
-"Hong Kong, Hong Kong (China)",Hong Kong,Hong Kong,Outside of Centre,3,110,3375.49,17869.71,1965668.1,2.0607,True
+"Lagos, Nigeria",Nigeria,Lagos,City Centre,1,50,717.59,3222.6,161130.0,5.3442,True
+"Lagos, Nigeria",Nigeria,Lagos,Outside of Centre,1,50,420.64,1620.0,81000.0,6.2317,True
+"Lagos, Nigeria",Nigeria,Lagos,City Centre,3,110,2820.3,3222.6,354486.0,9.5472,True
+"Lagos, Nigeria",Nigeria,Lagos,Outside of Centre,3,110,1513.55,1620.0,178200.0,10.1923,True
+"Colombo, Sri Lanka",Sri Lanka,Colombo,City Centre,1,50,609.37,3701.95,185097.5,3.9506,True
+"Colombo, Sri Lanka",Sri Lanka,Colombo,Outside of Centre,1,50,272.13,1185.78,59289.0,5.5079,True
+"Colombo, Sri Lanka",Sri Lanka,Colombo,City Centre,3,110,1501.25,3701.95,407214.5,4.424,True
+"Colombo, Sri Lanka",Sri Lanka,Colombo,Outside of Centre,3,110,432.51,1185.78,130435.8,3.9791,True
+"Bangkok, Thailand",Thailand,Bangkok,City Centre,1,50,683.97,6094.46,304723.0,2.6935,True
+"Bangkok, Thailand",Thailand,Bangkok,Outside of Centre,1,50,350.45,3170.04,158502.0,2.6532,True
+"Bangkok, Thailand",Thailand,Bangkok,City Centre,3,110,2021.84,6094.46,670390.6,3.6191,True
+"Bangkok, Thailand",Thailand,Bangkok,Outside of Centre,3,110,750.66,3170.04,348704.4,2.5833,True
+"Hanoi, Vietnam",Vietnam,Hanoi,City Centre,1,50,404.25,4613.4,230670.0,2.103,True
+"Hanoi, Vietnam",Vietnam,Hanoi,Outside of Centre,1,50,282.02,2803.28,140164.0,2.4145,True
+"Hanoi, Vietnam",Vietnam,Hanoi,City Centre,3,110,865.6,4613.4,507474.0,2.0468,True
+"Hanoi, Vietnam",Vietnam,Hanoi,Outside of Centre,3,110,536.28,2803.28,308360.8,2.087,True
+"Hong Kong, Hong Kong (China)",Hong Kong,Hong Kong,City Centre,1,50,2247.87,29582.13,1479106.5,1.8237,True
+"Hong Kong, Hong Kong (China)",Hong Kong,Hong Kong,Outside of Centre,1,50,1681.63,17869.26,893463.0,2.2586,True
+"Hong Kong, Hong Kong (China)",Hong Kong,Hong Kong,City Centre,3,110,5142.02,29582.13,3254034.3,1.8962,True
+"Hong Kong, Hong Kong (China)",Hong Kong,Hong Kong,Outside of Centre,3,110,3375.4,17869.26,1965618.6,2.0607,True
 "Manila, Philippines",Philippines,Manila,City Centre,1,50,540.78,4397.87,219893.5,2.9511,True
 "Manila, Philippines",Philippines,Manila,Outside of Centre,1,50,281.91,2515.35,125767.5,2.6898,True
 "Manila, Philippines",Philippines,Manila,City Centre,3,110,1910.27,4397.87,483765.7,4.7385,True

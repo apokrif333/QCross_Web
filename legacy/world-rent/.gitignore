@@ -4,3 +4,7 @@ venv
 *.pyc
 .env
 .DS_Store
+files/numbeo.partial.csv
+files/numbeo_daily_state.json
+files/numbeo_daily_state.json.tmp
+files/numbeo_worker.lock
