@@ -1,0 +1,651 @@
+Key,Location,Country,City,Latitude,Longitude,Source
+albania|durres,"Durres, Albania",Albania,Durres,41.33105689999999,19.45679256119084,legacy-cache
+albania|elbasan,"Elbasan, Albania",Albania,Elbasan,41.1105874,20.0794072,legacy-cache
+albania|fier,"Fier, Albania",Albania,Fier,40.726826200000005,19.56044971340522,legacy-cache
+albania|sarande,"Sarande, Albania",Albania,Sarande,39.8752198,20.0065258,legacy-cache
+albania|shkoder,"Shkoder, Albania",Albania,Shkoder,42.0681371,19.5121437,legacy-cache
+albania|tirana,"Tirana, Albania",Albania,Tirana,41.3304886,19.82556898393491,legacy-cache
+albania|vlore,"Vlore, Albania",Albania,Vlore,40.45107385,19.49510730541237,legacy-cache
+algeria|algiers,"Algiers, Algeria",Algeria,Algiers,36.7753606,3.0601882,legacy-cache
+algeria|oran,"Oran, Algeria",Algeria,Oran,35.7044415,-0.6502981,legacy-cache
+andorra|andorra,"Andorra, Andorra",Andorra,Andorra,42.5069391,1.5212467,legacy-cache
+argentina|buenos aires,"Buenos Aires, Argentina",Argentina,Buenos Aires,-34.6075682,-58.4370894,legacy-cache
+argentina|cordoba,"Córdoba, Argentina",Argentina,Córdoba,-31.4166867,-64.1834193,legacy-cache
+argentina|rosario,"Rosario, Argentina",Argentina,Rosario,-32.9595004,-60.6615415,legacy-cache
+argentina|san miguel de tucuman,"San Miguel de Tucumán, Argentina",Argentina,San Miguel de Tucumán,-26.8303703,-65.2038133,legacy-cache
+armenia|yerevan,"Yerevan, Armenia",Armenia,Yerevan,40.1777112,44.5126233,legacy-cache
+australia|adelaide,"Adelaide, Australia",Australia,Adelaide,-34.9281805,138.5999312,legacy-cache
+australia|brisbane,"Brisbane, Australia",Australia,Brisbane,-27.4689682,153.0234991,legacy-cache
+australia|canberra,"Canberra, Australia",Australia,Canberra,-35.2975906,149.1012676,legacy-cache
+australia|darwin,"Darwin, Australia",Australia,Darwin,-12.46044,130.8410469,legacy-cache
+australia|gold coast,"Gold Coast, Australia",Australia,Gold Coast,-28.0023731,153.4145987,legacy-cache
+australia|melbourne,"Melbourne, Australia",Australia,Melbourne,-37.8142176,144.9631608,legacy-cache
+australia|perth,"Perth, Australia",Australia,Perth,-31.9558964,115.8605801,legacy-cache
+australia|sydney,"Sydney, Australia",Australia,Sydney,-33.8698439,151.2082848,legacy-cache
+austria|graz,"Graz, Austria",Austria,Graz,47.0708678,15.4382786,legacy-cache
+austria|innsbruck,"Innsbruck, Austria",Austria,Innsbruck,47.2654296,11.3927685,legacy-cache
+austria|linz,"Linz, Austria",Austria,Linz,48.3059078,14.286198,legacy-cache
+austria|salzburg,"Salzburg, Austria",Austria,Salzburg,47.7981346,13.0464806,legacy-cache
+austria|vienna,"Vienna, Austria",Austria,Vienna,48.2083537,16.3725042,legacy-cache
+austria|villach,"Villach, Austria",Austria,Villach,46.6167284,13.8500268,legacy-cache
+azerbaijan|baku,"Baku, Azerbaijan",Azerbaijan,Baku,40.3755885,49.8328009,legacy-cache
+bahrain|manama,"Manama, Bahrain",Bahrain,Manama,26.2235041,50.5822436,legacy-cache
+bahrain|muharraq,"Muharraq, Bahrain",Bahrain,Muharraq,26.2465946,50.6164127,legacy-cache
+bangladesh|chittagong,"Chittagong, Bangladesh",Bangladesh,Chittagong,22.3336887,91.8342162,legacy-cache
+bangladesh|dhaka,"Dhaka, Bangladesh",Bangladesh,Dhaka,23.7644025,90.389015,legacy-cache
+belarus|minsk,"Minsk, Belarus",Belarus,Minsk,53.9024716,27.5618225,legacy-cache
+belgium|antwerp,"Antwerp, Belgium",Belgium,Antwerp,51.2211097,4.3997081,legacy-cache
+belgium|brugge,"Brugge, Belgium",Belgium,Brugge,51.2085526,3.226772,legacy-cache
+belgium|brussels,"Brussels, Belgium",Belgium,Brussels,50.8465573,4.351697,legacy-cache
+belgium|gent,"Gent, Belgium",Belgium,Gent,51.0538286,3.7250121,legacy-cache
+belgium|kortrijk,"Kortrijk, Belgium",Belgium,Kortrijk,50.8276429,3.2659884,legacy-cache
+belgium|leuven,"Leuven, Belgium",Belgium,Leuven,50.879202,4.7011675,legacy-cache
+belgium|liege,"Liège, Belgium",Belgium,Liège,50.6450944,5.5736112,legacy-cache
+belgium|mechelen,"Mechelen, Belgium",Belgium,Mechelen,51.0281381,4.4803453,legacy-cache
+belgium|ostend,"Ostend, Belgium",Belgium,Ostend,51.2258565,2.919496,legacy-cache
+bolivia|cochabamba,"Cochabamba, Bolivia",Bolivia,Cochabamba,-17.401245799999998,-66.16756808852,legacy-cache
+bolivia|la paz,"La Paz, Bolivia",Bolivia,La Paz,-16.4955455,-68.1336229,legacy-cache
+bolivia|santa cruz,"Santa Cruz, Bolivia",Bolivia,Santa Cruz,-17.7834936,-63.1820853,legacy-cache
+bosnia and herzegovina|banja luka,"Banja Luka, Bosnia and Herzegovina",Bosnia and Herzegovina,Banja Luka,44.7720845,17.1917651,legacy-cache
+bosnia and herzegovina|sarajevo,"Sarajevo, Bosnia and Herzegovina",Bosnia and Herzegovina,Sarajevo,43.80239875,18.42884459230194,legacy-cache
+bosnia and herzegovina|tuzla,"Tuzla, Bosnia and Herzegovina",Bosnia and Herzegovina,Tuzla,44.5391105,18.675193,legacy-cache
+brazil|belo horizonte,"Belo Horizonte, Brazil",Brazil,Belo Horizonte,-19.9225776,-43.9451356,legacy-cache
+brazil|brasilia,"Brasilia, Brazil",Brazil,Brasilia,-15.7934036,-47.8823172,legacy-cache
+brazil|campinas,"Campinas, Brazil",Brazil,Campinas,-22.90556,-47.06083,legacy-cache
+brazil|curitiba,"Curitiba, Brazil",Brazil,Curitiba,-25.4295963,-49.2712724,legacy-cache
+brazil|florianopolis,"Florianopolis, Brazil",Brazil,Florianopolis,-27.5973002,-48.5496098,legacy-cache
+brazil|fortaleza,"Fortaleza, Brazil",Brazil,Fortaleza,-3.7304512,-38.5217989,legacy-cache
+brazil|guarapari,"Guarapari, Brazil",Brazil,Guarapari,-20.6718755,-40.4984617,legacy-cache
+brazil|porto alegre,"Porto Alegre, Brazil",Brazil,Porto Alegre,-30.0324999,-51.2303767,legacy-cache
+brazil|recife,"Recife, Brazil",Brazil,Recife,-8.0584933,-34.8848193,legacy-cache
+brazil|rio de janeiro,"Rio de Janeiro, Brazil",Brazil,Rio de Janeiro,-22.9110137,-43.2093727,legacy-cache
+brazil|salvador,"Salvador, Brazil",Brazil,Salvador,-12.9822499,-38.4812772,legacy-cache
+brazil|santos,"Santos, Brazil",Brazil,Santos,-23.9335988,-46.3286399,legacy-cache
+brazil|sao jose dos campos,"Sao Jose dos Campos, Brazil",Brazil,Sao Jose dos Campos,-23.1867782,-45.8854538,legacy-cache
+brazil|sao paulo,"Sao Paulo, Brazil",Brazil,Sao Paulo,-23.5506507,-46.6333824,legacy-cache
+brazil|vitoria,"Vitoria, Brazil",Brazil,Vitoria,-20.3200917,-40.3376682,legacy-cache
+bulgaria|burgas,"Burgas, Bulgaria",Bulgaria,Burgas,42.4936616,27.4721276,legacy-cache
+bulgaria|haskovo,"Haskovo, Bulgaria",Bulgaria,Haskovo,41.9345727,25.5556639,legacy-cache
+bulgaria|plovdiv,"Plovdiv, Bulgaria",Bulgaria,Plovdiv,42.1418541,24.7499297,legacy-cache
+bulgaria|shumen,"Shumen, Bulgaria",Bulgaria,Shumen,43.2703797,26.9247362,legacy-cache
+bulgaria|sofia,"Sofia, Bulgaria",Bulgaria,Sofia,42.6977028,23.3217359,legacy-cache
+bulgaria|stara zagora,"Stara Zagora, Bulgaria",Bulgaria,Stara Zagora,42.4248111,25.6257479,legacy-cache
+bulgaria|varna,"Varna, Bulgaria",Bulgaria,Varna,43.2073873,27.9166653,legacy-cache
+bulgaria|yambol,"Yambol, Bulgaria",Bulgaria,Yambol,42.483935,26.5105553,legacy-cache
+cambodia|phnom penh,"Phnom Penh, Cambodia",Cambodia,Phnom Penh,11.568271,104.9224426,legacy-cache
+cameroon|douala,"Douala, Cameroon",Cameroon,Douala,4.0429408,9.706203,legacy-cache
+canada|calgary,"Calgary, Canada",Canada,Calgary,51.0460954,-114.065465,legacy-cache
+canada|edmonton,"Edmonton, Canada",Canada,Edmonton,53.5462055,-113.491241,legacy-cache
+canada|hamilton,"Hamilton, Canada",Canada,Hamilton,43.2560802,-79.8728583,legacy-cache
+canada|kelowna,"Kelowna, Canada",Canada,Kelowna,49.8879177,-119.495902,legacy-cache
+canada|mississauga,"Mississauga, Canada",Canada,Mississauga,43.5896231,-79.6443879,legacy-cache
+canada|montreal,"Montreal, Canada",Canada,Montreal,45.5031824,-73.5698065,legacy-cache
+canada|nanaimo,"Nanaimo, Canada",Canada,Nanaimo,49.163877,-123.938122,legacy-cache
+canada|ottawa,"Ottawa, Canada",Canada,Ottawa,45.4208777,-75.6901106,legacy-cache
+canada|quebec city,"Quebec City, Canada",Canada,Quebec City,46.8137431,-71.2084061,legacy-cache
+canada|toronto,"Toronto, Canada",Canada,Toronto,43.6534733,-79.383961,legacy-cache
+canada|vancouver,"Vancouver, Canada",Canada,Vancouver,49.2608724,-123.113952,legacy-cache
+canada|victoria,"Victoria, Canada",Canada,Victoria,48.4283182,-123.3649533,legacy-cache
+canada|winnipeg,"Winnipeg, Canada",Canada,Winnipeg,49.8955367,-97.1384584,legacy-cache
+chile|antofagasta,"Antofagasta, Chile",Chile,Antofagasta,-23.6463741,-70.3980033,legacy-cache
+chile|concepcion,"Concepcion, Chile",Chile,Concepcion,-36.8270795,-73.0502399,legacy-cache
+chile|concon,"Concón, Chile",Chile,Concón,-32.9220036,-71.5159565,legacy-cache
+chile|la serena,"La Serena, Chile",Chile,La Serena,-29.902631,-71.2520253,legacy-cache
+chile|santiago,"Santiago, Chile",Chile,Santiago,-33.4377756,-70.6504502,legacy-cache
+chile|temuco,"Temuco, Chile",Chile,Temuco,-38.7362611,-72.590546,legacy-cache
+chile|valparaiso,"Valparaíso, Chile",Chile,Valparaíso,-33.0458456,-71.6196749,legacy-cache
+chile|vina del mar,"Viña Del Mar, Chile",Chile,Viña Del Mar,-33.0244535,-71.5517636,legacy-cache
+china|beijing,"Beijing, China",China,Beijing,39.906217,116.3912757,legacy-cache
+china|chengdu,"Chengdu, China",China,Chengdu,30.6598628,104.0633717,legacy-cache
+china|guangzhou,"Guangzhou, China",China,Guangzhou,23.1301964,113.2592945,legacy-cache
+china|hangzhou,"Hangzhou, China",China,Hangzhou,30.2489634,120.2052342,legacy-cache
+china|nanjing,"Nanjing, China",China,Nanjing,32.0615513,118.7915619,legacy-cache
+china|shanghai,"Shanghai, China",China,Shanghai,31.2322758,121.4692071,legacy-cache
+china|shenzhen,"Shenzhen, China",China,Shenzhen,22.5445741,114.0545429,legacy-cache
+china|suzhou,"Suzhou, China",China,Suzhou,31.3016935,120.5810725,legacy-cache
+colombia|barranquilla,"Barranquilla, Colombia",Colombia,Barranquilla,10.9938698,-74.7927177,legacy-cache
+colombia|bello,"Bello, Colombia",Colombia,Bello,6.334997,-75.5582665,legacy-cache
+colombia|bogota,"Bogota, Colombia",Colombia,Bogota,4.6534649,-74.0836453,legacy-cache
+colombia|cali,"Cali, Colombia",Colombia,Cali,3.4520339,-76.5329352,legacy-cache
+colombia|cartagena,"Cartagena, Colombia",Colombia,Cartagena,10.4195841,-75.5271224,legacy-cache
+colombia|medellin,"Medellin, Colombia",Colombia,Medellin,6.2443382,-75.573553,legacy-cache
+colombia|pereira,"Pereira, Colombia",Colombia,Pereira,4.8143159,-75.6946778,legacy-cache
+colombia|santa marta,"Santa Marta, Colombia",Colombia,Santa Marta,11.2320988,-74.1950883,legacy-cache
+costa rica|curridabat,"Curridabat, Costa Rica",Costa Rica,Curridabat,9.9144225,-84.0375087,legacy-cache
+costa rica|escazu,"Escazú, Costa Rica",Costa Rica,Escazú,9.919527,-84.1400276,legacy-cache
+costa rica|heredia,"Heredia, Costa Rica",Costa Rica,Heredia,9.9983493,-84.1167945,legacy-cache
+costa rica|san jose,"San Jose, Costa Rica",Costa Rica,San Jose,9.9325427,-84.0795782,legacy-cache
+costa rica|santa ana,"Santa Ana, Costa Rica",Costa Rica,Santa Ana,9.9326696,-84.1820487,legacy-cache
+croatia|dubrovnik,"Dubrovnik, Croatia",Croatia,Dubrovnik,42.64873625,18.094680152605108,legacy-cache
+croatia|osijek,"Osijek, Croatia",Croatia,Osijek,45.5548793,18.6953685,legacy-cache
+croatia|pula,"Pula, Croatia",Croatia,Pula,44.8702281,13.8455311,legacy-cache
+croatia|rijeka,"Rijeka, Croatia",Croatia,Rijeka,45.3267976,14.442208,legacy-cache
+croatia|split,"Split, Croatia",Croatia,Split,43.5116383,16.4399659,legacy-cache
+croatia|zadar,"Zadar, Croatia",Croatia,Zadar,44.1168594,15.2353257,legacy-cache
+croatia|zagreb,"Zagreb, Croatia",Croatia,Zagreb,45.84264135,15.962231476593626,legacy-cache
+cyprus|larnaca,"Larnaca, Cyprus",Cyprus,Larnaca,34.9236095,33.6236184,legacy-cache
+cyprus|limassol,"Limassol, Cyprus",Cyprus,Limassol,34.6852901,33.0332657,legacy-cache
+cyprus|nicosia,"Nicosia, Cyprus",Cyprus,Nicosia,35.1748976,33.3638568,legacy-cache
+cyprus|paphos,"Paphos, Cyprus",Cyprus,Paphos,34.7743988,32.4231586,legacy-cache
+czech republic|brno,"Brno, Czech Republic",Czech Republic,Brno,49.1922443,16.6113382,legacy-cache
+czech republic|olomouc,"Olomouc, Czech Republic",Czech Republic,Olomouc,49.5940567,17.251143,legacy-cache
+czech republic|ostrava,"Ostrava, Czech Republic",Czech Republic,Ostrava,49.8349139,18.2820084,legacy-cache
+czech republic|plzen,"Plzen, Czech Republic",Czech Republic,Plzen,49.7477415,13.3775249,legacy-cache
+czech republic|prague,"Prague, Czech Republic",Czech Republic,Prague,50.0874654,14.4212535,legacy-cache
+denmark|aalborg,"Aalborg, Denmark",Denmark,Aalborg,57.0462626,9.9215263,legacy-cache
+denmark|aarhus,"Aarhus, Denmark",Denmark,Aarhus,56.1496278,10.2134046,legacy-cache
+denmark|copenhagen,"Copenhagen, Denmark",Denmark,Copenhagen,55.6867243,12.5700724,legacy-cache
+dominican republic|santo domingo,"Santo Domingo, Dominican Republic",Dominican Republic,Santo Domingo,18.4801972,-69.942111,legacy-cache
+ecuador|cuenca,"Cuenca, Ecuador",Ecuador,Cuenca,-2.8974072,-79.0041726,legacy-cache
+ecuador|guayaquil,"Guayaquil, Ecuador",Ecuador,Guayaquil,-2.1900563,-79.8868741,legacy-cache
+ecuador|manta,"Manta, Ecuador",Ecuador,Manta,-0.9482874,-80.7197902,legacy-cache
+ecuador|quito,"Quito, Ecuador",Ecuador,Quito,-0.2201641,-78.5123274,legacy-cache
+egypt|alexandria,"Alexandria, Egypt",Egypt,Alexandria,31.1991806,29.8951716,legacy-cache
+egypt|asyut,"Asyut, Egypt",Egypt,Asyut,27.1832822,31.1853836,legacy-cache
+egypt|cairo,"Cairo, Egypt",Egypt,Cairo,30.0443879,31.2357257,legacy-cache
+egypt|damanhour,"Damanhour, Egypt",Egypt,Damanhour,31.0374982,30.4710625,legacy-cache
+egypt|faiyum,"Faiyum, Egypt",Egypt,Faiyum,29.3074076,30.8399651,legacy-cache
+egypt|giza,"Giza, Egypt",Egypt,Giza,29.9870753,31.2118063,legacy-cache
+egypt|hurghada,"Hurghada, Egypt",Egypt,Hurghada,27.222556,33.8307062,legacy-cache
+egypt|port said,"Port Said, Egypt",Egypt,Port Said,31.263235,32.305505,legacy-cache
+estonia|parnu,"Pärnu, Estonia",Estonia,Pärnu,58.3835136,24.5081751,legacy-cache
+estonia|tallinn,"Tallinn, Estonia",Estonia,Tallinn,59.4372155,24.7453688,legacy-cache
+estonia|tartu,"Tartu, Estonia",Estonia,Tartu,58.3801207,26.72245,legacy-cache
+ethiopia|addis ababa,"Addis Ababa, Ethiopia",Ethiopia,Addis Ababa,9.0107934,38.7612525,legacy-cache
+finland|espoo,"Espoo, Finland",Finland,Espoo,60.2047672,24.6568435,legacy-cache
+finland|helsinki,"Helsinki, Finland",Finland,Helsinki,60.1674881,24.9427473,legacy-cache
+finland|jyvaskyla,"Jyväskylä, Finland",Finland,Jyväskylä,62.2417066,25.7495727,legacy-cache
+finland|lahti,"Lahti, Finland",Finland,Lahti,60.9826014,25.6613764,legacy-cache
+finland|oulu,"Oulu, Finland",Finland,Oulu,65.0118734,25.4716809,legacy-cache
+finland|tampere,"Tampere, Finland",Finland,Tampere,61.4980214,23.7603118,legacy-cache
+finland|turku,"Turku, Finland",Finland,Turku,60.4517531,22.2670522,legacy-cache
+france|bordeaux,"Bordeaux, France",France,Bordeaux,44.841225,-0.5800364,legacy-cache
+france|grenoble,"Grenoble, France",France,Grenoble,45.1875602,5.7357819,legacy-cache
+france|lyon,"Lyon, France",France,Lyon,45.7578137,4.8320114,legacy-cache
+france|marseille,"Marseille, France",France,Marseille,43.2961743,5.3699525,legacy-cache
+france|montpellier,"Montpellier, France",France,Montpellier,43.6112422,3.8767337,legacy-cache
+france|nantes,"Nantes, France",France,Nantes,47.2186371,-1.5541362,legacy-cache
+france|nice,"Nice, France",France,Nice,43.7009358,7.2683912,legacy-cache
+france|paris,"Paris, France",France,Paris,48.8534951,2.3483915,legacy-cache
+france|toulouse,"Toulouse, France",France,Toulouse,43.6044622,1.4442469,legacy-cache
+georgia|batumi,"Batumi, Georgia",Georgia,Batumi,41.6509502,41.6360085,legacy-cache
+georgia|kutaisi,"Kutaisi, Georgia",Georgia,Kutaisi,42.2716078,42.7054475,legacy-cache
+georgia|tbilisi,"Tbilisi, Georgia",Georgia,Tbilisi,41.6934591,44.8014495,legacy-cache
+germany|berlin,"Berlin, Germany",Germany,Berlin,52.5170365,13.3888599,legacy-cache
+germany|cologne,"Cologne, Germany",Germany,Cologne,50.938361,6.959974,legacy-cache
+germany|dresden,"Dresden, Germany",Germany,Dresden,51.0493286,13.7381437,legacy-cache
+germany|dusseldorf,"Dusseldorf, Germany",Germany,Dusseldorf,51.2254018,6.7763137,legacy-cache
+germany|frankfurt,"Frankfurt, Germany",Germany,Frankfurt,50.1106444,8.6820917,legacy-cache
+germany|hamburg,"Hamburg, Germany",Germany,Hamburg,53.550341,10.000654,legacy-cache
+germany|heidelberg,"Heidelberg, Germany",Germany,Heidelberg,49.4093582,8.694724,legacy-cache
+germany|leipzig,"Leipzig, Germany",Germany,Leipzig,51.3406321,12.3747329,legacy-cache
+germany|munich,"Munich, Germany",Germany,Munich,48.1371079,11.5753822,legacy-cache
+germany|nuremberg,"Nuremberg, Germany",Germany,Nuremberg,49.453872,11.077298,legacy-cache
+germany|stuttgart,"Stuttgart, Germany",Germany,Stuttgart,48.7784485,9.1800132,legacy-cache
+greece|athens,"Athens, Greece",Greece,Athens,37.9839412,23.7283052,legacy-cache
+greece|heraklion,"Heraklion, Greece",Greece,Heraklion,35.33908,25.1332843,legacy-cache
+greece|kavala,"Kavala, Greece",Greece,Kavala,40.9369224,24.4122766,legacy-cache
+greece|larissa,"Larissa, Greece",Greece,Larissa,39.6383092,22.4160706,legacy-cache
+greece|patra,"Patra, Greece",Greece,Patra,38.246242,21.7350847,legacy-cache
+greece|thessaloniki,"Thessaloniki, Greece",Greece,Thessaloniki,40.6403167,22.9352716,legacy-cache
+greece|volos,"Volos, Greece",Greece,Volos,39.3624833,22.9401864,legacy-cache
+guatemala|guatemala city,"Guatemala City, Guatemala",Guatemala,Guatemala City,14.6222328,-90.5185188,legacy-cache
+hong kong|hong kong,"Hong Kong, Hong Kong",Hong Kong,Hong Kong,22.2793278,114.1628131,legacy-cache
+hong kong|kowloon,"Kowloon, Hong Kong",Hong Kong,Kowloon,22.3116452,114.1767885,legacy-cache
+hong kong|new territories,"New Territories, Hong Kong",Hong Kong,New Territories,22.4300716,114.0724197,legacy-cache
+hong kong|outlying islands,"Outlying Islands, Hong Kong",Hong Kong,Outlying Islands,22.17225,113.900583,legacy-cache
+hungary|budapest,"Budapest, Hungary",Hungary,Budapest,47.48138955,19.14609412691246,legacy-cache
+hungary|debrecen,"Debrecen, Hungary",Hungary,Debrecen,47.531399,21.6259782,legacy-cache
+hungary|kecskemet,"Kecskemét, Hungary",Hungary,Kecskemét,46.9080791,19.6928069,legacy-cache
+hungary|nyiregyhaza,"Nyíregyháza, Hungary",Hungary,Nyíregyháza,47.9557802,21.7167982,legacy-cache
+hungary|pecs,"Pécs, Hungary",Hungary,Pécs,46.0765092,18.2280317,legacy-cache
+iceland|reykjavik,"Reykjavik, Iceland",Iceland,Reykjavik,64.145981,-21.9422367,legacy-cache
+india|ahmedabad,"Ahmedabad, India",India,Ahmedabad,23.0216238,72.5797068,legacy-cache
+india|bangalore,"Bangalore, India",India,Bangalore,12.9767936,77.590082,legacy-cache
+india|bhubaneswar,"Bhubaneswar, India",India,Bhubaneswar,20.2602964,85.8394521,legacy-cache
+india|chandigarh,"Chandigarh, India",India,Chandigarh,30.72984395,76.78414567016054,legacy-cache
+india|chennai,"Chennai, India",India,Chennai,13.0836939,80.270186,legacy-cache
+india|coimbatore,"Coimbatore, India",India,Coimbatore,11.0018115,76.9628425,legacy-cache
+india|delhi,"Delhi, India",India,Delhi,28.6517178,77.2219388,legacy-cache
+india|gurgaon,"Gurgaon, India",India,Gurgaon,28.4646148,77.0299194,legacy-cache
+india|guwahati,"Guwahati, India",India,Guwahati,26.1805978,91.753943,legacy-cache
+india|hyderabad,"Hyderabad, India",India,Hyderabad,17.360589,78.4740613,legacy-cache
+india|indore,"Indore, India",India,Indore,22.7203616,75.8681996,legacy-cache
+india|jaipur,"Jaipur, India",India,Jaipur,26.9154576,75.8189817,legacy-cache
+india|kochi,"Kochi, India",India,Kochi,9.9674277,76.2454436,legacy-cache
+india|kolkata,"Kolkata, India",India,Kolkata,22.5726459,88.3638953,legacy-cache
+india|lucknow,"Lucknow (Lakhnau), India",India,Lucknow (Lakhnau),26.8381,80.9346001,legacy-cache
+india|ludhiana,"Ludhiana, India",India,Ludhiana,30.9090157,75.851601,legacy-cache
+india|mumbai,"Mumbai, India",India,Mumbai,19.0785451,72.878176,legacy-cache
+india|noida,"Noida, India",India,Noida,28.5706333,77.3272147,legacy-cache
+india|pune,"Pune, India",India,Pune,18.521428,73.8544541,legacy-cache
+india|surat,"Surat, India",India,Surat,21.2094892,72.8317058,legacy-cache
+india|thane,"Thane, India",India,Thane,19.1943294,72.9701779,legacy-cache
+india|visakhapatnam,"Visakhapatnam, India",India,Visakhapatnam,17.7231276,83.3012842,legacy-cache
+indonesia|bandung,"Bandung, Indonesia",Indonesia,Bandung,-6.9215529,107.6110212,legacy-cache
+indonesia|depok,"Depok, Indonesia",Indonesia,Depok,-6.40719,106.8158371,legacy-cache
+indonesia|jakarta,"Jakarta, Indonesia",Indonesia,Jakarta,-6.1752489,106.8270462,legacy-cache
+indonesia|semarang,"Semarang, Indonesia",Indonesia,Semarang,-6.9903988,110.4229104,legacy-cache
+indonesia|south tangerang,"South Tangerang, Indonesia",Indonesia,South Tangerang,-6.3227016,106.7085737,legacy-cache
+indonesia|surabaya,"Surabaya, Indonesia",Indonesia,Surabaya,-7.2459717,112.7378266,legacy-cache
+indonesia|tangerang,"Tangerang, Indonesia",Indonesia,Tangerang,-6.1761924,106.6382161,legacy-cache
+iran|isfahan,"Isfahan (Esfahan), Iran",Iran,Isfahan (Esfahan),32.6707877,51.6650002,legacy-cache
+iran|mashhad,"Mashhad, Iran",Iran,Mashhad,36.2974945,59.6059232,legacy-cache
+iran|shiraz,"Shiraz, Iran",Iran,Shiraz,29.6060218,52.5378041,legacy-cache
+iran|tehran,"Tehran, Iran",Iran,Tehran,35.6892523,51.3896004,legacy-cache
+iraq|baghdad,"Baghdad, Iraq",Iraq,Baghdad,33.3061701,44.3872213,legacy-cache
+iraq|erbil,"Erbil (Irbil), Iraq",Iraq,Erbil (Irbil),36.1911653,44.0094294,legacy-cache
+ireland|cork,"Cork, Ireland",Ireland,Cork,51.897077,-8.4654674,legacy-cache
+ireland|dublin,"Dublin, Ireland",Ireland,Dublin,53.3498006,-6.2602964,legacy-cache
+israel|be er sheva,"Be´er Sheva, Israel",Israel,Be´er Sheva,31.2457442,34.7925181,legacy-cache
+israel|haifa,"Haifa, Israel",Israel,Haifa,32.8191218,34.9983856,legacy-cache
+israel|jerusalem,"Jerusalem, Israel",Israel,Jerusalem,31.7788242,35.2257626,legacy-cache
+israel|ramat gan,"Ramat Gan, Israel",Israel,Ramat Gan,32.0686867,34.8246812,legacy-cache
+israel|ra anana,"Ra´anana, Israel",Israel,Ra´anana,32.1861481,34.8675905,legacy-cache
+israel|tel aviv yafo,"Tel Aviv-Yafo, Israel",Israel,Tel Aviv-Yafo,32.0852997,34.7818064,legacy-cache
+italy|bari,"Bari, Italy",Italy,Bari,41.1257843,16.8620293,legacy-cache
+italy|bologna,"Bologna, Italy",Italy,Bologna,44.4938203,11.3426327,legacy-cache
+italy|bolzano bozen,"Bolzano-Bozen, Italy",Italy,Bolzano-Bozen,46.4981125,11.3547801,legacy-cache
+italy|cagliari,"Cagliari, Italy",Italy,Cagliari,39.2171994,9.113311,legacy-cache
+italy|catania,"Catania, Italy",Italy,Catania,37.5023612,15.0873718,legacy-cache
+italy|florence,"Florence, Italy",Italy,Florence,43.7698712,11.2555757,legacy-cache
+italy|genoa,"Genoa, Italy",Italy,Genoa,44.40726,8.9338624,legacy-cache
+italy|milan,"Milan, Italy",Italy,Milan,45.4641943,9.1896346,legacy-cache
+italy|naples,"Naples, Italy",Italy,Naples,40.8358846,14.2487679,legacy-cache
+italy|palermo,"Palermo, Italy",Italy,Palermo,38.1112268,13.3524434,legacy-cache
+italy|rimini,"Rimini, Italy",Italy,Rimini,44.0593886,12.5684371,legacy-cache
+italy|rome,"Rome, Italy",Italy,Rome,41.8933203,12.4829321,legacy-cache
+italy|treviso,"Treviso, Italy",Italy,Treviso,45.6658505,12.2455414,legacy-cache
+italy|turin,"Turin, Italy",Italy,Turin,45.0677551,7.6824892,legacy-cache
+japan|fukuoka,"Fukuoka, Japan",Japan,Fukuoka,33.5898988,130.4017509,legacy-cache
+japan|kawasaki,"Kawasaki, Japan",Japan,Kawasaki,35.5305307,139.7028012,legacy-cache
+japan|kobe,"Kobe, Japan",Japan,Kobe,34.6932379,135.1943764,legacy-cache
+japan|nagoya,"Nagoya, Japan",Japan,Nagoya,35.1851045,136.8998438,legacy-cache
+japan|osaka,"Osaka, Japan",Japan,Osaka,34.6937569,135.5014539,legacy-cache
+japan|sapporo,"Sapporo, Japan",Japan,Sapporo,43.061936,141.3542924,legacy-cache
+japan|tokyo,"Tokyo, Japan",Japan,Tokyo,35.6812665,139.757653,legacy-cache
+japan|yokohama,"Yokohama, Japan",Japan,Yokohama,35.4443947,139.6367727,legacy-cache
+jersey|saint helier,"Saint Helier, Jersey",Jersey,Saint Helier,49.1856637,-2.1102277,legacy-cache
+jordan|amman,"Amman, Jordan",Jordan,Amman,31.9515694,35.9239625,legacy-cache
+kazakhstan|aktau,"Aktau, Kazakhstan",Kazakhstan,Aktau,43.6353364,51.168222,legacy-cache
+kazakhstan|almaty,"Almaty, Kazakhstan",Kazakhstan,Almaty,43.2363924,76.9457275,legacy-cache
+kazakhstan|astana,"Astana, Kazakhstan",Kazakhstan,Astana,51.1282205,71.4306682,legacy-cache
+kazakhstan|karaganda,"Karaganda, Kazakhstan",Kazakhstan,Karaganda,49.8161282,73.1026622,legacy-cache
+kazakhstan|kostanay,"Kostanay, Kazakhstan",Kazakhstan,Kostanay,53.2146604,63.632607,legacy-cache
+kazakhstan|oskemen,"Oskemen, Kazakhstan",Kazakhstan,Oskemen,49.9484438,82.6274791,legacy-cache
+kazakhstan|pavlodar,"Pavlodar, Kazakhstan",Kazakhstan,Pavlodar,52.2857573,76.9455035,legacy-cache
+kenya|nairobi,"Nairobi, Kenya",Kenya,Nairobi,-1.2832533,36.8172449,legacy-cache
+kosovo|pristina,"Pristina, Kosovo",Kosovo,Pristina,42.6638771,21.1640849,legacy-cache
+kuwait|ahmadi,"Ahmadi, Kuwait",Kuwait,Ahmadi,29.0890687,48.0610236,legacy-cache
+kuwait|hawally,"Hawally, Kuwait",Kuwait,Hawally,29.3362942,48.0199351,legacy-cache
+kuwait|kuwait city,"Kuwait City, Kuwait",Kuwait,Kuwait City,29.3796532,47.9734174,legacy-cache
+kyrgyzstan|bishkek,"Bishkek, Kyrgyzstan",Kyrgyzstan,Bishkek,42.8777895,74.6066926,legacy-cache
+latvia|jurmala,"Jurmala, Latvia",Latvia,Jurmala,56.9727164,23.7886979,legacy-cache
+latvia|riga,"Riga, Latvia",Latvia,Riga,56.9493977,24.1051846,legacy-cache
+lebanon|beirut,"Beirut, Lebanon",Lebanon,Beirut,33.8959203,35.47843,legacy-cache
+libya|tripoli,"Tripoli, Libya",Libya,Tripoli,32.896672,13.1777923,legacy-cache
+lithuania|kaunas,"Kaunas, Lithuania",Lithuania,Kaunas,54.8982139,23.9044817,legacy-cache
+lithuania|klaipeda,"Klaipeda, Lithuania",Lithuania,Klaipeda,55.7127529,21.1350469,legacy-cache
+lithuania|vilnius,"Vilnius, Lithuania",Lithuania,Vilnius,54.6870458,25.2829111,legacy-cache
+lithuania|siauliai,"Šiauliai, Lithuania",Lithuania,Šiauliai,55.9340823,23.3157775,legacy-cache
+luxembourg|luxembourg,"Luxembourg, Luxembourg",Luxembourg,Luxembourg,49.6112768,6.129799,legacy-cache
+macao|macao,"Macao, Macao",Macao,Macao,22.1899448,113.5380454,legacy-cache
+malaysia|george town,"George Town, Malaysia",Malaysia,George Town,5.4253,100.312386,legacy-cache
+malaysia|ipoh,"Ipoh, Malaysia",Malaysia,Ipoh,4.5986817,101.0900236,legacy-cache
+malaysia|iskandar puteri,"Iskandar Puteri, Malaysia",Malaysia,Iskandar Puteri,1.4522711,103.6144729,legacy-cache
+malaysia|johor bahru,"Johor Bahru, Malaysia",Malaysia,Johor Bahru,1.503555,103.7495586,legacy-cache
+malaysia|kuala lumpur,"Kuala Lumpur, Malaysia",Malaysia,Kuala Lumpur,3.1516964,101.6942371,legacy-cache
+malaysia|petaling jaya,"Petaling Jaya, Malaysia",Malaysia,Petaling Jaya,3.0991752,101.6450232,legacy-cache
+malaysia|pulau pinang,"Pulau Pinang, Malaysia",Malaysia,Pulau Pinang,5.3506953,100.2348979,legacy-cache
+malaysia|shah alam,"Shah Alam, Malaysia",Malaysia,Shah Alam,3.0733644,101.5195149,legacy-cache
+malaysia|subang jaya,"Subang Jaya, Malaysia",Malaysia,Subang Jaya,3.051487,101.5823339,legacy-cache
+malta|mellieha,"Mellieha, Malta",Malta,Mellieha,35.9599618,14.368367,legacy-cache
+malta|san giljan,"San Ġiljan, Malta",Malta,San Ġiljan,35.9199225,14.4877119,legacy-cache
+malta|sliema,"Sliema, Malta",Malta,Sliema,35.9127609,14.5020708,legacy-cache
+malta|st paul s bay,"St Paul´s Bay, Malta",Malta,St Paul´s Bay,35.9480742,14.3973929,legacy-cache
+malta|swieqi,"Swieqi, Malta",Malta,Swieqi,35.9236256,14.469548,legacy-cache
+malta|valletta,"Valletta, Malta",Malta,Valletta,35.8989818,14.5136759,legacy-cache
+mexico|acapulco,"Acapulco, Mexico",Mexico,Acapulco,16.8680495,-99.8940182,legacy-cache
+mexico|cancun,"Cancún, Mexico",Mexico,Cancún,21.1617854,-86.8510468,legacy-cache
+mexico|guadalajara,"Guadalajara, Mexico",Mexico,Guadalajara,20.6720375,-103.338396,legacy-cache
+mexico|merida,"Merida, Mexico",Mexico,Merida,20.9670759,-89.6237402,legacy-cache
+mexico|mexico city,"Mexico City, Mexico",Mexico,Mexico City,19.4326296,-99.1331785,legacy-cache
+mexico|monterrey,"Monterrey, Mexico",Mexico,Monterrey,25.6802019,-100.315258,legacy-cache
+mexico|naucalpan de juarez,"Naucalpan de Juárez, Mexico",Mexico,Naucalpan de Juárez,19.4785796,-99.2328791,legacy-cache
+mexico|puebla,"Puebla, Mexico",Mexico,Puebla,19.0437196,-98.1981486,legacy-cache
+moldova|balti,"Balti, Moldova",Moldova,Balti,47.7623599,27.928665,legacy-cache
+moldova|chisinau,"Chisinau, Moldova",Moldova,Chisinau,47.0245117,28.8322923,legacy-cache
+monaco|monaco,"Monaco, Monaco",Monaco,Monaco,43.7309898,7.4209708,legacy-cache
+mongolia|ulaanbaatar,"Ulaanbaatar, Mongolia",Mongolia,Ulaanbaatar,47.9184676,106.9177016,legacy-cache
+montenegro|bar,"Bar, Montenegro",Montenegro,Bar,42.0979745,19.0954528,legacy-cache
+montenegro|budva,"Budva, Montenegro",Montenegro,Budva,42.2885656,18.8419505,legacy-cache
+montenegro|herceg novi,"Herceg Novi, Montenegro",Montenegro,Herceg Novi,42.4517622,18.5367516,legacy-cache
+montenegro|kotor,"Kotor, Montenegro",Montenegro,Kotor,42.4248515,18.7710437,legacy-cache
+montenegro|podgorica,"Podgorica, Montenegro",Montenegro,Podgorica,42.4415238,19.2621081,legacy-cache
+montenegro|tivat,"Tivat, Montenegro",Montenegro,Tivat,42.4303762,18.6988104,legacy-cache
+morocco|agadir,"Agadir, Morocco",Morocco,Agadir,30.4211144,-9.5830626,legacy-cache
+morocco|casablanca,"Casablanca, Morocco",Morocco,Casablanca,33.5945144,-7.6200284,legacy-cache
+morocco|marrakesh,"Marrakesh, Morocco",Morocco,Marrakesh,31.6258257,-7.9891608,legacy-cache
+morocco|rabat,"Rabat, Morocco",Morocco,Rabat,34.02236,-6.8340222,legacy-cache
+morocco|tangier,"Tangier, Morocco",Morocco,Tangier,35.7774341,-5.8032309,legacy-cache
+morocco|temara,"Temara, Morocco",Morocco,Temara,33.917166,-6.923804,legacy-cache
+myanmar|yangon,"Yangon, Myanmar",Myanmar,Yangon,16.7967129,96.1609916,legacy-cache
+nepal|kathmandu,"Kathmandu, Nepal",Nepal,Kathmandu,27.708317,85.3205817,legacy-cache
+netherlands|amsterdam,"Amsterdam, Netherlands",Netherlands,Amsterdam,52.3730796,4.8924534,legacy-cache
+netherlands|breda,"Breda, Netherlands",Netherlands,Breda,51.5887845,4.7760237,legacy-cache
+netherlands|eindhoven,"Eindhoven, Netherlands",Netherlands,Eindhoven,51.44855695,5.450122521857143,legacy-cache
+netherlands|groningen,"Groningen, Netherlands",Netherlands,Groningen,53.2190652,6.5680077,legacy-cache
+netherlands|haarlem,"Haarlem, Netherlands",Netherlands,Haarlem,52.38370575,4.643559696559635,legacy-cache
+netherlands|rotterdam,"Rotterdam, Netherlands",Netherlands,Rotterdam,51.9244424,4.47775,legacy-cache
+netherlands|the hague,"The Hague, Netherlands",Netherlands,The Hague,52.0799838,4.3113461,legacy-cache
+netherlands|utrecht,"Utrecht, Netherlands",Netherlands,Utrecht,52.080985600000005,5.12768396945229,legacy-cache
+new zealand|auckland,"Auckland, New Zealand",New Zealand,Auckland,-36.852095,174.7631803,legacy-cache
+new zealand|christchurch,"Christchurch, New Zealand",New Zealand,Christchurch,-43.530955,172.6366455,legacy-cache
+new zealand|dunedin,"Dunedin, New Zealand",New Zealand,Dunedin,-45.8740984,170.5035755,legacy-cache
+new zealand|wellington,"Wellington, New Zealand",New Zealand,Wellington,-41.2887953,174.7772114,legacy-cache
+nigeria|lagos,"Lagos, Nigeria",Nigeria,Lagos,6.4550575,3.3941795,legacy-cache
+north macedonia|bitola,"Bitola, North Macedonia",North Macedonia,Bitola,41.0316005,21.3302511,legacy-cache
+north macedonia|ohrid,"Ohrid, North Macedonia",North Macedonia,Ohrid,41.1170203,20.8017387,legacy-cache
+north macedonia|skopje,"Skopje, North Macedonia",North Macedonia,Skopje,41.9961816,21.4319213,legacy-cache
+north macedonia|stip,"Stip, North Macedonia",North Macedonia,Stip,41.7374724,22.1935856,legacy-cache
+norway|bergen,"Bergen, Norway",Norway,Bergen,60.3943055,5.3259192,legacy-cache
+norway|oslo,"Oslo, Norway",Norway,Oslo,59.9133301,10.7389701,legacy-cache
+norway|stavanger,"Stavanger, Norway",Norway,Stavanger,58.9699675,5.7318101,legacy-cache
+norway|tromso,"Tromso, Norway",Norway,Tromso,69.6516345,18.9558585,legacy-cache
+norway|trondheim,"Trondheim, Norway",Norway,Trondheim,63.4304475,10.3952118,legacy-cache
+oman|muscat,"Muscat, Oman",Oman,Muscat,23.5882019,58.3829448,legacy-cache
+pakistan|faisalabad,"Faisalabad, Pakistan",Pakistan,Faisalabad,31.4220558,73.0923253,legacy-cache
+pakistan|islamabad,"Islamabad, Pakistan",Pakistan,Islamabad,33.6938118,73.0651511,legacy-cache
+pakistan|karachi,"Karachi, Pakistan",Pakistan,Karachi,24.8546842,67.0207055,legacy-cache
+pakistan|lahore,"Lahore, Pakistan",Pakistan,Lahore,31.5656822,74.3141829,legacy-cache
+palestine|ramallah,"Ramallah, Palestine",Palestine,Ramallah,31.898043,35.204269,legacy-cache
+panama|cocle,"Coclé, Panama",Panama,Coclé,8.4604873,-80.4305652,legacy-cache
+panama|panama,"Panama, Panama",Panama,Panama,8.9714493,-79.5341802,legacy-cache
+panama|panama oeste,"Panama Oeste, Panama",Panama,Panama Oeste,8.814632542,-79.906137853,legacy-cache
+paraguay|asuncion,"Asuncion, Paraguay",Paraguay,Asuncion,-25.2800459,-57.6343814,legacy-cache
+peru|arequipa,"Arequipa, Peru",Peru,Arequipa,-16.3988667,-71.5369607,legacy-cache
+peru|lima,"Lima, Peru",Peru,Lima,-12.0621065,-77.0365256,legacy-cache
+philippines|cebu city,"Cebu City, Philippines",Philippines,Cebu City,10.2931062,123.9020773,legacy-cache
+philippines|manila,"Manila, Philippines",Philippines,Manila,14.5948914,120.9782618,legacy-cache
+philippines|metro manila,"Metro Manila, Philippines",Philippines,Metro Manila,14.5948914,120.9782618,legacy-cache
+philippines|quezon city,"Quezon City, Philippines",Philippines,Quezon City,14.6508048,121.0482073,legacy-cache
+poland|bialystok,"Bialystok, Poland",Poland,Bialystok,53.12750505,23.147050870161664,legacy-cache
+poland|bydgoszcz,"Bydgoszcz, Poland",Poland,Bydgoszcz,53.1219648,18.0002529,legacy-cache
+poland|gdansk,"Gdansk, Poland",Poland,Gdansk,54.3706858,18.61298210330077,legacy-cache
+poland|gdynia,"Gdynia, Poland",Poland,Gdynia,54.5164982,18.5402738,legacy-cache
+poland|katowice,"Katowice, Poland",Poland,Katowice,50.2598987,19.0215852,legacy-cache
+poland|krakow,"Krakow, Poland",Poland,Krakow,50.0619474,19.9368564,legacy-cache
+poland|lodz,"Lodz, Poland",Poland,Lodz,51.7687323,19.4569911,legacy-cache
+poland|lublin,"Lublin, Poland",Poland,Lublin,51.250559,22.5701022,legacy-cache
+poland|poznan,"Poznan, Poland",Poland,Poznan,52.4006632,16.91973259178088,legacy-cache
+poland|szczecin,"Szczecin, Poland",Poland,Szczecin,53.4301818,14.5509623,legacy-cache
+poland|warsaw,"Warsaw, Poland",Poland,Warsaw,52.2319581,21.0067249,legacy-cache
+poland|wroclaw,"Wroclaw, Poland",Poland,Wroclaw,51.1089776,17.0326689,legacy-cache
+portugal|aveiro,"Aveiro, Portugal",Portugal,Aveiro,40.640496,-8.6537841,legacy-cache
+portugal|braga,"Braga, Portugal",Portugal,Braga,41.5510583,-8.4280045,legacy-cache
+portugal|cascais,"Cascais, Portugal",Portugal,Cascais,38.72240025,-9.396909171649876,legacy-cache
+portugal|coimbra,"Coimbra, Portugal",Portugal,Coimbra,40.2111931,-8.4294632,legacy-cache
+portugal|faro,"Faro, Portugal",Portugal,Faro,37.0162727,-7.9351771,legacy-cache
+portugal|funchal,"Funchal, Portugal",Portugal,Funchal,32.6496497,-16.9086783,legacy-cache
+portugal|lisbon,"Lisbon, Portugal",Portugal,Lisbon,38.7077507,-9.1365919,legacy-cache
+portugal|porto,"Porto, Portugal",Portugal,Porto,41.1494512,-8.6107884,legacy-cache
+portugal|setubal,"Setubal, Portugal",Portugal,Setubal,38.5241783,-8.8932341,legacy-cache
+puerto rico|san juan,"San Juan, Puerto Rico",Puerto Rico,San Juan,18.465299,-66.116666,legacy-cache
+qatar|doha,"Doha, Qatar",Qatar,Doha,25.2856329,51.5264162,legacy-cache
+qatar|lusail,"Lusail, Qatar",Qatar,Lusail,25.4228888,51.5197163,legacy-cache
+romania|brasov,"Brasov, Romania",Romania,Brasov,45.6523093,25.6102746,legacy-cache
+romania|bucharest,"Bucharest, Romania",Romania,Bucharest,44.4361414,26.1027202,legacy-cache
+romania|cluj napoca,"Cluj-Napoca, Romania",Romania,Cluj-Napoca,46.769379,23.5899542,legacy-cache
+romania|constanta,"Constanta, Romania",Romania,Constanta,44.1767161,28.6507598,legacy-cache
+romania|craiova,"Craiova, Romania",Romania,Craiova,44.3190159,23.7965614,legacy-cache
+romania|galati,"Galati, Romania",Romania,Galati,45.4338215,28.0549395,legacy-cache
+romania|iasi,"Iasi, Romania",Romania,Iasi,47.1615416,27.5837224,legacy-cache
+romania|oradea,"Oradea, Romania",Romania,Oradea,47.058715,21.92791904166116,legacy-cache
+romania|sibiu,"Sibiu, Romania",Romania,Sibiu,45.7973912,24.1519202,legacy-cache
+romania|timisoara,"Timisoara, Romania",Romania,Timisoara,45.7538355,21.2257474,legacy-cache
+russia|kaliningrad,"Kaliningrad, Russia",Russia,Kaliningrad,54.710128,20.5105838,legacy-cache
+russia|kazan,"Kazan, Russia",Russia,Kazan,55.7823547,49.1242266,legacy-cache
+russia|krasnodar,"Krasnodar, Russia",Russia,Krasnodar,45.0351532,38.9772396,legacy-cache
+russia|moscow,"Moscow, Russia",Russia,Moscow,55.7504461,37.6174943,legacy-cache
+russia|nizhny novgorod,"Nizhny Novgorod, Russia",Russia,Nizhny Novgorod,56.3264816,44.0051395,legacy-cache
+russia|novosibirsk,"Novosibirsk, Russia",Russia,Novosibirsk,55.0288307,82.9226887,legacy-cache
+russia|perm,"Perm, Russia",Russia,Perm,58.014965,56.246723,legacy-cache
+russia|rostov na donu,"Rostov-na-Donu, Russia",Russia,Rostov-na-Donu,47.2216548,39.7096061,legacy-cache
+russia|st petersburg,"Saint Petersburg, Russia",Russia,Saint Petersburg,59.938732,30.316229,legacy-cache
+russia|samara,"Samara, Russia",Russia,Samara,53.198627,50.113987,legacy-cache
+russia|ufa,"Ufa, Russia",Russia,Ufa,54.7261409,55.947499,legacy-cache
+russia|vladivostok,"Vladivostok, Russia",Russia,Vladivostok,43.1150678,131.8855768,legacy-cache
+russia|voronezh,"Voronezh, Russia",Russia,Voronezh,51.6605982,39.2005858,legacy-cache
+russia|yekaterinburg,"Yekaterinburg, Russia",Russia,Yekaterinburg,56.839104,60.60825,legacy-cache
+saudi arabia|ad dammam,"Ad Dammam, Saudi Arabia",Saudi Arabia,Ad Dammam,26.4367824,50.1039991,legacy-cache
+saudi arabia|jeddah,"Jeddah (Jiddah), Saudi Arabia",Saudi Arabia,Jeddah (Jiddah),21.5810088,39.1653612,legacy-cache
+saudi arabia|riyadh,"Riyadh, Saudi Arabia",Saudi Arabia,Riyadh,24.638916,46.7160104,legacy-cache
+serbia|belgrade,"Belgrade, Serbia",Serbia,Belgrade,44.8178131,20.4568974,legacy-cache
+serbia|nis,"Nis, Serbia",Serbia,Nis,43.3211301,21.8959232,legacy-cache
+serbia|novi sad,"Novi Sad, Serbia",Serbia,Novi Sad,45.2551338,19.8451756,legacy-cache
+singapore|singapore,"Singapore, Singapore",Singapore,Singapore,1.2899175,103.8519072,legacy-cache
+slovakia|banska bystrica,"Banská Bystrica, Slovakia",Slovakia,Banská Bystrica,48.7384028,19.1573494,legacy-cache
+slovakia|bratislava,"Bratislava, Slovakia",Slovakia,Bratislava,48.1516988,17.1093063,legacy-cache
+slovakia|kosice,"Kosice, Slovakia",Slovakia,Kosice,48.7172272,21.2496774,legacy-cache
+slovakia|nitra,"Nitra, Slovakia",Slovakia,Nitra,48.31295,18.0894593,legacy-cache
+slovakia|zilina,"Žilina, Slovakia",Slovakia,Žilina,49.2234674,18.7393139,legacy-cache
+slovenia|gorenjska,"Gorenjska, Slovenia",Slovenia,Gorenjska,46.23512,14.34869,legacy-cache
+slovenia|ljubljana,"Ljubljana, Slovenia",Slovenia,Ljubljana,46.0500268,14.5069289,legacy-cache
+slovenia|maribor,"Maribor, Slovenia",Slovenia,Maribor,46.5576439,15.6455854,legacy-cache
+south africa|cape town,"Cape Town, South Africa",South Africa,Cape Town,-33.928992,18.417396,legacy-cache
+south africa|centurion,"Centurion, South Africa",South Africa,Centurion,-25.836389,28.180278,legacy-cache
+south africa|dolphin coast,"Dolphin Coast, South Africa",South Africa,Dolphin Coast,-29.437578,31.222571,legacy-cache
+south africa|durban,"Durban, South Africa",South Africa,Durban,-29.861825,31.009909,legacy-cache
+south africa|johannesburg,"Johannesburg, South Africa",South Africa,Johannesburg,-26.205,28.049722,legacy-cache
+south africa|kzn south coast,"KZN South Coast, South Africa",South Africa,KZN South Coast,-30.845867,30.372374,legacy-cache
+south africa|port elizabeth,"Port Elizabeth, South Africa",South Africa,Port Elizabeth,-33.9618359,25.6186512,legacy-cache
+south africa|pretoria,"Pretoria, South Africa",South Africa,Pretoria,-25.7459277,28.1879101,legacy-cache
+south korea|seoul,"Seoul, South Korea",South Korea,Seoul,37.5666791,126.9782914,legacy-cache
+spain|alicante,"Alicante, Spain",Spain,Alicante,38.3436365,-0.4881708,legacy-cache
+spain|barcelona,"Barcelona, Spain",Spain,Barcelona,41.3828939,2.1774322,legacy-cache
+spain|cordoba,"Córdoba, Spain",Spain,Córdoba,37.8845813,-4.7760138,legacy-cache
+spain|madrid,"Madrid, Spain",Spain,Madrid,40.4167047,-3.7035825,legacy-cache
+spain|malaga,"Malaga, Spain",Spain,Malaga,36.7213028,-4.4216366,legacy-cache
+spain|murcia,"Murcia, Spain",Spain,Murcia,37.9923795,-1.1305431,legacy-cache
+spain|palma de mallorca,"Palma de Mallorca, Spain",Spain,Palma de Mallorca,39.5695818,2.6500745,legacy-cache
+spain|santa cruz de tenerife,"Santa Cruz de Tenerife, Spain",Spain,Santa Cruz de Tenerife,28.469648,-16.2540884,legacy-cache
+spain|seville,"Seville, Spain",Spain,Seville,37.3886303,-5.9953403,legacy-cache
+spain|valencia,"Valencia, Spain",Spain,Valencia,39.4697065,-0.3763353,legacy-cache
+sri lanka|colombo,"Colombo, Sri Lanka",Sri Lanka,Colombo,6.9387469,79.8541134,legacy-cache
+sweden|gothenburg,"Gothenburg, Sweden",Sweden,Gothenburg,57.7072326,11.9670171,legacy-cache
+sweden|malmo,"Malmo, Sweden",Sweden,Malmo,55.6052931,13.0001566,legacy-cache
+sweden|stockholm,"Stockholm, Sweden",Sweden,Stockholm,59.3251172,18.0710935,legacy-cache
+sweden|uppsala,"Uppsala, Sweden",Sweden,Uppsala,59.8586126,17.6387436,legacy-cache
+switzerland|aarau,"Aarau, Switzerland",Switzerland,Aarau,47.3927146,8.0444448,legacy-cache
+switzerland|basel,"Basel, Switzerland",Switzerland,Basel,47.5581077,7.5878261,legacy-cache
+switzerland|bellinzona,"Bellinzona, Switzerland",Switzerland,Bellinzona,46.1920538,9.0205888,legacy-cache
+switzerland|canton of bern,"Canton of Bern, Switzerland",Switzerland,Canton of Bern,46.9482713,7.4514512,legacy-cache
+switzerland|fribourg,"Fribourg, Switzerland",Switzerland,Fribourg,46.8056255,7.1611125,legacy-cache
+switzerland|geneva,"Geneva, Switzerland",Switzerland,Geneva,46.2017559,6.1466014,legacy-cache
+switzerland|valais,"Valais, Switzerland",Switzerland,Valais,46.3720663,6.862287669574162,legacy-cache
+switzerland|vaud,"Vaud, Switzerland",Switzerland,Vaud,46.4774891,6.2355007,legacy-cache
+switzerland|zurich,"Zurich, Switzerland",Switzerland,Zurich,47.3744489,8.5410422,legacy-cache
+taiwan|hsinchu,"HsinChu, Taiwan",Taiwan,HsinChu,24.8066333,120.9686833,legacy-cache
+taiwan|kaohsiung,"Kaohsiung, Taiwan",Taiwan,Kaohsiung,22.6203348,120.3120375,legacy-cache
+taiwan|new taipei,"New Taipei, Taiwan",Taiwan,New Taipei,25.011997,121.4656619,legacy-cache
+taiwan|taichung,"Taichung, Taiwan",Taiwan,Taichung,24.163162,120.6478282,legacy-cache
+taiwan|taipei,"Taipei, Taiwan",Taiwan,Taipei,25.0375198,121.5636796,legacy-cache
+taiwan|taoyuan city,"Taoyuan City, Taiwan",Taiwan,Taoyuan City,24.9929995,121.3010003,legacy-cache
+taiwan|tai lam,"Tâi-lâm, Taiwan",Taiwan,Tâi-lâm,23.70042,120.194474,legacy-cache
+thailand|bangkok,"Bangkok, Thailand",Thailand,Bangkok,13.7524938,100.4935089,legacy-cache
+thailand|hua hin,"HUA HIN, Thailand",Thailand,HUA HIN,12.5699326,99.9573437,legacy-cache
+thailand|nonthaburi,"Nonthaburi, Thailand",Thailand,Nonthaburi,13.8428962,100.4937886,legacy-cache
+thailand|pattaya,"Pattaya, Thailand",Thailand,Pattaya,12.9366674,100.8864587,legacy-cache
+thailand|phuket,"Phuket, Thailand",Thailand,Phuket,7.8847901,98.3891503,legacy-cache
+thailand|samut prakan,"Samut Prakan, Thailand",Thailand,Samut Prakan,13.5949359,100.5966146,legacy-cache
+thailand|sattahip,"Sattahip, Thailand",Thailand,Sattahip,12.663982,100.9003752,legacy-cache
+tunisia|ariana,"Ariana, Tunisia",Tunisia,Ariana,36.8587351,10.188232,legacy-cache
+tunisia|ben arous,"Ben Arous, Tunisia",Tunisia,Ben Arous,36.7516855,10.2245072,legacy-cache
+tunisia|nabeul,"Nabeul, Tunisia",Tunisia,Nabeul,36.4512897,10.7355915,legacy-cache
+tunisia|tunis,"Tunis, Tunisia",Tunisia,Tunis,36.8002068,10.1857757,legacy-cache
+turkey|adana,"Adana, Turkey",Turkey,Adana,36.9863599,35.3252861,legacy-cache
+turkey|alanya,"Alanya, Turkey",Turkey,Alanya,36.5436517,32.0019211,legacy-cache
+turkey|ankara,"Ankara, Turkey",Turkey,Ankara,39.9207886,32.8540482,legacy-cache
+turkey|antalya,"Antalya, Turkey",Turkey,Antalya,36.8872942,30.7074549,legacy-cache
+turkey|bursa,"Bursa, Turkey",Turkey,Bursa,40.182737,29.0675481,legacy-cache
+turkey|eskisehir,"Eskisehir, Turkey",Turkey,Eskisehir,39.7743941,30.519116,legacy-cache
+turkey|istanbul,"Istanbul, Turkey",Turkey,Istanbul,41.0091982,28.9662187,legacy-cache
+turkey|izmir,"Izmir, Turkey",Turkey,Izmir,38.4224548,27.1310699,legacy-cache
+turkey|kayseri,"Kayseri, Turkey",Turkey,Kayseri,38.7219011,35.4873214,legacy-cache
+turkey|konya,"Konya, Turkey",Turkey,Konya,37.872734,32.4924376,legacy-cache
+turkey|mersin,"Mersin, Turkey",Turkey,Mersin,36.7978381,34.6298391,legacy-cache
+ukraine|dnipro,"Dnipro, Ukraine",Ukraine,Dnipro,48.4680221,35.0417711,legacy-cache
+ukraine|ivano frankivsk,"Ivano-Frankivsk, Ukraine",Ukraine,Ivano-Frankivsk,48.9224763,24.710334,legacy-cache
+ukraine|kharkiv,"Kharkiv, Ukraine",Ukraine,Kharkiv,49.9923181,36.2310146,legacy-cache
+ukraine|khmelnytskyi,"Khmelnytskyi, Ukraine",Ukraine,Khmelnytskyi,49.4196404,26.9793793,legacy-cache
+ukraine|kiev,"Kiev, Ukraine",Ukraine,Kiev,50.4500336,30.5241361,legacy-cache
+ukraine|lviv,"Lviv, Ukraine",Ukraine,Lviv,49.841952,24.0315921,legacy-cache
+ukraine|odessa,"Odessa, Ukraine",Ukraine,Odessa,46.4843023,30.7322878,legacy-cache
+united arab emirates|abu dhabi,"Abu Dhabi, United Arab Emirates",United Arab Emirates,Abu Dhabi,24.4538352,54.3774014,legacy-cache
+united arab emirates|ajman,"Ajman, United Arab Emirates",United Arab Emirates,Ajman,25.3936557,55.4451432,legacy-cache
+united arab emirates|dubai,"Dubai, United Arab Emirates",United Arab Emirates,Dubai,25.2653471,55.2924914,legacy-cache
+united arab emirates|ra s al khaymah,"Ra's al-Khaymah, United Arab Emirates",United Arab Emirates,Ra's al-Khaymah,25.7737705,55.938232,legacy-cache
+united arab emirates|sharjah,"Sharjah, United Arab Emirates",United Arab Emirates,Sharjah,25.3461498,55.4210633,legacy-cache
+united kingdom|aberdeen,"Aberdeen, United Kingdom",United Kingdom,Aberdeen,57.1482429,-2.0928095,legacy-cache
+united kingdom|belfast,"Belfast, United Kingdom",United Kingdom,Belfast,54.596391,-5.9301829,legacy-cache
+united kingdom|birmingham,"Birmingham, United Kingdom",United Kingdom,Birmingham,52.4796992,-1.9026911,legacy-cache
+united kingdom|bristol,"Bristol, United Kingdom",United Kingdom,Bristol,51.4538022,-2.5972985,legacy-cache
+united kingdom|coventry,"Coventry, United Kingdom",United Kingdom,Coventry,52.4081812,-1.510477,legacy-cache
+united kingdom|edinburgh,"Edinburgh, United Kingdom",United Kingdom,Edinburgh,55.9533456,-3.1883749,legacy-cache
+united kingdom|glasgow,"Glasgow, United Kingdom",United Kingdom,Glasgow,55.8606182,-4.2497933,legacy-cache
+united kingdom|leeds,"Leeds, United Kingdom",United Kingdom,Leeds,53.7974185,-1.5437941,legacy-cache
+united kingdom|liverpool,"Liverpool, United Kingdom",United Kingdom,Liverpool,53.4071991,-2.99168,legacy-cache
+united kingdom|london,"London, United Kingdom",United Kingdom,London,51.5073359,-0.12765,legacy-cache
+united kingdom|manchester,"Manchester, United Kingdom",United Kingdom,Manchester,53.4794892,-2.2451148,legacy-cache
+united states|albuquerque,"Albuquerque, United States",United States,Albuquerque,35.0841034,-106.650985,legacy-cache
+united states|atlanta,"Atlanta, United States",United States,Atlanta,33.7489924,-84.3902644,legacy-cache
+united states|austin,"Austin, United States",United States,Austin,30.2711286,-97.7436995,legacy-cache
+united states|boise,"Boise, United States",United States,Boise,43.6166163,-116.200886,legacy-cache
+united states|boston,"Boston, United States",United States,Boston,42.3554334,-71.060511,legacy-cache
+united states|charlotte,"Charlotte, United States",United States,Charlotte,35.2272086,-80.8430827,legacy-cache
+united states|chicago,"Chicago, United States",United States,Chicago,41.8755616,-87.6244212,legacy-cache
+united states|colorado springs,"Colorado Springs, United States",United States,Colorado Springs,38.8339578,-104.825348,legacy-cache
+united states|columbus,"Columbus, United States",United States,Columbus,39.9622601,-83.0007065,legacy-cache
+united states|dallas,"Dallas, United States",United States,Dallas,32.7762719,-96.7968559,legacy-cache
+united states|denver,"Denver, United States",United States,Denver,39.7392364,-104.984862,legacy-cache
+united states|fort lauderdale,"Fort Lauderdale, United States",United States,Fort Lauderdale,26.1223084,-80.1433786,legacy-cache
+united states|honolulu,"Honolulu, United States",United States,Honolulu,21.304547,-157.855676,legacy-cache
+united states|houston,"Houston, United States",United States,Houston,29.7589382,-95.3676974,legacy-cache
+united states|jacksonville,"Jacksonville, United States",United States,Jacksonville,30.3321838,-81.655651,legacy-cache
+united states|las vegas,"Las Vegas, United States",United States,Las Vegas,36.1672559,-115.148516,legacy-cache
+united states|los angeles,"Los Angeles, United States",United States,Los Angeles,34.0536909,-118.242766,legacy-cache
+united states|madison,"Madison, United States",United States,Madison,43.074761,-89.3837613,legacy-cache
+united states|miami,"Miami, United States",United States,Miami,25.7741728,-80.19362,legacy-cache
+united states|nashville,"Nashville, United States",United States,Nashville,36.1622767,-86.7742984,legacy-cache
+united states|new york,"New York, United States",United States,New York,40.7127281,-74.0060152,legacy-cache
+united states|orlando,"Orlando, United States",United States,Orlando,28.5421109,-81.3790304,legacy-cache
+united states|philadelphia,"Philadelphia, United States",United States,Philadelphia,39.9527237,-75.1635262,legacy-cache
+united states|phoenix,"Phoenix, United States",United States,Phoenix,33.4484367,-112.074141,legacy-cache
+united states|portland,"Portland, United States",United States,Portland,45.5202471,-122.674194,legacy-cache
+united states|raleigh,"Raleigh, United States",United States,Raleigh,35.7803977,-78.6390989,legacy-cache
+united states|reno,"Reno, United States",United States,Reno,39.5261206,-119.8126581,legacy-cache
+united states|salt lake city,"Salt Lake City, United States",United States,Salt Lake City,40.7596198,-111.886797,legacy-cache
+united states|san antonio,"San Antonio, United States",United States,San Antonio,29.4246002,-98.4951405,legacy-cache
+united states|san diego,"San Diego, United States",United States,San Diego,32.7174202,-117.1627728,legacy-cache
+united states|san francisco,"San Francisco, United States",United States,San Francisco,37.7790262,-122.419906,legacy-cache
+united states|san jose,"San Jose, United States",United States,San Jose,37.3361663,-121.890591,legacy-cache
+united states|seattle,"Seattle, United States",United States,Seattle,47.6038321,-122.330062,legacy-cache
+united states|tampa,"Tampa, United States",United States,Tampa,27.9477595,-82.458444,legacy-cache
+united states|washington,"Washington, United States",United States,Washington,38.8950368,-77.0365427,legacy-cache
+uruguay|colonia,"Colonia, Uruguay",Uruguay,Colonia,-34.4698592,-57.8433679,legacy-cache
+uruguay|maldonado,"Maldonado, Uruguay",Uruguay,Maldonado,-34.9087162,-54.9582718,legacy-cache
+uruguay|montevideo,"Montevideo, Uruguay",Uruguay,Montevideo,-34.9058916,-56.1913095,legacy-cache
+uzbekistan|tashkent,"Tashkent, Uzbekistan",Uzbekistan,Tashkent,41.3123363,69.2787079,legacy-cache
+venezuela|caracas,"Caracas, Venezuela",Venezuela,Caracas,10.5060934,-66.9146008,legacy-cache
+vietnam|da nang,"Da Nang, Vietnam",Vietnam,Da Nang,16.068,108.212,legacy-cache
+vietnam|hanoi,"Hanoi, Vietnam",Vietnam,Hanoi,21.0294498,105.8544441,legacy-cache
+vietnam|ho chi minh city,"Ho Chi Minh City, Vietnam",Vietnam,Ho Chi Minh City,10.7764772,106.701938,legacy-cache
+el salvador|san salvador,"San Salvador, El Salvador",El Salvador,San Salvador,13.697629,-89.191156,nominatim
+china|xiamen,"Xiamen, China",China,Xiamen,24.4801069,118.0853479,nominatim
+pakistan|rawalpindi,"Rawalpindi, Pakistan",Pakistan,Rawalpindi,33.5915446,73.053721,nominatim
+india|patna,"Patna, India",India,Patna,25.6093239,85.1235252,nominatim
+georgia|batumi ajara,"Batumi, Ajara, Georgia",Georgia,"Batumi, Ajara",41.6509502,41.6360085,nominatim
+switzerland|bern,"Bern, Switzerland",Switzerland,Bern,46.9484742,7.4521749,nominatim
+switzerland|lausanne,"Lausanne, Switzerland",Switzerland,Lausanne,46.5218269,6.6327025,nominatim
+china|qingdao shandong,"Qingdao, Shandong, China",China,"Qingdao, Shandong",36.0663249,120.3777659,nominatim
+tajikistan|dushanbe,"Dushanbe, Tajikistan",Tajikistan,Dushanbe,38.5856814,68.760331,nominatim
+united kingdom|brighton,"Brighton, United Kingdom",United Kingdom,Brighton,50.8214626,-0.1400561,nominatim
+china|wuhan,"Wuhan, China",China,Wuhan,30.578891,114.2921197,nominatim
+united kingdom|guildford,"Guildford, United Kingdom",United Kingdom,Guildford,51.2356068,-0.5732063,nominatim
+china|chongqing,"Chongqing, China",China,Chongqing,30.05518,107.8748712,nominatim
+spain|bilbao,"Bilbao, Spain",Spain,Bilbao,43.2630018,-2.9350039,nominatim
+switzerland|lugano,"Lugano, Switzerland",Switzerland,Lugano,46.0038007,8.9512275,nominatim
+mexico|queretaro,"Queretaro (Santiago de Querétaro), Mexico",Mexico,Queretaro (Santiago de Querétaro),20.6328519,-100.3547946,nominatim
+china|jinan,"Jinan, China",China,Jinan,36.6519754,117.1138479,nominatim
+china|xi an,"Xi'an, China",China,Xi'an,34.261004,108.9423363,nominatim
+united kingdom|oxford,"Oxford, United Kingdom",United Kingdom,Oxford,51.7520131,-1.2578499,nominatim
+italy|pisa,"Pisa, Italy",Italy,Pisa,43.4714722,10.6797912,nominatim
+malaysia|penang,"Penang, Malaysia",Malaysia,Penang,5.4065013,100.2559077,nominatim
+canada|waterloo,"Waterloo, Canada",Canada,Waterloo,43.4652699,-80.5222961,nominatim
+united kingdom|cambridge,"Cambridge, United Kingdom",United Kingdom,Cambridge,52.1975846,0.1391537,nominatim
+greece|patras,"Patras, Greece",Greece,Patras,38.246242,21.7350847,nominatim
+germany|karlsruhe,"Karlsruhe, Germany",Germany,Karlsruhe,49.0068705,8.4034195,nominatim
+italy|padova,"Padova, Italy",Italy,Padova,45.391408,11.8058487,nominatim
+zimbabwe|harare,"Harare, Zimbabwe",Zimbabwe,Harare,-17.8567035,31.0601584,nominatim
+italy|trieste,"Trieste, Italy",Italy,Trieste,45.6496485,13.7772781,nominatim
+italy|brescia,"Brescia, Italy",Italy,Brescia,45.7795805,10.425873,nominatim
+united kingdom|nottingham,"Nottingham, United Kingdom",United Kingdom,Nottingham,52.9534193,-1.1496461,nominatim
+germany|bremen,"Bremen, Germany",Germany,Bremen,53.0758196,8.8071646,nominatim
+france|strasbourg,"Strasbourg, France",France,Strasbourg,48.584614,7.7507127,nominatim
+italy|modena,"Modena, Italy",Italy,Modena,44.5384728,10.9359609,nominatim
+united states|oakland,"Oakland, CA, United States",United States,"Oakland, CA",37.8044557,-122.271356,nominatim
+france|lille,"Lille, France",France,Lille,50.6365654,3.0635282,nominatim
+germany|mannheim,"Mannheim, Germany",Germany,Mannheim,49.4892913,8.4673098,nominatim
+spain|vigo,"Vigo, Spain",Spain,Vigo,42.1986395,-8.727956,nominatim
+italy|bergamo,"Bergamo, Italy",Italy,Bergamo,45.7566557,9.7542192,nominatim
+spain|oviedo,"Oviedo, Spain",Spain,Oviedo,43.3533452,-5.8795096,nominatim
+spain|zaragoza,"Zaragoza (Saragossa), Spain",Spain,Zaragoza (Saragossa),41.6516965,-0.7838859,nominatim
+canada|kitchener,"Kitchener, Canada",Canada,Kitchener,43.451291,-80.4927815,nominatim
+turkey|fethiye,"Fethiye, Turkey",Turkey,Fethiye,36.6221154,29.1153384,nominatim
+germany|kiel,"Kiel, Germany",Germany,Kiel,54.3227085,10.135555,nominatim
+india|vadodara,"Vadodara, India",India,Vadodara,22.2973142,73.1942567,nominatim
+germany|hanover,"Hanover, Germany",Germany,Hanover,52.3744779,9.7385532,nominatim
+canada|london,"London, Canada",Canada,London,42.9836747,-81.2496068,nominatim
+italy|reggio nell emilia,"Reggio Nell'emilia, Italy",Italy,Reggio Nell'emilia,44.6086674,10.5940667,nominatim
+germany|erlangen,"Erlangen, Germany",Germany,Erlangen,49.5891571,10.9812072,nominatim
+canada|nanaimo bc,"Nanaimo, BC, Canada",Canada,"Nanaimo, BC",49.163877,-123.938122,nominatim
+germany|aachen,"Aachen, Germany",Germany,Aachen,50.776351,6.083862,nominatim
+canada|halifax,"Halifax, Canada",Canada,Halifax,44.648618,-63.5859487,nominatim
+united states|jersey city,"Jersey City, NJ, United States",United States,"Jersey City, NJ",40.7215682,-74.047455,nominatim
+canada|saskatoon,"Saskatoon, Canada",Canada,Saskatoon,52.131802,-106.660767,nominatim
+italy|udine,"Udine, Italy",Italy,Udine,46.0634632,13.2358377,nominatim
+united states|knoxville,"Knoxville, TN, United States",United States,"Knoxville, TN",35.9603948,-83.9210261,nominatim
+spain|tarragona,"Tarragona, Spain",Spain,Tarragona,41.1172364,1.2546057,nominatim
+germany|saarbrucken,"Saarbrucken, Germany",Germany,Saarbrucken,49.234362,6.996379,nominatim
+united states|sacramento,"Sacramento, CA, United States",United States,"Sacramento, CA",38.5810606,-121.493895,nominatim
+united states|charleston,"Charleston, SC, United States",United States,"Charleston, SC",32.7884363,-79.9399309,nominatim
+canada|moncton,"Moncton, Canada",Canada,Moncton,46.0985679,-64.8004265,nominatim
+denmark|odense,"Odense, Denmark",Denmark,Odense,55.3997225,10.3852104,nominatim
+united states|ann arbor,"Ann Arbor, MI, United States",United States,"Ann Arbor, MI",42.2813722,-83.7484616,nominatim
+united states|arlington,"Arlington, VA, United States",United States,"Arlington, VA",38.8769326,-77.0893094,nominatim
+united states|new orleans,"New Orleans, LA, United States",United States,"New Orleans, LA",29.9561422,-90.0733934,nominatim
+canada|regina,"Regina, Canada",Canada,Regina,50.4479733,-104.6158764,nominatim
+united states|detroit,"Detroit, MI, United States",United States,"Detroit, MI",42.3315509,-83.0466403,nominatim
+united states|birmingham,"Birmingham, AL, United States",United States,"Birmingham, AL",33.5206824,-86.8024326,nominatim
+united states|anchorage,"Anchorage, AK, United States",United States,"Anchorage, AK",61.2163129,-149.894852,nominatim
+united states|tucson,"Tucson, AZ, United States",United States,"Tucson, AZ",32.2228765,-110.974847,nominatim
+united states|minneapolis,"Minneapolis, MN, United States",United States,"Minneapolis, MN",44.9772995,-93.2654692,nominatim
+united states|spokane,"Spokane, WA, United States",United States,"Spokane, WA",47.6571934,-117.42351,nominatim
+united states|cincinnati,"Cincinnati, OH, United States",United States,"Cincinnati, OH",39.1012809,-84.5127405,nominatim
+united states|buffalo,"Buffalo, NY, United States",United States,"Buffalo, NY",42.8864163,-78.8781493,nominatim
+united states|fort worth,"Fort Worth, TX, United States",United States,"Fort Worth, TX",32.753177,-97.3327459,nominatim
+united states|richmond,"Richmond, VA, United States",United States,"Richmond, VA",37.5385087,-77.43428,nominatim
+united states|olympia,"Olympia, WA, United States",United States,"Olympia, WA",47.0451022,-122.8950075,nominatim
+united states|gainesville,"Gainesville, FL, United States",United States,"Gainesville, FL",29.6519684,-82.3249846,nominatim
+united states|pittsburgh,"Pittsburgh, PA, United States",United States,"Pittsburgh, PA",40.4406968,-80.0025666,nominatim
+united states|kansas city,"Kansas City, MO, United States",United States,"Kansas City, MO",39.100105,-94.5781416,nominatim
+united states|louisville,"Louisville, KY, United States",United States,"Louisville, KY",38.2542376,-85.759407,nominatim
+united states|oklahoma city,"Oklahoma City, OK, United States",United States,"Oklahoma City, OK",35.4729886,-97.5170536,nominatim
+united states|baltimore,"Baltimore, MD, United States",United States,"Baltimore, MD",39.2908816,-76.610759,nominatim
+united states|indianapolis,"Indianapolis, IN, United States",United States,"Indianapolis, IN",39.7683331,-86.1583502,nominatim
+united states|omaha,"Omaha, NE, United States",United States,"Omaha, NE",41.2587459,-95.9383758,nominatim
+united states|greenville,"Greenville, SC, United States",United States,"Greenville, SC",34.851354,-82.3984882,nominatim
+united states|cleveland,"Cleveland, OH, United States",United States,"Cleveland, OH",41.4996574,-81.6936772,nominatim
+united states|memphis,"Memphis, TN, United States",United States,"Memphis, TN",35.146026,-90.0517786,nominatim
+united states|wichita,"Wichita, KS, United States",United States,"Wichita, KS",37.6922361,-97.3375448,nominatim
+united states|saint louis,"Saint Louis, MO, United States",United States,"Saint Louis, MO",38.6254063,-90.190009,nominatim

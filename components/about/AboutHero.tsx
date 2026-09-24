@@ -66,7 +66,7 @@ export function AboutHero() {
           <div className="about-founder__portrait">
             <Image
               className="about-founder__portrait-image"
-              src="/images/aleksei-founder-new.png"
+              src="/images/aleksei-founder-office.png"
               alt="Алексей Ашихмин"
               fill
               sizes="490px"

@@ -1,4 +1,5 @@
 import { ArrowIcon, ClientCareIcon, DocumentIcon, GrowthIcon, ReferralIcon } from "@/components/QcmIcons";
+import { ContactDrawerTrigger } from "@/components/ContactDrawerTrigger";
 import { MountainFade, SectionContainer, SectionEyebrow, SectionHeading } from "@/components/SectionPrimitives";
 
 const partnershipFlow = [
@@ -83,10 +84,7 @@ export function PartnerLongTerm() {
           ))}
         </div>
 
-        <a className="partner-cta" href="#">
-          <span>Стать партнёром QCM</span>
-          <span aria-hidden="true">→</span>
-        </a>
+        <ContactDrawerTrigger variant="partner" />
       </SectionContainer>
       <MountainFade />
     </section>

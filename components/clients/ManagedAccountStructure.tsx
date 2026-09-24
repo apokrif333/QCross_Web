@@ -1,5 +1,6 @@
 import { ArrowIcon, BankIcon, ChartIcon, DocumentIcon, PersonIcon, ShieldIcon } from "@/components/QcmIcons";
-import { EditorialLink, MountainFade, SectionContainer, SectionEyebrow, SectionHeading } from "@/components/SectionPrimitives";
+import { ContactDrawerTrigger } from "@/components/ContactDrawerTrigger";
+import { MountainFade, SectionContainer, SectionEyebrow, SectionHeading } from "@/components/SectionPrimitives";
 
 const flow = [
   { title: <>Клиент</>, copy: "Составляется инвестиционный портфель в соответствии с разработанным для вас финансовым планом", Icon: PersonIcon },
@@ -45,8 +46,7 @@ export function ManagedAccountStructure() {
             </article>
           ))}
         </div>
-        {/* TODO: Connect this CTA to the future contact workflow. */}
-        <EditorialLink href="#">Связаться с QCM</EditorialLink>
+        <ContactDrawerTrigger variant="client" />
       </SectionContainer>
       <MountainFade />
     </section>

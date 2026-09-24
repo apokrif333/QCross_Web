@@ -1,26 +1,34 @@
-import { ChartIcon, NetworkIcon, PuzzleIcon, TargetIcon } from "@/components/QcmIcons";
+import Image from "next/image";
+import targetIcon from "@/drafts/arrow.png";
+import chartIcon from "@/drafts/bar chart.png";
+import puzzleIcon from "@/drafts/pazzle.png";
+import networkIcon from "@/drafts/vibes.png";
 import { MountainFade, SectionContainer, SectionEyebrow, SectionHeading } from "@/components/SectionPrimitives";
 
 const approachItems = [
   {
     title: "Финансовый план раньше портфеля",
     copy: <>Инвестиционная стратегия строится вокруг<br />целей клиента, горизонта инвестирования<br />и необходимых денежных потоков.</>,
-    Icon: TargetIcon,
+    icon: targetIcon,
+    iconClassName: "about-approach__icon--target",
   },
   {
     title: "Простота там, где она эффективнее",
     copy: <>В большинстве случаев основой становятся<br />глобально диверсифицированные портфели<br />с низкими издержками и учётом налоговой<br />эффективности.</>,
-    Icon: ChartIcon,
+    icon: chartIcon,
+    iconClassName: "about-approach__icon--chart",
   },
   {
     title: "Сложность только там, где она оправдана",
     copy: <>Если задача клиента этого требует, QCM использует<br />более специализированные решения — от внебиржевых<br />облигаций до структурных и деривативных<br />инструментов.</>,
-    Icon: PuzzleIcon,
+    icon: puzzleIcon,
+    iconClassName: "about-approach__icon--puzzle",
   },
   {
     title: "Финансы рассматриваются как единая система",
     copy: <>Инвестиции, налоги, резидентство, недвижимость<br />и движение денежных средств анализируются<br />совместно, когда это необходимо для достижения<br />цели клиента.</>,
-    Icon: NetworkIcon,
+    icon: networkIcon,
+    iconClassName: "about-approach__icon--network",
   },
 ] as const;
 
@@ -41,9 +49,16 @@ export function AboutApproach() {
         </header>
 
         <div className="about-approach__grid">
-          {approachItems.map(({ title, copy, Icon }) => (
+          {approachItems.map(({ title, copy, icon, iconClassName }) => (
             <article className="about-approach__item" key={title}>
-              <div className="icon-medallion"><Icon /></div>
+              <div className="icon-medallion">
+                <Image
+                  className={`about-approach__icon ${iconClassName}`}
+                  src={icon}
+                  alt=""
+                  aria-hidden="true"
+                />
+              </div>
               <div>
                 <h3>{title}</h3>
                 <p>{copy}</p>

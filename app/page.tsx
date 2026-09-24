@@ -15,7 +15,7 @@ export default function HomePage() {
     <main className="home-hero">
       <Image
         className="home-hero__image"
-        src="/images/winter-scenery.jpg"
+        src="/images/winter-scenery-home-bright.jpg"
         alt="Зимний горный пейзаж"
         fill
         priority
@@ -37,11 +37,10 @@ export default function HomePage() {
               <span>Клиентам</span>
               <ArrowIcon />
             </Link>
-            {/* TODO: Replace placeholder once Partner Portal is implemented. */}
-            <a className="hero-button" href="#">
+            <Link className="hero-button" href="/partners">
               <span>Партнёрам</span>
               <ArrowIcon />
-            </a>
+            </Link>
           </div>
         </div>
       </div>
