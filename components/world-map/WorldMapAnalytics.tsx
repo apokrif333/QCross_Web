@@ -48,7 +48,14 @@ export function WorldMapAnalytics() {
           </p>
         </aside>
 
-        <div className="world-map-analytics__map-slot" id="property-map" aria-label="Область для будущей карты недвижимости" />
+        <div className="world-map-analytics__map-slot" id="property-map">
+          <iframe
+            className="world-map-embed"
+            src="/maps/countries_rental_yield.html"
+            title="Арендная доходность по странам"
+            loading="lazy"
+          />
+        </div>
       </div>
     </section>
   );

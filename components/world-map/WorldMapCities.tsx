@@ -33,8 +33,14 @@ export function WorldMapCities() {
         className="world-map-cities__map-slot"
         id="city-yield-map"
         ref={mapSlotRef}
-        aria-label="Область для будущей карты доходности по городам"
-      />
+      >
+        <iframe
+          className="world-map-embed"
+          src="/maps/cities_rental_yield.html"
+          title="Арендная доходность по городам и районам"
+          loading="lazy"
+        />
+      </div>
     </section>
   );
 }

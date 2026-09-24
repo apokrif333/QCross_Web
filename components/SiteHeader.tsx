@@ -12,8 +12,18 @@ const navItems = [
 ] as const;
 
 const insightItems = [
-  ["Мировая карта недвижимости", "/insights/world-map"],
-  ["QCM Tax 270", "https://taxes.qcross.org"],
+  {
+    category: "Недвижимость · аналитика",
+    title: "Мировая карта недвижимости",
+    description: "Цены, аренда и доходность по странам и городам.",
+    href: "/insights/world-map",
+  },
+  {
+    category: "Налоги · Казахстан",
+    title: "QCM Tax 270",
+    description: "Подготовка данных для формы 270.00.",
+    href: "https://taxes.qcross.org",
+  },
 ] as const;
 
 type SiteHeaderProps = {
@@ -49,9 +59,20 @@ export function SiteHeader({ activePath = "/clients" }: SiteHeaderProps) {
               Инсайты
             </button>
             <div className="site-nav__dropdown-menu">
-              {insightItems.map(([label, href]) => href.startsWith("/")
-                ? <Link className={href === activePath ? "is-active" : ""} key={href} href={href}>{label}</Link>
-                : <a key={href} href={href}>{label}</a>)}
+              {insightItems.map(({ category, title, description, href }) => {
+                const content = <>
+                  <span className="site-nav__insight-category">{category}</span>
+                  <span className="site-nav__insight-title">{title}</span>
+                  <span className="site-nav__insight-description">{description}</span>
+                  <svg className="site-nav__insight-arrow" viewBox="0 0 29 18" fill="none" aria-hidden="true">
+                    <path d="M1 9h25M19 2l7 7-7 7" />
+                  </svg>
+                </>;
+
+                return href.startsWith("/")
+                  ? <Link key={href} href={href} aria-current={href === activePath ? "page" : undefined}>{content}</Link>
+                  : <a key={href} href={href}>{content}</a>;
+              })}
             </div>
           </div>
         </nav>
