@@ -137,6 +137,8 @@ def fetch(page: WebPage, url: str) -> str:
 def browser_options(proxy: str) -> ChromiumOptions:
     """Use the installed Chromium binary when the container specifies one."""
     options = ChromiumOptions().auto_port().headless().set_proxy(proxy).set_timeouts(page_load=20)
+    options.set_argument("--no-sandbox")
+    options.set_argument("--disable-dev-shm-usage")
     chromium_path = os.environ.get("CHROMIUM_PATH")
     if chromium_path:
         options.set_browser_path(chromium_path)
@@ -342,7 +344,9 @@ def collect_daily(source: Path, proxy_attempts: int = 0) -> bool:
         page = None
         try:
             options = browser_options(proxy)
+            print(f"Starting Chromium with proxy: {proxy}", flush=True)
             page = WebPage(mode="d", chromium_options=options)
+            print(f"Chromium started successfully with proxy: {proxy}", flush=True)
             if state.get("day") != day:
                 ranking = parse_ranking(fetch(page, RANKING_URL))
                 if len(rows) >= 100 and len(ranking) < max(100, int(len(rows) * 0.75)):

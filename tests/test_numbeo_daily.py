@@ -25,6 +25,9 @@ class FakeOptions:
     def set_timeouts(self, **_kwargs):
         return self
 
+    def set_argument(self, _argument):
+        return self
+
 
 class FakePage:
     def __init__(self, **_kwargs):
