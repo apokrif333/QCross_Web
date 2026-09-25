@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.idea/
+.env
+files/*.tmp
+files/numbeo_daily_state.json
+files/numbeo_worker.lock

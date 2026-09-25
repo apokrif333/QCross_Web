@@ -51,7 +51,7 @@ export function WorldMapAnalytics() {
         <div className="world-map-analytics__map-slot" id="property-map">
           <iframe
             className="world-map-embed"
-            src="/maps/countries_rental_yield.html"
+            src="/api/world-map/countries"
             title="Арендная доходность по странам"
             loading="lazy"
           />

@@ -36,7 +36,7 @@ export function WorldMapCities() {
       >
         <iframe
           className="world-map-embed"
-          src="/maps/cities_rental_yield.html"
+          src="/api/world-map/cities"
           title="Арендная доходность по городам и районам"
           loading="lazy"
         />

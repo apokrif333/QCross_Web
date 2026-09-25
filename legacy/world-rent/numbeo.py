@@ -130,6 +130,15 @@ def fetch(page: WebPage, url: str) -> str:
     return html
 
 
+def browser_options(proxy: str) -> ChromiumOptions:
+    """Use the installed Chromium binary when the container specifies one."""
+    options = ChromiumOptions().auto_port().headless().set_proxy(proxy).set_timeouts(page_load=20)
+    chromium_path = os.environ.get("CHROMIUM_PATH")
+    if chromium_path:
+        options.set_browser_path(chromium_path)
+    return options
+
+
 class RankingParser(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
@@ -328,7 +337,7 @@ def collect_daily(source: Path, proxy_attempts: int = 0) -> bool:
         attempts += 1
         page = None
         try:
-            options = ChromiumOptions().auto_port().headless().set_proxy(proxy).set_timeouts(page_load=20)
+            options = browser_options(proxy)
             page = WebPage(mode="d", chromium_options=options)
             if state.get("day") != day:
                 ranking = parse_ranking(fetch(page, RANKING_URL))
@@ -454,7 +463,7 @@ def collect(output: Path, delay: float = 3.0, limit: int | None = None, proxy_at
         attempts += 1
         budget = f"/{proxy_attempts}" if proxy_attempts else ""
         print(f"Trying proxy {attempts}{budget}: {proxy}", flush=True)
-        options = ChromiumOptions().auto_port().headless().set_proxy(proxy).set_timeouts(page_load=20)
+        options = browser_options(proxy)
         page = None
         try:
             page = WebPage(mode="d", chromium_options=options)

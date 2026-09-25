@@ -18,14 +18,14 @@ SOURCE_DATA = DATA_DIR / "numbeo.csv"
 WORKER_LOCK = SOURCE_DATA.with_name("numbeo_worker.lock")
 
 
-def initialize_data_dir() -> None:
+def initialize_data_dir(data_dir: Path = DATA_DIR) -> None:
     """Seed an external persistent directory without overwriting saved updates."""
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    data_dir.mkdir(parents=True, exist_ok=True)
     bundled = BASE_DIR / "files"
-    if DATA_DIR == bundled.resolve():
+    if data_dir.resolve() == bundled.resolve():
         return
     for name in ("numbeo.csv", "numbeo_cities.csv", "numbeo_city_coordinates.csv"):
-        target = DATA_DIR / name
+        target = data_dir / name
         if not target.exists():
             shutil.copy2(bundled / name, target)
 

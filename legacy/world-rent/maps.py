@@ -17,7 +17,7 @@ import plotly.graph_objects as go
 BASE_DIR = Path(__file__).parent
 FILES_DIR = Path(os.environ.get("NUMBEO_DATA_DIR", BASE_DIR / "files")).resolve()
 SITE_ROOT = BASE_DIR.parents[1]
-MAPS_DIR = SITE_ROOT / "public" / "maps" if (SITE_ROOT / "package.json").exists() else BASE_DIR / "maps"
+MAPS_DIR = Path(os.environ.get("NUMBEO_MAPS_DIR", SITE_ROOT / "public" / "maps" if (SITE_ROOT / "package.json").exists() else BASE_DIR / "maps")).resolve()
 CITY_DATA = FILES_DIR / "numbeo_cities.csv"
 COORDINATE_CACHE = FILES_DIR / "numbeo_city_coordinates.csv"
 
