@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import sys
 from tempfile import TemporaryDirectory
+import traceback
 
 
 def run_once(storage=None) -> str | None:
@@ -44,5 +45,6 @@ if __name__ == "__main__":
     try:
         run_once()
     except Exception as exc:
+        traceback.print_exc()
         print(f"Railway Numbeo job failed; previous maps remain published: {exc}", file=sys.stderr, flush=True)
         raise SystemExit(1) from exc
