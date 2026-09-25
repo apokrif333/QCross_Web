@@ -2,6 +2,7 @@
 
 import os
 from pathlib import Path
+import signal
 import sys
 from tempfile import TemporaryDirectory
 import traceback
@@ -41,9 +42,22 @@ def run_once(storage=None) -> str | None:
         return version
 
 
+def report_signal(signum, _frame) -> None:
+    print(f"Railway Numbeo job received signal {signal.Signals(signum).name}", file=sys.stderr, flush=True)
+    sys.stdout.flush()
+    sys.stderr.flush()
+    raise SystemExit(128 + signum)
+
+
 if __name__ == "__main__":
+    signal.signal(signal.SIGTERM, report_signal)
+    signal.signal(signal.SIGINT, report_signal)
     try:
         run_once()
+    except SystemExit as exc:
+        traceback.print_exc()
+        print(f"Railway Numbeo job received SystemExit: code={exc.code!r}", file=sys.stderr, flush=True)
+        raise
     except Exception as exc:
         traceback.print_exc()
         print(f"Railway Numbeo job failed; previous maps remain published: {exc}", file=sys.stderr, flush=True)

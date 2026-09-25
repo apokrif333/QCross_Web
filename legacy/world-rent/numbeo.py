@@ -81,8 +81,12 @@ def proxy_candidates():
     candidates = []
     for source in ("FreeproxylistProxiedSession", "ProxydbProxiedSession"):
         try:
+            print(f"Loading proxy source: {source}", flush=True)
             session = BuildProxiedSession({"type": source, "max_pages": 1, "disable_print": True})
-            candidates.extend(session.refreshproxies())
+            print(f"Proxy source initialized: {source}", flush=True)
+            proxies = session.refreshproxies()
+            print(f"Proxy source returned {len(proxies)} candidates: {source}", flush=True)
+            candidates.extend(proxies)
         except Exception as exc:
             print(f"Could not read {source}: {exc}", flush=True)
     random.shuffle(candidates)
