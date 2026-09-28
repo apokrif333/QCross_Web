@@ -33,6 +33,7 @@ type SiteHeaderProps = {
 export function SiteHeader({ activePath = "/clients" }: SiteHeaderProps) {
   const [activeDocument, setActiveDocument] = useState<DocumentKey | null>(null);
   const [isInsightsOpen, setIsInsightsOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <>
@@ -80,7 +81,28 @@ export function SiteHeader({ activePath = "/clients" }: SiteHeaderProps) {
           <button className="site-meta__link" type="button" onClick={() => setActiveDocument("license")} aria-label="Лицензия / BVI FSC">BVI FSC</button>
           <button className="site-meta__link" type="button" onClick={() => setActiveDocument("registration")} aria-label="Регистрация компании">Since 2020</button>
         </div>
-        <a className="mobile-nav-label" href={activePath === "/partners" ? "#long-term" : activePath === "/about" ? "#founder" : activePath === "/insights/world-map" ? "#world-map-content" : activePath === "/contact" ? "#message" : "#capital"}>Меню</a>
+        <button
+          className="mobile-nav-label"
+          type="button"
+          aria-controls="mobile-site-nav"
+          aria-expanded={isMobileMenuOpen}
+          onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
+        >
+          {isMobileMenuOpen ? "Закрыть" : "Меню"}
+        </button>
+        {isMobileMenuOpen && (
+          <nav className="mobile-site-nav" id="mobile-site-nav" aria-label="Мобильная навигация">
+            {navItems.map(([label, href]) => (
+              <Link key={href} href={href} aria-current={href === activePath ? "page" : undefined} onClick={() => setIsMobileMenuOpen(false)}>
+                {label}
+              </Link>
+            ))}
+            <div className="mobile-site-nav__insights">Инсайты</div>
+            {insightItems.map(({ title, href }) => href.startsWith("/")
+              ? <Link key={href} href={href} aria-current={href === activePath ? "page" : undefined} onClick={() => setIsMobileMenuOpen(false)}>{title}</Link>
+              : <a key={href} href={href} onClick={() => setIsMobileMenuOpen(false)}>{title}</a>)}
+          </nav>
+        )}
       </header>
       {activeDocument && <QcmDocumentModal documentKey={activeDocument} onClose={() => setActiveDocument(null)} />}
     </>
