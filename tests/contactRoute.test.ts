@@ -20,7 +20,7 @@ describe("contact API", () => {
   beforeEach(() => {
     vi.stubEnv("ZEPTOMAIL_API_TOKEN", "test-token");
     vi.stubEnv("CONTACT_TO_EMAIL", "cio@qcross.org");
-    vi.stubEnv("CONTACT_FROM_EMAIL", "website@qcross.org");
+    vi.stubEnv("CONTACT_FROM_EMAIL", "website@bot.qcross.org");
   });
 
   afterEach(() => {
@@ -45,7 +45,7 @@ describe("contact API", () => {
     expect(url).toBe("https://cpaas.zoho.com/v1.1/email");
     expect(options.headers).toMatchObject({ Authorization: "Zoho-enczapikey test-token" });
     const payload = JSON.parse(options.body as string);
-    expect(payload.from).toEqual({ address: "website@qcross.org", name: "QCM Website" });
+    expect(payload.from).toEqual({ address: "website@bot.qcross.org", name: "QCM Website" });
     expect(payload.to).toEqual([{ email_address: { address: "cio@qcross.org" } }]);
     expect(payload.reply_to).toEqual([{ address: "irina@example.com" }]);
     expect(payload.subject).toBe("Новое сообщение с сайта QCM — Ирина");
