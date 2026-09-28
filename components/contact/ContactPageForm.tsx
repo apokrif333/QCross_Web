@@ -1,31 +1,51 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 
 type ContactMethod = "Telegram" | "WhatsApp" | "Email";
+type SubmissionState = "idle" | "submitting" | "success" | "error";
 
 export function ContactPageForm() {
   const [method, setMethod] = useState<ContactMethod>("Telegram");
   const [message, setMessage] = useState("");
-  const [mailPrepared, setMailPrepared] = useState(false);
+  const [submissionState, setSubmissionState] = useState<SubmissionState>("idle");
+  const submitting = useRef(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
+    if (submitting.current) return;
+
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
     const name = String(form.get("name") ?? "").trim();
     const contact = String(form.get("contact") ?? "").trim();
-    if (!name || !contact || !message.trim()) return;
+    const trimmedMessage = message.trim();
+    if (!name || !contact || !trimmedMessage) return;
 
-    const body = [
-      `Имя: ${name}`,
-      `Предпочитаемый способ связи: ${method}`,
-      `Контакт: ${contact}`,
-      "",
-      `Сообщение: ${message.trim()}`,
-    ].join("\n");
-
-    setMailPrepared(true);
-    window.location.href = `mailto:cio@qcross.org?subject=${encodeURIComponent("Сообщение с сайта QCM")}&body=${encodeURIComponent(body)}`;
+    submitting.current = true;
+    setSubmissionState("submitting");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          method,
+          contact,
+          message: trimmedMessage,
+          website: String(form.get("website") ?? ""),
+        }),
+      });
+      if (!response.ok) throw new Error("Contact send failed");
+      formElement.reset();
+      setMethod("Telegram");
+      setMessage("");
+      setSubmissionState("success");
+    } catch {
+      setSubmissionState("error");
+    } finally {
+      submitting.current = false;
+    }
   }
 
   return (
@@ -65,8 +85,14 @@ export function ContactPageForm() {
         <textarea id="contact-page-message" name="message" placeholder="Расскажите о вашей задаче или задайте вопрос..." maxLength={500} value={message} onChange={(event) => setMessage(event.target.value)} required />
         <span className="contact-page__count">{message.length} / 500</span>
       </div>
-      <button className="contact-page__submit" type="submit">Отправить сообщение <span aria-hidden="true">→</span></button>
-      {mailPrepared && <p className="contact-page__mail-note" role="status">Письмо подготовлено в почтовом приложении. Подтвердите отправку там.</p>}
+      <div aria-hidden="true" style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clipPath: "inset(50%)", whiteSpace: "nowrap" }}>
+        <input name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+      </div>
+      <button className="contact-page__submit" type="submit" disabled={submissionState === "submitting"}>
+        {submissionState === "submitting" ? "Отправляем…" : "Отправить сообщение"} <span aria-hidden="true">→</span>
+      </button>
+      {submissionState === "success" && <p className="contact-page__mail-note" role="status">Спасибо. Сообщение отправлено — мы свяжемся с вами в ближайшее время.</p>}
+      {submissionState === "error" && <p className="contact-page__mail-note" role="alert">Не удалось отправить сообщение. Попробуйте ещё раз или свяжитесь с нами напрямую.</p>}
     </form>
   );
 }
