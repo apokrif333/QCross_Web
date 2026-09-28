@@ -18,7 +18,7 @@ def run_once(storage=None) -> str | None:
         os.environ["NUMBEO_MAPS_DIR"] = str(maps_dir)
 
         from Parsing import initialize_data_dir
-        from maps import build_maps
+        from maps import COUNTRY_MAP_VERSION, build_maps
         from numbeo import collect_daily, mark_daily_published, prepare_exports
         from storage import WorldMapStorage
 
@@ -30,9 +30,17 @@ def run_once(storage=None) -> str | None:
 
         source = data_dir / "numbeo.csv"
         changed = collect_daily(source)
-        if hydrated and not changed:
+        country_map = maps_dir / "countries_rental_yield.html"
+        map_is_current = (
+            country_map.is_file()
+            and f'content="{COUNTRY_MAP_VERSION}"' in country_map.read_text(encoding="utf-8")
+        )
+        if hydrated and not changed and map_is_current:
             print("Today's Numbeo update is already published.", flush=True)
             return None
+
+        if hydrated and not changed:
+            print("Country map renderer changed; rebuilding the published snapshot.", flush=True)
 
         prepare_exports(source)
         build_maps()

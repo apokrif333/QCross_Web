@@ -3,6 +3,7 @@
 from contextlib import redirect_stderr
 from datetime import datetime, timedelta, timezone
 from io import BytesIO, StringIO
+import json
 from pathlib import Path
 import sys
 from tempfile import TemporaryDirectory
@@ -103,6 +104,20 @@ class StorageTests(unittest.TestCase):
         restored_maps = self.root / "restored-maps"
         self.assertTrue(self.storage.hydrate(restored_data, restored_maps))
         self.assertEqual((restored_maps / MAP_FILES[0]).read_text(encoding="utf-8"), MAP_FILES[0])
+
+    def test_country_renderer_version_is_published_with_the_snapshot(self):
+        self.data.mkdir()
+        self.maps.mkdir()
+        for name in DATA_FILES:
+            (self.data / name).write_text(name, encoding="utf-8")
+        for name in MAP_FILES:
+            (self.maps / name).write_text(name, encoding="utf-8")
+        (self.maps / "countries_rental_yield.html").write_text(
+            '<meta name="qcm-map-version" content="maplibre-country-v1" />', encoding="utf-8"
+        )
+        self.storage.publish(self.data, self.maps)
+        manifest = json.loads(self.client.objects[self.storage.manifest_key])
+        self.assertEqual(manifest["countryMapVersion"], "maplibre-country-v1")
 
     def test_failed_upload_keeps_previous_snapshot_current(self):
         self.data.mkdir()

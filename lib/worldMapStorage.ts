@@ -49,9 +49,15 @@ export async function serveWorldMap(request: Request, name: WorldMapName): Promi
       Bucket: config.bucket, Key: `${config.prefix}/current.json`,
     }));
     if (!manifest.Body) throw new Error("Empty world-map manifest");
-    const { version } = JSON.parse(await manifest.Body.transformToString()) as { version?: unknown };
+    const { version, countryMapVersion } = JSON.parse(await manifest.Body.transformToString()) as {
+      version?: unknown;
+      countryMapVersion?: unknown;
+    };
     if (typeof version !== "string" || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(version)) {
       throw new Error("Invalid world-map snapshot version");
+    }
+    if (name === "countries" && countryMapVersion !== "maplibre-country-v1") {
+      return fallbackMap(request, name);
     }
     const object = await client.send(new GetObjectCommand({
       Bucket: config.bucket,

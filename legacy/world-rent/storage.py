@@ -149,10 +149,14 @@ class WorldMapStorage:
                 self.client.upload_file(
                     str(directory / name), self.bucket, object_key(self.prefix, version, group, name)
                 )
+        manifest = {"version": version}
+        country_map = (maps_dir / "countries_rental_yield.html").read_text(encoding="utf-8")
+        if 'content="maplibre-country-v1"' in country_map:
+            manifest["countryMapVersion"] = "maplibre-country-v1"
         self.client.put_object(
             Bucket=self.bucket,
             Key=self.manifest_key,
-            Body=json.dumps({"version": version}).encode("utf-8"),
+            Body=json.dumps(manifest).encode("utf-8"),
             ContentType="application/json",
             CacheControl="no-cache",
         )

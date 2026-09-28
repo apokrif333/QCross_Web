@@ -11,7 +11,6 @@ import unicodedata
 from geopy.extra.rate_limiter import RateLimiter
 from geopy.geocoders import Nominatim
 import pandas as pd
-import plotly.graph_objects as go
 
 
 BASE_DIR = Path(__file__).parent
@@ -23,17 +22,18 @@ else:
     MAPS_DIR = (repository_root / "public" / "maps" if (repository_root / "package.json").exists() else BASE_DIR / "maps").resolve()
 CITY_DATA = FILES_DIR / "numbeo_cities.csv"
 COORDINATE_CACHE = FILES_DIR / "numbeo_city_coordinates.csv"
+# Natural Earth public-domain 1:110m Admin 0 polygons, bundled for repeatable builds.
+COUNTRY_GEOMETRY = BASE_DIR / "files" / "ne_110m_admin_0_countries.geojson"
+COUNTRY_MAP_VERSION = "maplibre-country-v1"
 
-COUNTRY_COLORSCALE = [
-    [0.0, "#dceefa"],
-    [0.25, "#a9d4ee"],
-    [0.5, "#5aa7d2"],
-    [0.75, "#1673a8"],
-    [1.0, "#083f68"],
-]
+COUNTRY_NAME_ALIASES = {
+    "Czech Republic": "Czechia",
+    "Serbia": "Republic of Serbia",
+    "United States": "United States of America",
+}
 
-# The 1:110m world geometry used by Plotly has no drawable polygons for these
-# small territories. Markers keep them visible on the country overview.
+# The 1:110m geometry has no drawable polygons for these small territories.
+# Markers keep them visible on the country overview.
 SMALL_COUNTRY_COORDINATES = {
     "Bahrain": (26.07, 50.56),
     "Hong Kong": (22.32, 114.17),
@@ -41,57 +41,6 @@ SMALL_COUNTRY_COORDINATES = {
     "Malta": (35.90, 14.51),
     "Singapore": (1.35, 103.82),
 }
-
-
-COUNTRY_LEGEND_SCRIPT = r"""
-const style = document.createElement('style');
-style.textContent = `
-  .qcm-country-legend {
-    position: fixed; right: 4%; bottom: 13px; z-index: 10;
-    width: min(310px, 43vw); color: #29465d;
-    font: 11px/1.25 Arial, sans-serif; pointer-events: none;
-  }
-  .qcm-country-legend__scale {
-    display: grid; grid-template-columns: auto minmax(110px, 1fr) auto;
-    align-items: center; gap: 10px; font-weight: 600; white-space: nowrap;
-  }
-  .qcm-country-legend__bar {
-    height: 13px; border-radius: 999px;
-    background: linear-gradient(90deg, #dceefa 0%, #a9d4ee 25%, #5aa7d2 50%, #1673a8 75%, #083f68 100%);
-    box-shadow: inset 0 0 0 1px rgba(8, 63, 104, .04);
-  }
-  .qcm-country-legend__title {
-    margin-top: 7px; color: #7890a5; font-size: 10px; text-align: center;
-  }
-  @media (max-width: 640px) {
-    .qcm-country-legend { right: 14px; width: min(250px, 72vw); }
-    .qcm-country-legend__scale { gap: 7px; font-size: 10px; }
-  }
-`;
-document.head.appendChild(style);
-
-const legend = document.createElement('div');
-legend.className = 'qcm-country-legend';
-legend.innerHTML = `
-  <div class="qcm-country-legend__scale">
-    <span>&lt; 4%</span>
-    <span class="qcm-country-legend__bar"></span>
-    <span>&gt; 10%</span>
-  </div>
-  <div class="qcm-country-legend__title">Валовая арендная доходность, %</div>
-`;
-document.body.appendChild(legend);
-"""
-
-
-def prepare_map_for_embed(map_path: Path) -> None:
-    """Make Plotly's full-page HTML fill an iframe without outer scrollbars."""
-    html = map_path.read_text(encoding="utf-8")
-    html = html.replace(
-        "<style>html, body {height: 100%;}</style>",
-        "<style>html, body {height: 100%; margin: 0; overflow: hidden;}</style>",
-    )
-    map_path.write_text(html, encoding="utf-8")
 
 
 def _normalize(value: str) -> str:
@@ -181,78 +130,214 @@ def prepare_country_summary(city_data: pd.DataFrame) -> pd.DataFrame:
     return summary
 
 
+COUNTRY_MAP_TEMPLATE = r"""<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="qcm-map-version" content="__MAP_VERSION__" />
+  <title>Арендная доходность по странам</title>
+  <link href="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css" rel="stylesheet" />
+  <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
+  <style>
+    html, body, #map { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+    body { background: #eaf3f8; font-family: Arial, sans-serif; }
+    #map { position: absolute; inset: 0; }
+    .maplibregl-canvas { outline: none; }
+    .maplibregl-ctrl-top-left { top: 11px; left: 11px; }
+    .maplibregl-ctrl-group {
+      overflow: hidden; border: 1px solid rgba(157, 189, 207, .55);
+      border-radius: 7px; box-shadow: 0 3px 12px rgba(42, 80, 105, .12);
+    }
+    .maplibregl-ctrl-group button { width: 34px; height: 34px; }
+    .maplibregl-ctrl-attrib { color: #6f8798; font-size: 9px; }
+    .maplibregl-popup { max-width: calc(100vw - 24px) !important; }
+    .maplibregl-popup-content {
+      width: min(250px, calc(100vw - 48px)); padding: 0; overflow: hidden;
+      color: #263b4d; border: 1px solid #d7e0e7; border-radius: 7px;
+      box-shadow: 0 10px 30px rgba(25, 49, 70, .18);
+      font: 12px/1.3 Arial, sans-serif;
+    }
+    .maplibregl-popup-close-button { padding: 5px 8px; color: #637887; font-size: 18px; }
+    .qcm-country-card__header {
+      padding: 10px 30px 10px 12px; color: #17344c; background: #f5f8fa;
+      border-bottom: 1px solid #dce4ea; font-size: 14px; font-weight: 700;
+    }
+    .qcm-country-card__table { width: 100%; border-collapse: collapse; }
+    .qcm-country-card__table th, .qcm-country-card__table td {
+      padding: 8px 12px; border-top: 1px solid #e4eaee;
+    }
+    .qcm-country-card__table th { color: #637887; font-weight: 400; text-align: left; }
+    .qcm-country-card__table td { color: #17344c; font-weight: 700; text-align: right; white-space: nowrap; }
+    .qcm-country-card__table tr:nth-child(even) { background: #fafcfd; }
+    .qcm-country-legend {
+      position: fixed; right: 16px; bottom: 22px; z-index: 5;
+      width: min(280px, 42vw); color: #29465d; pointer-events: none;
+      font: 10px/1.2 Arial, sans-serif;
+    }
+    .qcm-country-legend__scale {
+      display: grid; grid-template-columns: auto minmax(90px, 1fr) auto;
+      align-items: center; gap: 8px; font-weight: 600; white-space: nowrap;
+    }
+    .qcm-country-legend__bar {
+      height: 11px; border-radius: 999px;
+      background: linear-gradient(90deg, #dceefa 0%, #a9d4ee 25%, #5aa7d2 50%, #1673a8 75%, #083f68 100%);
+      box-shadow: inset 0 0 0 1px rgba(8, 63, 104, .04);
+    }
+    .qcm-country-legend__title { margin-top: 5px; color: #71899b; text-align: center; }
+    @media (max-width: 640px) {
+      .maplibregl-popup-content { font-size: 11px; }
+      .qcm-country-legend { right: 12px; bottom: 26px; width: min(230px, 72vw); }
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <div class="qcm-country-legend" aria-hidden="true">
+    <div class="qcm-country-legend__scale">
+      <span>&lt; 4%</span><span class="qcm-country-legend__bar"></span><span>&gt; 10%</span>
+    </div>
+    <div class="qcm-country-legend__title">Валовая арендная доходность, %</div>
+  </div>
+  <script>
+    const countryData = __COUNTRY_DATA__;
+    const smallCountryData = __SMALL_COUNTRY_DATA__;
+    const isCompact = window.matchMedia('(max-width: 640px)').matches;
+    const map = new maplibregl.Map({
+      container: 'map',
+      style: 'https://tiles.openfreemap.org/styles/positron',
+      center: isCompact ? [21, 42] : [12, 27],
+      zoom: isCompact ? 2.1 : 1.05,
+      minZoom: 0,
+      maxZoom: 10,
+      pitch: 0,
+      bearing: 0,
+      renderWorldCopies: false,
+      attributionControl: false,
+      locale: {
+        'NavigationControl.ZoomIn': 'Увеличить',
+        'NavigationControl.ZoomOut': 'Уменьшить',
+        'NavigationControl.ResetBearing': 'Сбросить поворот'
+      }
+    });
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-left');
+    map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
+
+    map.on('load', () => {
+      const localizedSources = new Set(['place', 'water_name']);
+      for (const layer of map.getStyle().layers || []) {
+        if (layer.type !== 'symbol' || !localizedSources.has(layer['source-layer'])) continue;
+        if (!layer.layout || !layer.layout['text-field']) continue;
+        map.setLayoutProperty(layer.id, 'text-field', [
+          'coalesce', ['get', 'name:ru'], ['get', 'name'], ['get', 'name:en']
+        ]);
+      }
+
+      const firstLabelLayer = (map.getStyle().layers || []).find(layer => layer.type === 'symbol');
+      const beforeLabels = firstLabelLayer && firstLabelLayer.id;
+      map.addSource('country-yields', { type: 'geojson', data: countryData });
+      map.addLayer({
+        id: 'country-yields',
+        type: 'fill',
+        source: 'country-yields',
+        paint: {
+          'fill-color': ['interpolate', ['linear'], ['get', 'yield'],
+            4, '#dceefa', 5.5, '#a9d4ee', 7, '#5aa7d2', 8.5, '#1673a8', 10, '#083f68'],
+          'fill-opacity': 0.82
+        }
+      }, beforeLabels);
+      map.addLayer({
+        id: 'country-outlines', type: 'line', source: 'country-yields',
+        paint: { 'line-color': '#ffffff', 'line-width': 0.8 }
+      }, beforeLabels);
+      map.addSource('small-country-yields', { type: 'geojson', data: smallCountryData });
+      map.addLayer({
+        id: 'small-country-yields', type: 'circle', source: 'small-country-yields',
+        paint: {
+          'circle-radius': 5.5,
+          'circle-color': ['interpolate', ['linear'], ['get', 'yield'],
+            4, '#dceefa', 5.5, '#a9d4ee', 7, '#5aa7d2', 8.5, '#1673a8', 10, '#083f68'],
+          'circle-stroke-color': '#ffffff', 'circle-stroke-width': 1.2
+        }
+      });
+    });
+
+    const popup = new maplibregl.Popup({ closeButton: true, closeOnClick: true, maxWidth: '260px', offset: 10 });
+    for (const layer of ['country-yields', 'small-country-yields']) {
+      map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
+      map.on('click', layer, event => {
+        const feature = event.features && event.features[0];
+        if (!feature) return;
+        popup.setLngLat(event.lngLat).setHTML(feature.properties.card).addTo(map);
+      });
+    }
+  </script>
+</body>
+</html>
+"""
+
+
+def _country_card(country: str, median_yield: float, city_count: int) -> str:
+    return (
+        f'<div class="qcm-country-card__header">{escape(country)}</div>'
+        '<table class="qcm-country-card__table"><tbody>'
+        f'<tr><th>Медианная доходность</th><td>{median_yield:.2f}%</td></tr>'
+        f'<tr><th>Городов в расчёте</th><td>{city_count}</td></tr>'
+        '</tbody></table>'
+    )
+
+
 def create_country_map(summary: pd.DataFrame) -> Path:
+    """Render Numbeo yields on bundled Natural Earth country polygons."""
     output = MAPS_DIR / "countries_rental_yield.html"
     temporary = output.with_name(output.name + ".tmp")
-    figure = go.Figure(go.Choropleth(
-        locations=summary["Country"],
-        locationmode="country names",
-        z=summary["MedianGrossRentalYieldPct"],
-        text=summary["CityCount"],
-        colorscale=COUNTRY_COLORSCALE,
-        zmin=4,
-        zmax=10,
-        marker_line_color="#ffffff",
-        marker_line_width=0.5,
-        showscale=False,
-        customdata=summary[["CityCount"]],
-        hovertemplate=(
-            "<b>%{location}</b><br>"
-            "Медианная доходность: %{z:.2f}%<br>"
-            "Городов в расчёте: %{customdata[0]}<extra></extra>"
-        ),
-    ))
-    small = summary[summary["Country"].isin(SMALL_COUNTRY_COORDINATES)].copy()
-    if not small.empty:
-        figure.add_trace(go.Scattergeo(
-            lat=[SMALL_COUNTRY_COORDINATES[country][0] for country in small["Country"]],
-            lon=[SMALL_COUNTRY_COORDINATES[country][1] for country in small["Country"]],
-            text=small["Country"],
-            customdata=small[["CityCount", "MedianGrossRentalYieldPct"]],
-            mode="markers",
-            hovertemplate=(
-                "<b>%{text}</b><br>"
-                "Медианная доходность: %{customdata[1]:.2f}%<br>"
-                "Городов в расчёте: %{customdata[0]}<extra></extra>"
-            ),
-            marker={
-                "size": 8,
-                "color": small["MedianGrossRentalYieldPct"],
-                "colorscale": COUNTRY_COLORSCALE,
-                "cmin": 4,
-                "cmax": 10,
-                "showscale": False,
-                "line": {"color": "#ffffff", "width": 0.8},
+    geometry = json.loads(COUNTRY_GEOMETRY.read_text(encoding="utf-8"))
+    by_name = {
+        COUNTRY_NAME_ALIASES.get(row.Country, row.Country): row
+        for row in summary.itertuples(index=False)
+    }
+    features = []
+    matched = set()
+    for feature in geometry["features"]:
+        geo_name = feature["properties"]["ADMIN"]
+        row = by_name.get(geo_name)
+        if row is None:
+            continue
+        matched.add(row.Country)
+        features.append({
+            "type": "Feature",
+            "geometry": feature["geometry"],
+            "properties": {
+                "yield": float(row.MedianGrossRentalYieldPct),
+                "card": _country_card(row.Country, float(row.MedianGrossRentalYieldPct), int(row.CityCount)),
             },
-            showlegend=False,
-        ))
+        })
 
-    figure.update_layout(
-        margin={"l": 8, "r": 8, "t": 8, "b": 72},
-        paper_bgcolor="#ffffff",
-        geo={
-            "projection_type": "equirectangular",
-            "showframe": False,
-            "showcoastlines": False,
-            "showcountries": True,
-            "countrycolor": "#ffffff",
-            "showland": True,
-            "landcolor": "#edf1f5",
-            "showocean": True,
-            "oceancolor": "#ffffff",
-            "bgcolor": "#ffffff",
-            "lataxis": {"range": [-55, 85]},
-            "lonaxis": {"range": [-180, 180]},
-        },
-    )
-    figure.write_html(
-        temporary,
-        include_plotlyjs=True,
-        full_html=True,
-        post_script=COUNTRY_LEGEND_SCRIPT,
-        div_id="qcm-country-map",
-    )
-    prepare_map_for_embed(temporary)
+    small_features = []
+    for row in summary.itertuples(index=False):
+        if row.Country not in SMALL_COUNTRY_COORDINATES:
+            continue
+        latitude, longitude = SMALL_COUNTRY_COORDINATES[row.Country]
+        matched.add(row.Country)
+        small_features.append({
+            "type": "Feature",
+            "geometry": {"type": "Point", "coordinates": [longitude, latitude]},
+            "properties": {
+                "yield": float(row.MedianGrossRentalYieldPct),
+                "card": _country_card(row.Country, float(row.MedianGrossRentalYieldPct), int(row.CityCount)),
+            },
+        })
+    missing = set(summary["Country"]) - matched
+    if missing:
+        raise ValueError(f"Missing country geometry: {', '.join(sorted(missing))}")
+
+    country_json = json.dumps({"type": "FeatureCollection", "features": features}, ensure_ascii=False, separators=(",", ":"))
+    small_json = json.dumps({"type": "FeatureCollection", "features": small_features}, ensure_ascii=False, separators=(",", ":"))
+    html = COUNTRY_MAP_TEMPLATE.replace("__MAP_VERSION__", COUNTRY_MAP_VERSION)
+    html = html.replace("__COUNTRY_DATA__", country_json.replace("</", "<\\/"))
+    html = html.replace("__SMALL_COUNTRY_DATA__", small_json.replace("</", "<\\/"))
+    temporary.write_text(html, encoding="utf-8")
     os.replace(temporary, output)
     return output
 
