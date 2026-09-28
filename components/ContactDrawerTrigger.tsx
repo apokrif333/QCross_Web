@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
 
 type ContactMethod = "Telegram" | "WhatsApp" | "Email";
+type SubmissionState = "idle" | "submitting" | "success" | "error";
 type ContactDrawerTriggerProps = {
   variant: "client" | "partner";
 };
@@ -30,7 +31,8 @@ export function ContactDrawerTrigger({ variant }: ContactDrawerTriggerProps) {
   const [phase, setPhase] = useState<"closed" | "opening" | "open" | "closing">("closed");
   const [contactMethod, setContactMethod] = useState<ContactMethod>("Telegram");
   const [message, setMessage] = useState("");
-  const [mailPrepared, setMailPrepared] = useState(false);
+  const [submissionState, setSubmissionState] = useState<SubmissionState>("idle");
+  const submitting = useRef(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const drawerRef = useRef<HTMLElement>(null);
   const isMounted = phase !== "closed";
@@ -86,24 +88,40 @@ export function ContactDrawerTrigger({ variant }: ContactDrawerTriggerProps) {
     };
   }, [isMounted]);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
+    if (submitting.current) return;
+
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
     const name = String(form.get("name") ?? "").trim();
     const contact = String(form.get("contact") ?? "").trim();
     if (!name || !contact) return;
 
-    const subject = variant === "partner" ? "Партнёрский запрос с сайта QCM" : "Запрос клиента с сайта QCM";
-    const body = [
-      `Имя: ${name}`,
-      `Предпочитаемый способ связи: ${contactMethod}`,
-      `Контакт: ${contact}`,
-      "",
-      `Сообщение: ${message.trim() || "Не указано"}`,
-    ].join("\n");
-
-    setMailPrepared(true);
-    window.location.href = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    submitting.current = true;
+    setSubmissionState("submitting");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          method: contactMethod,
+          contact,
+          message: message.trim() || "Не указано",
+          website: String(form.get("website") ?? ""),
+        }),
+      });
+      if (!response.ok) throw new Error("Contact send failed");
+      formElement.reset();
+      setContactMethod("Telegram");
+      setMessage("");
+      setSubmissionState("success");
+    } catch {
+      setSubmissionState("error");
+    } finally {
+      submitting.current = false;
+    }
   }
 
   const isPartner = variant === "partner";
@@ -114,7 +132,7 @@ export function ContactDrawerTrigger({ variant }: ContactDrawerTriggerProps) {
         className={isPartner ? "partner-cta contact-drawer-trigger" : "editorial-link contact-drawer-trigger"}
         type="button"
         ref={triggerRef}
-        onClick={() => { setMailPrepared(false); setPhase("opening"); }}
+        onClick={() => { setSubmissionState("idle"); setPhase("opening"); }}
       >
         <span>{isPartner ? "Стать партнёром QCM" : "Связаться с QCM"}</span>
         <span aria-hidden="true">→</span>
@@ -157,8 +175,14 @@ export function ContactDrawerTrigger({ variant }: ContactDrawerTriggerProps) {
               <textarea id="contact-message" name="message" placeholder="Коротко опишите вашу задачу..." maxLength={500} value={message} onChange={(event) => setMessage(event.target.value)} />
               <span className="contact-drawer__count">{message.length} / 500</span>
 
-              <button className="contact-drawer__submit" type="submit">Отправить сообщение <span aria-hidden="true">→</span></button>
-              {mailPrepared && <p className="contact-drawer__mail-note" role="status">Письмо подготовлено в почтовом приложении. Подтвердите отправку там.</p>}
+              <div aria-hidden="true" style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clipPath: "inset(50%)", whiteSpace: "nowrap" }}>
+                <input name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+              </div>
+              <button className="contact-drawer__submit" type="submit" disabled={submissionState === "submitting"}>
+                {submissionState === "submitting" ? "Отправляем…" : "Отправить сообщение"} <span aria-hidden="true">→</span>
+              </button>
+              {submissionState === "success" && <p className="contact-drawer__mail-note" role="status">Спасибо. Сообщение отправлено — мы свяжемся с вами в ближайшее время.</p>}
+              {submissionState === "error" && <p className="contact-drawer__mail-note" role="alert">Не удалось отправить сообщение. Попробуйте ещё раз или свяжитесь с нами напрямую.</p>}
             </form>
 
             <div className="contact-drawer__divider"><span>или свяжитесь напрямую</span></div>
