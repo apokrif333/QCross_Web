@@ -127,7 +127,7 @@ export async function POST(request: Request) {
   };
 
   try {
-    const response = await fetch("https://api.zeptomail.com/v1.1/email", {
+    const response = await fetch("https://cpaas.zoho.com/v1.1/email", {
       method: "POST",
       headers: {
         Authorization: `Zoho-enczapikey ${token}`,

@@ -42,7 +42,7 @@ describe("contact API", () => {
     expect(response.status).toBe(200);
     expect(fetchMock).toHaveBeenCalledOnce();
     const [url, options] = fetchMock.mock.calls[0] as [string, RequestInit];
-    expect(url).toBe("https://api.zeptomail.com/v1.1/email");
+    expect(url).toBe("https://cpaas.zoho.com/v1.1/email");
     expect(options.headers).toMatchObject({ Authorization: "Zoho-enczapikey test-token" });
     const payload = JSON.parse(options.body as string);
     expect(payload.from).toEqual({ address: "website@qcross.org", name: "QCM Website" });
