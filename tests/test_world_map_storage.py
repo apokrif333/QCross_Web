@@ -1,6 +1,8 @@
 """Storage tests use an in-memory S3 client and never contact Numbeo or AWS."""
 
-from io import BytesIO
+from contextlib import redirect_stderr
+from datetime import datetime, timedelta, timezone
+from io import BytesIO, StringIO
 from pathlib import Path
 import sys
 from tempfile import TemporaryDirectory
@@ -17,7 +19,16 @@ from storage import DATA_FILES, MAP_FILES, WorldMapStorage, object_key  # noqa: 
 class MemoryS3:
     def __init__(self):
         self.objects = {}
+        self.modified = {}
+        self.clock = 0
         self.fail_upload = None
+        self.fail_delete = False
+        self.deleted = []
+
+    def store(self, key, body):
+        self.objects[key] = body
+        self.modified[key] = datetime(2026, 1, 1, tzinfo=timezone.utc) + timedelta(seconds=self.clock)
+        self.clock += 1
 
     def get_object(self, *, Bucket, Key):
         if Key not in self.objects:
@@ -30,10 +41,32 @@ class MemoryS3:
     def upload_file(self, path, bucket, key):
         if key.endswith(self.fail_upload or "\0"):
             raise RuntimeError("upload failed")
-        self.objects[key] = Path(path).read_bytes()
+        self.store(key, Path(path).read_bytes())
 
     def put_object(self, *, Bucket, Key, Body, **_kwargs):
-        self.objects[Key] = Body
+        self.store(Key, Body)
+
+    def list_objects_v2(self, *, Bucket, Prefix, ContinuationToken=None):
+        keys = sorted(key for key in self.objects if key.startswith(Prefix))
+        offset = int(ContinuationToken or 0)
+        page = keys[offset:offset + 4]
+        result = {
+            "Contents": [{"Key": key, "LastModified": self.modified[key]} for key in page],
+            "IsTruncated": offset + 4 < len(keys),
+        }
+        if result["IsTruncated"]:
+            result["NextContinuationToken"] = str(offset + 4)
+        return result
+
+    def delete_objects(self, *, Bucket, Delete):
+        if self.fail_delete:
+            raise RuntimeError("delete failed")
+        for item in Delete["Objects"]:
+            key = item["Key"]
+            self.deleted.append(key)
+            self.objects.pop(key, None)
+            self.modified.pop(key, None)
+        return {}
 
 
 class StorageTests(unittest.TestCase):
@@ -84,6 +117,53 @@ class StorageTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "upload failed"):
             self.storage.publish(self.data, self.maps)
         self.assertEqual(self.storage.current_version(), previous)
+        self.assertEqual(self.client.deleted, [])
+        partial_keys = set(self.client.objects) - {
+            self.storage.manifest_key,
+            *(object_key("world-map", previous, group, name)
+              for group, names in (("data", DATA_FILES), ("maps", MAP_FILES))
+              for name in names),
+        }
+        self.assertTrue(partial_keys)
+        self.client.fail_upload = None
+        self.storage.publish(self.data, self.maps)
+        self.assertTrue(partial_keys.issubset(self.client.deleted))
+
+    def test_publish_retains_only_latest_seven_complete_versions(self):
+        self.data.mkdir()
+        self.maps.mkdir()
+        for name in DATA_FILES:
+            (self.data / name).write_text(name, encoding="utf-8")
+        for name in MAP_FILES:
+            (self.maps / name).write_text(name, encoding="utf-8")
+
+        versions = [self.storage.publish(self.data, self.maps) for _ in range(9)]
+        self.assertEqual(self.storage.current_version(), versions[-1])
+        for version in versions[:2]:
+            self.assertFalse(any(key.startswith(f"world-map/versions/{version}/") for key in self.client.objects))
+        for version in versions[2:]:
+            self.assertEqual(
+                sum(key.startswith(f"world-map/versions/{version}/") for key in self.client.objects),
+                len(DATA_FILES) + len(MAP_FILES),
+            )
+
+    def test_cleanup_failure_does_not_fail_published_snapshot(self):
+        self.data.mkdir()
+        self.maps.mkdir()
+        for name in DATA_FILES:
+            (self.data / name).write_text(name, encoding="utf-8")
+        for name in MAP_FILES:
+            (self.maps / name).write_text(name, encoding="utf-8")
+        for _ in range(7):
+            self.storage.publish(self.data, self.maps)
+
+        self.client.fail_delete = True
+        log = StringIO()
+        with redirect_stderr(log):
+            active = self.storage.publish(self.data, self.maps)
+        self.assertEqual(self.storage.current_version(), active)
+        self.assertIn("World-map version cleanup failed", log.getvalue())
+        self.assertEqual(self.client.deleted, [])
 
 
 if __name__ == "__main__":

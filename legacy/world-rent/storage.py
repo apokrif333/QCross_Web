@@ -3,6 +3,7 @@
 import json
 import os
 from pathlib import Path
+import sys
 from uuid import UUID, uuid4
 
 import boto3
@@ -73,6 +74,67 @@ class WorldMapStorage:
                 )
         return True
 
+    def cleanup_old_versions(self, current_version: str) -> None:
+        """Keep the active snapshot and the six newest other complete snapshots."""
+        if self.current_version() != current_version:
+            return
+        versions_prefix = f"{self.prefix}/versions/"
+        required = {f"data/{name}" for name in DATA_FILES} | {f"maps/{name}" for name in MAP_FILES}
+        versions = {}
+        token = None
+        while True:
+            request = {"Bucket": self.bucket, "Prefix": versions_prefix}
+            if token:
+                request["ContinuationToken"] = token
+            response = self.client.list_objects_v2(**request)
+            for item in response.get("Contents", []):
+                key = item["Key"]
+                version, separator, name = key[len(versions_prefix):].partition("/")
+                if not separator:
+                    continue
+                try:
+                    UUID(version)
+                except ValueError:
+                    continue
+                entry = versions.setdefault(version, {"keys": [], "names": set(), "updated": item["LastModified"]})
+                entry["keys"].append(key)
+                entry["names"].add(name)
+                entry["updated"] = max(entry["updated"], item["LastModified"])
+            if not response.get("IsTruncated"):
+                break
+            token = response.get("NextContinuationToken")
+            if not token:
+                raise RuntimeError("S3 version listing was truncated without a continuation token")
+
+        if current_version not in versions or not required.issubset(versions[current_version]["names"]):
+            raise RuntimeError("Active world-map snapshot is missing from the S3 listing")
+
+        completed = sorted(
+            (version for version, entry in versions.items() if required.issubset(entry["names"])),
+            key=lambda version: versions[version]["updated"],
+            reverse=True,
+        )
+        keep = {current_version}
+        for version in completed:
+            if len(keep) == 7:
+                break
+            keep.add(version)
+
+        active_updated = versions[current_version]["updated"]
+        for version, entry in versions.items():
+            if version in keep or entry["updated"] > active_updated:
+                continue
+            if self.current_version() != current_version:
+                return
+            keys = entry["keys"]
+            for offset in range(0, len(keys), 1000):
+                result = self.client.delete_objects(
+                    Bucket=self.bucket,
+                    Delete={"Objects": [{"Key": key} for key in keys[offset:offset + 1000]], "Quiet": True},
+                )
+                if result.get("Errors"):
+                    raise RuntimeError(f"S3 could not delete old world-map version {version}: {result['Errors']}")
+
     def publish(self, data_dir: Path, maps_dir: Path) -> str:
         """Switch the public snapshot only after every artifact has uploaded."""
         artifacts = [("data", data_dir, DATA_FILES), ("maps", maps_dir, MAP_FILES)]
@@ -94,4 +156,8 @@ class WorldMapStorage:
             ContentType="application/json",
             CacheControl="no-cache",
         )
+        try:
+            self.cleanup_old_versions(version)
+        except Exception as exc:
+            print(f"World-map version cleanup failed after publishing {version}: {exc}", file=sys.stderr, flush=True)
         return version
