@@ -113,11 +113,11 @@ class StorageTests(unittest.TestCase):
         for name in MAP_FILES:
             (self.maps / name).write_text(name, encoding="utf-8")
         (self.maps / "countries_rental_yield.html").write_text(
-            '<meta name="qcm-map-version" content="maplibre-country-v1" />', encoding="utf-8"
+            '<meta name="qcm-map-version" content="maplibre-country-v2" />', encoding="utf-8"
         )
         self.storage.publish(self.data, self.maps)
         manifest = json.loads(self.client.objects[self.storage.manifest_key])
-        self.assertEqual(manifest["countryMapVersion"], "maplibre-country-v1")
+        self.assertEqual(manifest["countryMapVersion"], "maplibre-country-v2")
 
     def test_failed_upload_keeps_previous_snapshot_current(self):
         self.data.mkdir()

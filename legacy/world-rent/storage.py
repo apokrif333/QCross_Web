@@ -151,8 +151,8 @@ class WorldMapStorage:
                 )
         manifest = {"version": version}
         country_map = (maps_dir / "countries_rental_yield.html").read_text(encoding="utf-8")
-        if 'content="maplibre-country-v1"' in country_map:
-            manifest["countryMapVersion"] = "maplibre-country-v1"
+        if 'content="maplibre-country-v2"' in country_map:
+            manifest["countryMapVersion"] = "maplibre-country-v2"
         self.client.put_object(
             Bucket=self.bucket,
             Key=self.manifest_key,

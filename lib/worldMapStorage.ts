@@ -56,7 +56,7 @@ export async function serveWorldMap(request: Request, name: WorldMapName): Promi
     if (typeof version !== "string" || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(version)) {
       throw new Error("Invalid world-map snapshot version");
     }
-    if (name === "countries" && countryMapVersion !== "maplibre-country-v1") {
+    if (name === "countries" && countryMapVersion !== "maplibre-country-v2") {
       return fallbackMap(request, name);
     }
     const object = await client.send(new GetObjectCommand({

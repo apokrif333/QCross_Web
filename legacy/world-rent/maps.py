@@ -24,7 +24,7 @@ CITY_DATA = FILES_DIR / "numbeo_cities.csv"
 COORDINATE_CACHE = FILES_DIR / "numbeo_city_coordinates.csv"
 # Natural Earth public-domain 1:110m Admin 0 polygons, bundled for repeatable builds.
 COUNTRY_GEOMETRY = BASE_DIR / "files" / "ne_110m_admin_0_countries.geojson"
-COUNTRY_MAP_VERSION = "maplibre-country-v1"
+COUNTRY_MAP_VERSION = "maplibre-country-v2"
 
 COUNTRY_NAME_ALIASES = {
     "Czech Republic": "Czechia",
@@ -33,12 +33,13 @@ COUNTRY_NAME_ALIASES = {
 }
 
 # The 1:110m geometry has no drawable polygons for these small territories.
-# Markers keep them visible on the country overview.
-SMALL_COUNTRY_COORDINATES = {
+# New Zealand also needs a marker to remain easy to find on the world overview.
+COUNTRY_MARKER_COORDINATES = {
     "Bahrain": (26.07, 50.56),
     "Hong Kong": (22.32, 114.17),
     "Kosovo": (42.66, 21.16),
     "Malta": (35.90, 14.51),
+    "New Zealand": (-41.25, 174.75),
     "Singapore": (1.35, 103.82),
 }
 
@@ -181,7 +182,7 @@ COUNTRY_MAP_TEMPLATE = r"""<!doctype html>
     }
     .qcm-country-legend__bar {
       height: 11px; border-radius: 999px;
-      background: linear-gradient(90deg, #dceefa 0%, #a9d4ee 25%, #5aa7d2 50%, #1673a8 75%, #083f68 100%);
+      background: linear-gradient(90deg, #b8d9ee 0%, #93c5e4 25%, #5aa7d2 50%, #1673a8 75%, #083f68 100%);
       box-shadow: inset 0 0 0 1px rgba(8, 63, 104, .04);
     }
     .qcm-country-legend__title { margin-top: 5px; color: #71899b; text-align: center; }
@@ -203,16 +204,17 @@ COUNTRY_MAP_TEMPLATE = r"""<!doctype html>
     const countryData = __COUNTRY_DATA__;
     const smallCountryData = __SMALL_COUNTRY_DATA__;
     const isCompact = window.matchMedia('(max-width: 640px)').matches;
+    const overviewZoom = Math.max(0, Math.log2(Math.max(512, document.documentElement.clientWidth - 120) / 512));
     const map = new maplibregl.Map({
       container: 'map',
       style: 'https://tiles.openfreemap.org/styles/positron',
-      center: isCompact ? [21, 42] : [12, 27],
-      zoom: isCompact ? 2.1 : 1.05,
+      center: isCompact ? [21, 42] : [30, 12],
+      zoom: isCompact ? 2.1 : overviewZoom,
       minZoom: 0,
       maxZoom: 10,
       pitch: 0,
       bearing: 0,
-      renderWorldCopies: false,
+      renderWorldCopies: !isCompact,
       attributionControl: false,
       locale: {
         'NavigationControl.ZoomIn': 'Увеличить',
@@ -242,8 +244,8 @@ COUNTRY_MAP_TEMPLATE = r"""<!doctype html>
         source: 'country-yields',
         paint: {
           'fill-color': ['interpolate', ['linear'], ['get', 'yield'],
-            4, '#dceefa', 5.5, '#a9d4ee', 7, '#5aa7d2', 8.5, '#1673a8', 10, '#083f68'],
-          'fill-opacity': 0.82
+            4, '#b8d9ee', 5.5, '#93c5e4', 7, '#5aa7d2', 8.5, '#1673a8', 10, '#083f68'],
+          'fill-opacity': 0.95
         }
       }, beforeLabels);
       map.addLayer({
@@ -256,7 +258,7 @@ COUNTRY_MAP_TEMPLATE = r"""<!doctype html>
         paint: {
           'circle-radius': 5.5,
           'circle-color': ['interpolate', ['linear'], ['get', 'yield'],
-            4, '#dceefa', 5.5, '#a9d4ee', 7, '#5aa7d2', 8.5, '#1673a8', 10, '#083f68'],
+            4, '#b8d9ee', 5.5, '#93c5e4', 7, '#5aa7d2', 8.5, '#1673a8', 10, '#083f68'],
           'circle-stroke-color': '#ffffff', 'circle-stroke-width': 1.2
         }
       });
@@ -316,9 +318,9 @@ def create_country_map(summary: pd.DataFrame) -> Path:
 
     small_features = []
     for row in summary.itertuples(index=False):
-        if row.Country not in SMALL_COUNTRY_COORDINATES:
+        if row.Country not in COUNTRY_MARKER_COORDINATES:
             continue
-        latitude, longitude = SMALL_COUNTRY_COORDINATES[row.Country]
+        latitude, longitude = COUNTRY_MARKER_COORDINATES[row.Country]
         matched.add(row.Country)
         small_features.append({
             "type": "Feature",
