@@ -226,6 +226,16 @@ input {
 }
 
 @media (max-width: 767px) {
+  .home-hero::after {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(90deg, rgba(5, 38, 58, 0.7) 0%, rgba(5, 38, 58, 0.42) 60%, rgba(5, 38, 58, 0.1) 100%);
+    content: "";
+    mask-image: linear-gradient(180deg, transparent 6%, #000 22%, #000 55%, transparent 88%);
+    pointer-events: none;
+  }
+
   .brand-mark {
     top: 24px;
     left: 24px;
@@ -247,15 +257,23 @@ input {
   }
 
   .home-hero__title {
-    font-size: clamp(46px, 13vw, 64px);
+    color: #f4f8f7;
+    font-size: clamp(40px, 11.4vw, 56px);
     line-height: 0.98;
+    text-shadow: 0 2px 12px rgba(3, 29, 44, 0.28);
+  }
+
+  .home-hero__title span {
+    max-width: 85%;
   }
 
   .home-hero__subtitle {
     margin-top: 30px;
+    color: #e7f0f0;
     font-size: 16px;
+    font-weight: 500;
     line-height: 1.55;
-    text-shadow: 0 1px 10px rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 10px rgba(3, 29, 44, 0.38);
   }
 
   .home-hero__subtitle br {
