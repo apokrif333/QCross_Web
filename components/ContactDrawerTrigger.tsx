@@ -187,9 +187,9 @@ export function ContactDrawerTrigger({ variant }: ContactDrawerTriggerProps) {
 
             <div className="contact-drawer__divider"><span>или свяжитесь напрямую</span></div>
             <div className="contact-drawer__links">
-              <a href="https://t.me/qcrossorg" target="_blank" rel="noreferrer">
+              <a href="https://t.me/qcross_corp" target="_blank" rel="noreferrer">
                 <span className="contact-drawer__channel-icon contact-drawer__channel-icon--telegram"><TelegramIcon /></span>
-                <span><strong>Telegram</strong><small>@qcrossorg</small></span>
+                <span><strong>Telegram</strong><small>@qcross_corp</small></span>
                 <ExternalArrow />
               </a>
               <a href="https://wa.me/77075172982" target="_blank" rel="noreferrer">

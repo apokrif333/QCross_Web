@@ -11,9 +11,9 @@ export const metadata: Metadata = {
 const channels = [
   {
     title: "Telegram",
-    detail: "@qcrossorg",
+    detail: "@qcross_corp",
     description: "Быстрый способ связаться с нашей командой.",
-    href: "https://t.me/qcrossorg",
+    href: "https://t.me/qcross_corp",
     icon: "telegram",
   },
   {
