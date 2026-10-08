@@ -1356,60 +1356,65 @@ input {
 .about-founder__cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 9px;
+  gap: 10px;
   margin-top: 11px;
 }
 
 .about-founder-card {
   display: grid;
   min-width: 0;
-  min-height: 162px;
-  grid-template-columns: 50px minmax(0, 1fr);
+  min-height: 186px;
+  grid-template-columns: 40px minmax(0, 1fr);
   align-content: start;
-  gap: 10px;
-  padding: 13px 12px 10px 15px;
-  border: 1px solid rgba(113, 184, 203, 0.5);
+  gap: 16px;
+  padding: 17px 16px 13px 22px;
+  border: 1px solid rgba(93, 204, 237, 0.85);
   border-radius: 7px;
   background: rgba(0, 38, 57, 0.22);
 }
 
 .about-founder-card > svg {
-  width: 39px;
-  height: 39px;
-  color: var(--qcm-aqua);
+  display: block;
+  width: 40px;
+  height: 40px;
+  color: #36c6ee;
 }
 
 .about-founder-card h3 {
-  min-height: 32px;
+  display: flex;
+  min-height: 40px;
+  align-items: center;
   margin: 0;
   color: rgba(255, 255, 255, 0.92);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.26em;
+  letter-spacing: 0.14em;
   line-height: 1.45;
   text-transform: uppercase;
 }
 
 .about-founder-card ul {
-  margin: 6px 0 0;
+  margin: 9px 0 0;
   padding: 0;
   color: rgba(255, 255, 255, 0.9);
-  font-size: 11px;
-  line-height: 1.25;
+  font-size: 11.5px;
+  line-height: 1.4;
   list-style: none;
 }
 
 .about-founder-card li {
   position: relative;
-  padding-left: 14px;
 }
 
 .about-founder-card li::before {
   position: absolute;
-  top: 0;
-  left: 0;
-  color: var(--qcm-aqua);
-  content: "•";
+  top: 0.5em;
+  left: -15px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #18d4e5;
+  content: "";
 }
 
 .about-hero__transition {
@@ -3935,18 +3940,20 @@ input {
   }
 }
 
-@media (max-width: 1100px) {
-  .about-founder {
-    grid-template-columns: minmax(250px, 31%) minmax(0, 1fr);
-    gap: 24px;
-  }
-
+@media (max-width: 1200px) {
   .about-founder__cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .about-founder-card:last-child {
     grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 1100px) {
+  .about-founder {
+    grid-template-columns: minmax(250px, 31%) minmax(0, 1fr);
+    gap: 24px;
   }
 
   .light-section {
@@ -4246,7 +4253,7 @@ input {
 
   .about-hero__title br,
   .about-hero__lead br,
-  .about-founder__copy br {
+  .about-founder__bio br {
     display: none;
   }
 

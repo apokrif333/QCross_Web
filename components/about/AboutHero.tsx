@@ -1,14 +1,12 @@
 import Image from "next/image";
 import {
-  BriefcaseIcon,
   CalendarIcon,
   ChartIcon,
   CoinsIcon,
-  GlobeIcon,
   PeopleIcon,
-  TargetIcon,
 } from "@/components/QcmIcons";
 import { SiteHeader } from "@/components/SiteHeader";
+import { AboutBriefcaseIcon, AboutGlobeIcon, AboutTargetIcon } from "./AboutCardIcons";
 
 const companyFacts = [
   {
@@ -86,16 +84,16 @@ export function AboutHero() {
             <p className="about-founder__role">Founder &amp; Chief Investment Officer</p>
             <i aria-hidden="true" />
             <p className="about-founder__bio">
-              Более 15 лет на финансовых рынках: от классических акций и облигаций<br />{" "}
-              до деривативов и структурных решений. QCM была создана как развитие<br />{" "}
-              практики частного управления капиталом в международный инвестиционный<br />{" "}
+              Более 15 лет на финансовых рынках: от классических акций и облигаций
+              до деривативов и структурных решений. QCM была создана как развитие
+              практики частного управления капиталом в международный инвестиционный
               сервис.
             </p>
             <div className="about-founder__cards">
               <article className="about-founder-card">
-                <TargetIcon />
+                <AboutTargetIcon />
                 <div>
-                  <h3>Ключевые<br />направления</h3>
+                  <h3><span>Ключевые<br />направления</span></h3>
                   <ul>
                     <li>Инвестиционное сопровождение</li>
                     <li>Налоговое планирование</li>
@@ -105,9 +103,9 @@ export function AboutHero() {
                 </div>
               </article>
               <article className="about-founder-card">
-                <GlobeIcon />
+                <AboutGlobeIcon />
                 <div>
-                  <h3>География<br />клиентов</h3>
+                  <h3><span>География<br />клиентов</span></h3>
                   <ul>
                     <li>Казахстан</li>
                     <li>Страны СНГ</li>
@@ -118,7 +116,7 @@ export function AboutHero() {
                 </div>
               </article>
               <article className="about-founder-card">
-                <BriefcaseIcon />
+                <AboutBriefcaseIcon />
                 <div>
                   <h3>Инфраструктура</h3>
                   <ul>
