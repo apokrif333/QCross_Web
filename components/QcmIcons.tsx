@@ -56,6 +56,10 @@ export function CoinsIcon(props: IconProps) {
   return <svg viewBox="0 0 48 48" aria-hidden="true" {...props}><ellipse cx="24" cy="10" rx="13" ry="5" {...base}/><path d="M11 10v8c0 2.8 5.8 5 13 5s13-2.2 13-5v-8M11 18v8c0 2.8 5.8 5 13 5s13-2.2 13-5v-8M11 26v8c0 2.8 5.8 5 13 5s13-2.2 13-5v-8" {...base}/></svg>;
 }
 
+export function BriefcaseIcon(props: IconProps) {
+  return <svg viewBox="0 0 48 48" aria-hidden="true" {...props}><rect x="5" y="14" width="38" height="27" rx="2" {...base}/><path d="M18 14V9h12v5M5 23h38M21 21v5h6v-5" {...base}/></svg>;
+}
+
 export function TargetIcon(props: IconProps) {
   return <svg viewBox="0 0 48 48" aria-hidden="true" {...props}><circle cx="22" cy="27" r="16" {...base}/><circle cx="22" cy="27" r="9" {...base}/><circle cx="22" cy="27" r="2.5" {...base}/><path d="m23.5 25.5 15-15M32 10.5h6v6M37.5 10.5l-5-5" {...base}/></svg>;
 }

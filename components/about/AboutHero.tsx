@@ -1,5 +1,13 @@
 import Image from "next/image";
-import { CalendarIcon, ChartIcon, CoinsIcon, PeopleIcon } from "@/components/QcmIcons";
+import {
+  BriefcaseIcon,
+  CalendarIcon,
+  ChartIcon,
+  CoinsIcon,
+  GlobeIcon,
+  PeopleIcon,
+  TargetIcon,
+} from "@/components/QcmIcons";
 import { SiteHeader } from "@/components/SiteHeader";
 
 const companyFacts = [
@@ -66,10 +74,10 @@ export function AboutHero() {
           <div className="about-founder__portrait">
             <Image
               className="about-founder__portrait-image"
-              src="/images/aleksei-founder-office.png"
+              src="/images/aleksei-founder-portrait-2026.jpg"
               alt="Алексей Ашихмин"
               fill
-              sizes="490px"
+              sizes="(max-width: 767px) calc(100vw - 48px), 286px"
             />
             <p>Дисциплина<br />создаёт<br />свободу</p>
           </div>
@@ -83,14 +91,48 @@ export function AboutHero() {
               практики частного управления капиталом в международный инвестиционный<br />{" "}
               сервис.
             </p>
-            <p className="about-founder__secondary">
-              BVI investment manager · Операционная команда в Алматы · Основная география —<br />{" "}
-              Казахстан, страны СНГ и международные клиентские кейсы.
-            </p>
-            <i aria-hidden="true" />
-            <p className="about-founder__infrastructure">
-              Брокерская инфраструктура: Interactive Brokers · EXANTE · ChoiceTrade · TradeStation · Freedom · Wolfline Capital · ROQ Capital
-            </p>
+            <div className="about-founder__cards">
+              <article className="about-founder-card">
+                <TargetIcon />
+                <div>
+                  <h3>Ключевые<br />направления</h3>
+                  <ul>
+                    <li>Инвестиционное сопровождение</li>
+                    <li>Налоговое планирование</li>
+                    <li>Структурирование активов</li>
+                    <li>Международная юридическая поддержка</li>
+                  </ul>
+                </div>
+              </article>
+              <article className="about-founder-card">
+                <GlobeIcon />
+                <div>
+                  <h3>География<br />клиентов</h3>
+                  <ul>
+                    <li>Казахстан</li>
+                    <li>Страны СНГ</li>
+                    <li>Европа</li>
+                    <li>Азия</li>
+                    <li>Международные клиентские кейсы</li>
+                  </ul>
+                </div>
+              </article>
+              <article className="about-founder-card">
+                <BriefcaseIcon />
+                <div>
+                  <h3>Инфраструктура</h3>
+                  <ul>
+                    <li>Interactive Brokers</li>
+                    <li>EXANTE</li>
+                    <li>ChoiceTrade</li>
+                    <li>TradeStation</li>
+                    <li>Freedom</li>
+                    <li>Wolfline Capital</li>
+                    <li>ROQ Capital</li>
+                  </ul>
+                </div>
+              </article>
+            </div>
           </article>
         </div>
       </div>
