@@ -2,10 +2,11 @@
 
 from contextlib import ExitStack
 from pathlib import Path
+import subprocess
 import sys
 from tempfile import TemporaryDirectory
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "legacy" / "world-rent"))
@@ -108,7 +109,7 @@ class DailyCollectionTests(unittest.TestCase):
         numbeo.mark_daily_published(self.source)
         self.assertFalse(self.collect())
 
-    def test_proxy_failure_resumes_only_remaining_cities_today(self):
+    def test_direct_failure_resumes_only_remaining_cities_with_proxy(self):
         original = numbeo.parse_prices
         failed = False
 
@@ -119,15 +120,56 @@ class DailyCollectionTests(unittest.TestCase):
                 raise numbeo.RetryablePageError("temporary proxy failure")
             return original(html, city)
 
-        with patch.object(numbeo, "parse_prices", side_effect=fail_once):
+        with (
+            patch.object(numbeo, "parse_prices", side_effect=fail_once),
+            patch.object(numbeo, "browser_options", wraps=numbeo.browser_options) as options,
+        ):
             self.assertTrue(self.collect())
-        self.assertEqual(len(numbeo.read_daily_state(self.source)["results"]), 2)
-
-        self.assertTrue(self.collect())
+        self.assertEqual([call.args[0] for call in options.call_args_list], [None, "proxy"])
         self.assertEqual(len(numbeo.read_daily_state(self.source)["results"]), 5)
+        self.assertEqual(len(self.fetched), 6)  # Only the failed city was retried.
         self.assertEqual(len({url.split("?", 1)[0] for url in self.fetched}), 5)
         numbeo.mark_daily_published(self.source)
         self.assertFalse(self.collect())
+
+    def test_direct_success_does_not_load_proxies_even_when_configured(self):
+        with (
+            patch.dict(numbeo.os.environ, {"NUMBEO_PROXY": "http://configured:3128"}),
+            patch.object(numbeo, "iter_proxies") as proxies,
+            patch.object(numbeo, "browser_options", wraps=numbeo.browser_options) as options,
+        ):
+            self.assertTrue(self.collect())
+        options.assert_called_once_with(None)
+        proxies.assert_not_called()
+        self.assertEqual(len(self.fetched), 5)
+
+    def test_proxy_attempt_limit_excludes_initial_direct_attempt(self):
+        with (
+            patch.object(numbeo, "iter_proxies", return_value=iter(["first", "second"])),
+            patch.object(numbeo, "fetch", side_effect=numbeo.RetryablePageError("blocked")),
+            patch.object(numbeo, "browser_options", wraps=numbeo.browser_options) as options,
+        ):
+            with self.assertRaisesRegex(RuntimeError, "after 1 attempts"):
+                self.collect()
+        self.assertEqual([call.args[0] for call in options.call_args_list], [None, "first"])
+
+    def test_bulk_collection_also_tries_direct_before_proxy(self):
+        output = self.source.with_name("sample.csv")
+        calls = []
+
+        def fail_direct_once(page, url):
+            calls.append(url)
+            if len(calls) == 1:
+                raise numbeo.RetryablePageError("direct access blocked")
+            return self.fake_fetch(page, url)
+
+        with (
+            patch.object(numbeo, "fetch", side_effect=fail_direct_once),
+            patch.object(numbeo, "browser_options", wraps=numbeo.browser_options) as options,
+        ):
+            self.assertEqual(numbeo.collect(output, limit=2, proxy_attempts=1), 2)
+        self.assertEqual([call.args[0] for call in options.call_args_list], [None, "proxy"])
+        self.assertEqual(len(numbeo.read_source(output)), 2)
 
     def test_default_mode_keeps_rotating_past_ten_failed_proxies(self):
         attempts = 0
@@ -149,6 +191,93 @@ class DailyCollectionTests(unittest.TestCase):
         proxies.assert_called_once_with(repeat=True)
         self.assertEqual(attempts, 13)
         self.assertEqual(len(numbeo.read_daily_state(self.source)["results"]), 5)
+
+
+    def test_thread_exhaustion_stops_before_trying_another_proxy(self):
+        with (
+            patch.object(numbeo, "iter_proxies", return_value=iter(["first", "second"])),
+            patch.object(numbeo, "WebPage", side_effect=RuntimeError("can't start new thread")) as page,
+        ):
+            with self.assertRaisesRegex(numbeo.BrowserResourceError, "resources exhausted"):
+                numbeo.collect_daily(self.source)
+        self.assertEqual(page.call_count, 1)
+
+    def test_navigation_resource_error_stops_rotation(self):
+        with patch.object(numbeo, "fetch", side_effect=numbeo.BrowserResourceError("out of memory")):
+            with self.assertRaises(numbeo.BrowserResourceError):
+                numbeo.collect_daily(self.source)
+
+
+class BrowserLifecycleTests(unittest.TestCase):
+    def test_direct_browser_explicitly_disables_proxy(self):
+        with patch.dict(numbeo.os.environ, {"NUMBEO_PROXY": "http://configured:3128"}):
+            options = numbeo.browser_options(None)
+        self.assertIn("--no-proxy-server", options.arguments)
+        self.assertFalse(any(arg.startswith("--proxy-server=") for arg in options.arguments))
+
+    def test_proxy_browser_uses_selected_proxy(self):
+        options = numbeo.browser_options("http://selected:3128")
+        self.assertIn("--proxy-server=http://selected:3128", options.arguments)
+        self.assertNotIn("--no-proxy-server", options.arguments)
+
+    def start_child(self):
+        process = subprocess.Popen(
+            [sys.executable, "-c", "import time; time.sleep(60)"],
+            creationflags=subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0,
+        )
+
+        def cleanup():
+            if process.poll() is None:
+                process.kill()
+            process.wait(timeout=5)
+
+        self.addCleanup(cleanup)
+        return process
+
+    def test_failed_constructor_reaps_its_child_and_preserves_existing_child(self):
+        existing = self.start_child()
+        spawned = []
+
+        def fail_start(**_kwargs):
+            spawned.append(self.start_child())
+            raise RuntimeError("can't start new thread")
+
+        with patch.object(numbeo, "WebPage", side_effect=fail_start):
+            with self.assertRaises(numbeo.BrowserResourceError):
+                with numbeo.browser_page("http://example.invalid:3128"):
+                    self.fail("A failed constructor must not yield a page")
+
+        self.assertIsNotNone(spawned[0].poll())
+        self.assertIsNone(existing.poll())
+
+    def test_failed_quit_still_reaps_browser_process(self):
+        spawned = []
+        page = Mock()
+        page.quit.side_effect = RuntimeError("driver disconnected")
+
+        def start(**_kwargs):
+            spawned.append(self.start_child())
+            return page
+
+        with patch.object(numbeo, "WebPage", side_effect=start):
+            with self.assertRaisesRegex(numbeo.BrowserResourceError, "cleanup failed"):
+                with numbeo.browser_page("http://example.invalid:3128"):
+                    pass
+
+        self.assertIsNotNone(spawned[0].poll())
+
+    def test_fetch_reports_original_navigation_error(self):
+        page = Mock()
+        page.get.side_effect = ConnectionError("net::ERR_PROXY_CONNECTION_FAILED")
+        with self.assertRaisesRegex(RuntimeError, "net::ERR_PROXY_CONNECTION_FAILED"):
+            numbeo.fetch(page, numbeo.RANKING_URL)
+        page.get.assert_called_once_with(numbeo.RANKING_URL, retry=0, show_errmsg=True)
+
+    def test_fetch_does_not_hide_thread_exhaustion_as_page_failure(self):
+        page = Mock()
+        page.get.side_effect = RuntimeError("can't start new thread")
+        with self.assertRaises(numbeo.BrowserResourceError):
+            numbeo.fetch(page, numbeo.RANKING_URL)
 
 
 if __name__ == "__main__":
