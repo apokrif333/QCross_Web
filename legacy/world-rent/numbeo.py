@@ -1,8 +1,10 @@
 """Collect Numbeo property prices from the current city ranking and city pages."""
 
 import argparse
+from contextlib import contextmanager
 import csv
 from datetime import datetime
+import errno
 from html.parser import HTMLParser
 import json
 import os
@@ -15,7 +17,9 @@ from urllib.parse import urlparse
 from zoneinfo import ZoneInfo
 
 from DrissionPage import ChromiumOptions, WebPage
+from DrissionPage.errors import BrowserConnectError, PageDisconnectedError
 from freeproxy.modules import BuildProxiedSession
+import psutil
 
 
 RANKING_URL = "https://www.numbeo.com/property-investment/rankings_current.jsp"
@@ -73,6 +77,86 @@ class RetryablePageError(RuntimeError):
     """The proxy returned a page that cannot be used as Numbeo data."""
 
 
+class BrowserResourceError(RuntimeError):
+    """The worker cannot safely start another browser in this process."""
+
+
+def check_browser_resources(exc: Exception) -> None:
+    if (isinstance(exc, (MemoryError, BrowserResourceError))
+            or isinstance(exc, OSError) and exc.errno in (errno.EAGAIN, errno.ENOMEM)
+            or "can't start new thread" in str(exc).lower()
+            or "cannot start new thread" in str(exc).lower()):
+        raise BrowserResourceError(
+            f"Browser resources exhausted; stopping proxy rotation: {exc}"
+        ) from exc
+
+
+def stop_browser_processes(processes) -> None:
+    """Reap only children created during this worker's browser attempt."""
+    for process in processes:
+        try:
+            process.terminate()
+        except psutil.NoSuchProcess:
+            pass
+    _, alive = psutil.wait_procs(processes, timeout=3)
+    for process in alive:
+        try:
+            process.kill()
+        except psutil.NoSuchProcess:
+            pass
+    _, alive = psutil.wait_procs(alive, timeout=3)
+    if alive:
+        raise BrowserResourceError("Chromium processes remain after cleanup; stopping proxy rotation")
+
+
+def browser_processes(worker, existing):
+    # Exclude entire pre-existing trees, even if they spawn more children later.
+    processes = set(worker.children()) - existing
+    for process in list(processes):
+        try:
+            processes.update(process.children(recursive=True))
+        except psutil.NoSuchProcess:
+            pass
+    return processes
+
+
+@contextmanager
+def browser_page(proxy: str | None):
+    # This worker is sequential. Keep process handles before quit(), which can
+    # orphan descendants, and cover WebPage.__init__ failing after Chrome starts.
+    worker = psutil.Process()
+    existing = set(worker.children())
+    page = None
+    try:
+        connection = f"with proxy: {proxy}" if proxy is not None else "without proxy (direct connection)"
+        print(f"Starting Chromium {connection}", flush=True)
+        try:
+            page = WebPage(mode="d", chromium_options=browser_options(proxy))
+        except Exception as exc:
+            check_browser_resources(exc)
+            if isinstance(exc, (BrowserConnectError, PageDisconnectedError)):
+                raise RetryablePageError(f"Chromium startup failed: {exc}") from exc
+            raise
+        print(f"Chromium started successfully {connection}", flush=True)
+        yield page
+    finally:
+        children = browser_processes(worker, existing)
+        try:
+            if page is not None:
+                page.quit(timeout=5, force=True, del_data=True)
+        except Exception as exc:
+            # Process cleanup still runs; do not reuse potentially broken drivers.
+            raise BrowserResourceError(f"Chromium driver cleanup failed: {exc}") from exc
+        finally:
+            children.update(browser_processes(worker, existing))
+            stop_browser_processes(list(children))
+            print(
+                f"Browser cleanup complete: threads={worker.num_threads()}, "
+                f"child_processes={len(worker.children(recursive=True))}, "
+                f"rss_mb={worker.memory_info().rss / 1024 ** 2:.1f}", flush=True,
+            )
+
+
 def proxy_candidates():
     """Yield reachable proxy endpoints; WebPage checks Numbeo itself."""
     preferred = os.environ.get("NUMBEO_PROXY")
@@ -117,10 +201,17 @@ def iter_proxies(repeat: bool):
         time.sleep(60)
 
 
+def iter_connections(repeat: bool):
+    """Try direct access once before loading or testing any proxies."""
+    yield None
+    yield from iter_proxies(repeat=repeat)
+
+
 def fetch(page: WebPage, url: str) -> str:
     try:
-        opened = page.get(url, retry=0)
+        opened = page.get(url, retry=0, show_errmsg=True)
     except Exception as exc:
+        check_browser_resources(exc)
         raise RuntimeError(f"Browser could not open {url}: {exc}") from exc
     if not opened or page.url.startswith("chrome-error://"):
         raise RuntimeError(f"Browser could not open {url}")
@@ -134,9 +225,14 @@ def fetch(page: WebPage, url: str) -> str:
     return html
 
 
-def browser_options(proxy: str) -> ChromiumOptions:
+def browser_options(proxy: str | None) -> ChromiumOptions:
     """Use the installed Chromium binary when the container specifies one."""
-    options = ChromiumOptions().auto_port().headless().set_proxy(proxy).set_timeouts(page_load=20)
+    options = ChromiumOptions().auto_port().headless().set_timeouts(page_load=20)
+    if proxy is not None:
+        options.set_proxy(proxy)
+    else:
+        # Explicitly bypass system/configured proxy settings for direct access.
+        options.set_argument("--no-proxy-server")
     options.set_argument("--no-sandbox")
     options.set_argument("--disable-dev-shm-usage")
     chromium_path = os.environ.get("CHROMIUM_PATH")
@@ -329,7 +425,7 @@ def apply_daily_results(source: Path, state: dict, rows: dict[str, dict]) -> boo
 
 
 def collect_daily(source: Path, proxy_attempts: int = 0) -> bool:
-    """Refresh the day's five cities using WebPage and the existing proxy rotation."""
+    """Refresh five cities directly, falling back to the existing proxy rotation."""
     state = read_daily_state(source)
     rows = read_source(source)
     changed = apply_daily_results(source, state, rows)
@@ -339,56 +435,54 @@ def collect_daily(source: Path, proxy_attempts: int = 0) -> bool:
 
     attempts = 0
     last_error = None
-    for proxy in iter_proxies(repeat=proxy_attempts == 0):
-        attempts += 1
-        page = None
+    for proxy in iter_connections(repeat=proxy_attempts == 0):
+        if proxy is not None:
+            attempts += 1
         try:
-            options = browser_options(proxy)
-            print(f"Starting Chromium with proxy: {proxy}", flush=True)
-            page = WebPage(mode="d", chromium_options=options)
-            print(f"Chromium started successfully with proxy: {proxy}", flush=True)
-            if state.get("day") != day:
-                ranking = parse_ranking(fetch(page, RANKING_URL))
-                if len(rows) >= 100 and len(ranking) < max(100, int(len(rows) * 0.75)):
-                    raise RetryablePageError(f"Ranking unexpectedly short: {len(ranking)} cities")
-                state = plan_daily_cities(source, state, ranking)
-                available = {city for city, _ in ranking}
-                stale = set(rows) - available
-                if stale:
-                    for city in stale:
-                        del rows[city]
+            with browser_page(proxy) as page:
+                if state.get("day") != day:
+                    ranking = parse_ranking(fetch(page, RANKING_URL))
+                    if len(rows) >= 100 and len(ranking) < max(100, int(len(rows) * 0.75)):
+                        raise RetryablePageError(f"Ranking unexpectedly short: {len(ranking)} cities")
+                    state = plan_daily_cities(source, state, ranking)
+                    available = {city for city, _ in ranking}
+                    stale = set(rows) - available
+                    if stale:
+                        for city in stale:
+                            del rows[city]
+                        save_csv(source, COLUMNS, rows.values())
+                        changed = True
+                        print(f"Removed {len(stale)} cities absent from current ranking", flush=True)
+                    print(f"Numbeo ranking: {len(ranking)} cities; selected {len(state['planned'])} today", flush=True)
+
+                for item in state["planned"]:
+                    if today() != day:
+                        print("Calendar day changed; remaining cities will be planned tomorrow", flush=True)
+                        return changed or not state.get("published", True)
+                    city, url = item["city"], item["url"]
+                    if url in state["results"]:
+                        continue
+                    page_url = url + ("&" if "?" in url else "?") + "displayCurrency=USD"
+                    prices = parse_prices(fetch(page, page_url), city)
+                    result = {"Rank": "", "City": city, **prices}
+                    state["results"][url] = result
+                    state["cycle_done"].append(url)
+                    state["published"] = False
+                    save_daily_state(source, state)
+                    rows[city] = result
                     save_csv(source, COLUMNS, rows.values())
                     changed = True
-                    print(f"Removed {len(stale)} cities absent from current ranking", flush=True)
-                print(f"Numbeo ranking: {len(ranking)} cities; selected {len(state['planned'])} today", flush=True)
-
-            for item in state["planned"]:
-                if today() != day:
-                    print("Calendar day changed; remaining cities will be planned tomorrow", flush=True)
-                    return changed or not state.get("published", True)
-                city, url = item["city"], item["url"]
-                if url in state["results"]:
-                    continue
-                page_url = url + ("&" if "?" in url else "?") + "displayCurrency=USD"
-                prices = parse_prices(fetch(page, page_url), city)
-                result = {"Rank": "", "City": city, **prices}
-                state["results"][url] = result
-                state["cycle_done"].append(url)
-                state["published"] = False
-                save_daily_state(source, state)
-                rows[city] = result
-                save_csv(source, COLUMNS, rows.values())
-                changed = True
-                print(f"Updated {len(state['results'])}/{len(state['planned'])} today: {city}", flush=True)
-                if len(state["results"]) < len(state["planned"]):
-                    time.sleep(3)
-            return changed or not state.get("published", True)
+                    print(f"Updated {len(state['results'])}/{len(state['planned'])} today: {city}", flush=True)
+                    if len(state["results"]) < len(state["planned"]):
+                        time.sleep(3)
+                return changed or not state.get("published", True)
+        except BrowserResourceError:
+            raise
         except RuntimeError as exc:
+            check_browser_resources(exc)
             last_error = exc
-            print(f"Proxy/page failed; trying another proxy: {exc}", flush=True)
-        finally:
-            if page is not None:
-                page.quit(del_data=True)
+            connection = "Direct connection" if proxy is None else "Proxy/page"
+            print(f"{connection} failed; trying a proxy: {exc}", flush=True)
         if proxy_attempts and attempts >= proxy_attempts:
             break
     if changed:
@@ -467,40 +561,40 @@ def collect(output: Path, delay: float = 3.0, limit: int | None = None, proxy_at
     attempts = 0
     last_error = None
     cities = None
-    for proxy in iter_proxies(repeat=proxy_attempts == 0):
-        attempts += 1
-        budget = f"/{proxy_attempts}" if proxy_attempts else ""
-        print(f"Trying proxy {attempts}{budget}: {proxy}", flush=True)
-        options = browser_options(proxy)
-        page = None
+    for proxy in iter_connections(repeat=proxy_attempts == 0):
+        if proxy is not None:
+            attempts += 1
+            budget = f"/{proxy_attempts}" if proxy_attempts else ""
+            print(f"Trying proxy {attempts}{budget}: {proxy}", flush=True)
         try:
-            page = WebPage(mode="d", chromium_options=options)
-            if cities is None:
-                cities = parse_ranking(fetch(page, RANKING_URL))
-                if limit is not None:
-                    cities = cities[:limit]
-            print(f"Numbeo ranking: {len(cities)} cities; already fetched: {len(completed)}", flush=True)
-            for number, (city, url) in enumerate(cities, 1):
-                if url in completed:
-                    continue
-                if number > 1:
-                    time.sleep(delay)
-                page_url = url + ("&" if "?" in url else "?") + "displayCurrency=USD"
-                prices = parse_prices(fetch(page, page_url), city)
-                completed[url] = {"URL": url, "Rank": "", "City": city, **prices}
-                save_csv(checkpoint, ["URL", *COLUMNS], completed.values())
-                print(f"{number}/{len(cities)} {city}", flush=True)
-            rows = [completed[url] for _, url in cities]
-            save_csv(output, COLUMNS, rows)
-            checkpoint.unlink()
-            print(f"Saved {len(rows)} cities to {output}", flush=True)
-            return len(rows)
+            with browser_page(proxy) as page:
+                if cities is None:
+                    cities = parse_ranking(fetch(page, RANKING_URL))
+                    if limit is not None:
+                        cities = cities[:limit]
+                print(f"Numbeo ranking: {len(cities)} cities; already fetched: {len(completed)}", flush=True)
+                for number, (city, url) in enumerate(cities, 1):
+                    if url in completed:
+                        continue
+                    if number > 1:
+                        time.sleep(delay)
+                    page_url = url + ("&" if "?" in url else "?") + "displayCurrency=USD"
+                    prices = parse_prices(fetch(page, page_url), city)
+                    completed[url] = {"URL": url, "Rank": "", "City": city, **prices}
+                    save_csv(checkpoint, ["URL", *COLUMNS], completed.values())
+                    print(f"{number}/{len(cities)} {city}", flush=True)
+                rows = [completed[url] for _, url in cities]
+                save_csv(output, COLUMNS, rows)
+                checkpoint.unlink()
+                print(f"Saved {len(rows)} cities to {output}", flush=True)
+                return len(rows)
+        except BrowserResourceError:
+            raise
         except RuntimeError as exc:
+            check_browser_resources(exc)
             last_error = exc
-            print(f"Proxy/page failed; retrying the same city with another proxy: {exc}", flush=True)
-        finally:
-            if page is not None:
-                page.quit(del_data=True)
+            connection = "Direct connection" if proxy is None else "Proxy/page"
+            print(f"{connection} failed; retrying the same city with a proxy: {exc}", flush=True)
         if proxy_attempts and attempts >= proxy_attempts:
             break
     raise RuntimeError(f"No usable proxy after {attempts} browser attempts: {last_error}")
