@@ -42,6 +42,8 @@ Objects are stored under `world-map/versions/<version>/data/` and `world-map/ver
 
 The job uses `NUMBEO_DATA_DIR` and `NUMBEO_MAPS_DIR` inside a temporary directory. The container filesystem is disposable; the Bucket holds `numbeo.csv`, `numbeo_cities.csv`, `numbeo_city_coordinates.csv`, `numbeo_daily_state.json`, and both HTML maps.
 
+Numbeo can display purchase prices per square foot depending on its measurement settings. The scraper accepts both square feet and square meters, converts USD/sq ft to USD/sq m using 1 sq ft = 0.09290304 sq m, and logs each conversion. Monthly rents are unchanged. Converted purchase prices are rounded to cents from the displayed quotes; missing or non-USD prices still cause a page validation error.
+
 The Docker entrypoint runs `tini` to reap orphaned Chromium processes. Each direct or proxy attempt also closes the driver and terminates any remaining child processes it created, including when browser initialization fails. Resource exhaustion (`can't start new thread`, out of memory, or failure to clean up Chromium) stops the run instead of launching another browser; the previous Bucket snapshot stays published. Proxy rotation remains unlimited for ordinary page/network failures. Logs include the underlying navigation error and the worker's thread count, remaining child count, and memory usage after browser cleanup. If direct access fails and public proxies repeatedly fail, configure a working `NUMBEO_PROXY`; successful Chromium startup alone does not verify that the proxy can reach Numbeo over HTTPS.
 
 ## Local development

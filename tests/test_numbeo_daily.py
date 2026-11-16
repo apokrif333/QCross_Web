@@ -38,6 +38,44 @@ class FakePage:
         pass
 
 
+class PriceParsingTests(unittest.TestCase):
+    def prices_html(self, imperial=False):
+        rows = []
+        for label in numbeo.LABELS:
+            if imperial:
+                label = label.replace("Square Meter", "Square Feet")
+            rows.append(f'<tr><td>{label}</td><td class="priceValue"><span>$100.00</span></td></tr>')
+        return "<table>" + "".join(rows) + "</table>"
+
+    def test_metric_prices_are_preserved(self):
+        values = numbeo.parse_prices(self.prices_html(), "Presov, Slovakia")
+        self.assertEqual(values, {column: 100.0 for column in numbeo.COLUMNS[2:]})
+
+    def test_square_feet_prices_are_normalized_without_changing_rent(self):
+        values = numbeo.parse_prices(self.prices_html(imperial=True), "Presov, Slovakia")
+        self.assertEqual([values[column] for column in numbeo.COLUMNS[2:6]], [100.0] * 4)
+        self.assertEqual(values[numbeo.COLUMNS[6]], 1076.39)
+        self.assertEqual(values[numbeo.COLUMNS[7]], 1076.39)
+
+    def test_metric_quotes_take_precedence_in_either_row_order(self):
+        metric = self.prices_html()
+        imperial = self.prices_html(imperial=True)
+        for html in (metric + imperial, imperial + metric):
+            with self.subTest(html=html):
+                values = numbeo.parse_prices(html, "Presov, Slovakia")
+                self.assertEqual(values[numbeo.COLUMNS[6]], 100.0)
+                self.assertEqual(values[numbeo.COLUMNS[7]], 100.0)
+
+    def test_missing_or_non_usd_price_is_not_replaced_with_another_value(self):
+        for html in (
+            self.prices_html(imperial=True).replace("$100.00", "?"),
+            self.prices_html(imperial=True).replace("$100.00", "€100.00"),
+        ):
+            with self.subTest(html=html):
+                with self.assertRaisesRegex(numbeo.RetryablePageError, "observed purchase rows"):
+                    numbeo.parse_prices(html, "Presov, Slovakia")
+
+
 class DailyCollectionTests(unittest.TestCase):
     def setUp(self):
         self.temp = TemporaryDirectory()
@@ -51,6 +89,7 @@ class DailyCollectionTests(unittest.TestCase):
                 for city, _ in self.ranking]
         numbeo.save_csv(self.source, numbeo.COLUMNS, rows)
 
+        self.real_parse_prices = numbeo.parse_prices
         self.patches = ExitStack()
         self.addCleanup(self.patches.close)
         self.patches.enter_context(patch.object(numbeo, "ChromiumOptions", FakeOptions))
@@ -142,6 +181,20 @@ class DailyCollectionTests(unittest.TestCase):
         options.assert_called_once_with(None)
         proxies.assert_not_called()
         self.assertEqual(len(self.fetched), 5)
+
+    def test_square_feet_city_pages_complete_directly_without_proxy_fallback(self):
+        html = PriceParsingTests().prices_html(imperial=True)
+        # Restore the real parser patched by setUp for this end-to-end path.
+        with (
+            patch.object(numbeo, "parse_prices", side_effect=self.real_parse_prices),
+            patch.object(numbeo, "fetch", return_value=html),
+            patch.object(numbeo, "iter_proxies") as proxies,
+        ):
+            self.assertTrue(self.collect())
+        proxies.assert_not_called()
+        state = numbeo.read_daily_state(self.source)
+        self.assertEqual(len(state["results"]), 5)
+        self.assertTrue(all(row[numbeo.COLUMNS[6]] == 1076.39 for row in state["results"].values()))
 
     def test_proxy_attempt_limit_excludes_initial_direct_attempt(self):
         with (

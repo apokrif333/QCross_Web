@@ -56,6 +56,11 @@ LABELS = {
     "Price per Square Meter to Buy Apartment in City Centre": COLUMNS[6],
     "Price per Square Meter to Buy Apartment Outside of Centre": COLUMNS[7],
 }
+SQUARE_FEET_LABELS = {
+    label.replace("Square Meter", "Square Feet"): column
+    for label, column in LABELS.items() if "Square Meter" in label
+}
+SQM_PER_SQUARE_FOOT = 0.09290304
 SCENARIOS = (
     ("City Centre", 1, 50, COLUMNS[2], COLUMNS[6]),
     ("Outside of Centre", 1, 50, COLUMNS[3], COLUMNS[7]),
@@ -287,6 +292,8 @@ class PricesParser(HTMLParser):
         self.cell = None
         self.cell_class = ""
         self.values = {}
+        self.converted_columns = set()
+        self.purchase_rows = {}
 
     def handle_starttag(self, tag, attrs):
         if tag == "tr":
@@ -305,10 +312,22 @@ class PricesParser(HTMLParser):
             self.cell = None
         elif tag == "tr" and len(self.row) >= 2:
             label = self.row[0][0]
-            if label in LABELS and "priceValue" in self.row[1][1].split():
+            if label.startswith("Price per Square"):
+                self.purchase_rows[label] = self.row[1][0]
+            column = LABELS.get(label) or SQUARE_FEET_LABELS.get(label)
+            if column and "priceValue" in self.row[1][1].split():
                 value = self.row[1][0]
                 if re.fullmatch(r"\$[\d,]+\.\d{2}", value):
-                    self.values[LABELS[label]] = float(value[1:].replace(",", ""))
+                    amount = float(value[1:].replace(",", ""))
+                    if label in SQUARE_FEET_LABELS:
+                        # USD/ft² divided by m²/ft² gives USD/m². Prefer an
+                        # original metric quote if both units appear on a page.
+                        if column not in self.values:
+                            self.values[column] = round(amount / SQM_PER_SQUARE_FOOT, 2)
+                            self.converted_columns.add(column)
+                    else:
+                        self.values[column] = amount
+                        self.converted_columns.discard(column)
 
 
 def parse_ranking(html: str) -> list[tuple[str, str]]:
@@ -325,7 +344,13 @@ def parse_prices(html: str, city: str) -> dict:
     missing = [column for column in COLUMNS[2:] if column not in parser.values]
     if missing:
         raise RetryablePageError(
-            f"{city}: proxy returned a page without required USD prices: {', '.join(missing)}"
+            f"{city}: page has no usable required USD prices: {', '.join(missing)}; "
+            f"observed purchase rows: {parser.purchase_rows}"
+        )
+    if parser.converted_columns:
+        print(
+            f"{city}: converted {len(parser.converted_columns)} purchase prices "
+            "from USD/sq ft to USD/sq m", flush=True,
         )
     return parser.values
 
